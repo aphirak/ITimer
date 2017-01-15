@@ -6,7 +6,6 @@ var y = moment.duration(0, 'milliseconds')
 function main(){
     var timer = new NanoTimer();
     timer.setInterval(countDown, '', '1m');
-    // timer.setTimeout(liftOff, [timer], '10s');
 }
  
 function countDown(){
