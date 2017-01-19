@@ -80,7 +80,8 @@ app.use((req, res, next) => {
   next()
 })
 
-app.ws('/timer', function(ws, req, next) {
+
+app.ws('/timer', (ws, req, next) => {
     ws.on('close', function() {
     	handleTimer.clearInterval()
         console.log('The connection was closed!')
@@ -94,28 +95,14 @@ app.ws('/timer', function(ws, req, next) {
 	}, '', '1m')
 })
 
-app.post('/timer/setup', (req, res) => {
-	// uid, nGate, distnace = []
-	res.send('ok')
-})
-
-app.get('/timer/start', (req, res) => {
-
-})
-
-app.get('/timer/stop', (req, res) => {
-	stopTimer()
-	res.send('ok')
-})
-
-app.ws('/connection', function(ws, req, next) {
-    ws.on('close', function() {
+app.ws('/connection', (ws, req, next) => {
+    ws.on('close', () => {
     	handleTimer.clearInterval()
         console.log('The connection was closed!')
     })
 
 	setInterval(() => {
-		dns.resolve('www.google.com', function(err) {
+		dns.resolve('www.google.com', (err) => {
 			if (err) {
 				ws.send("No connection")
 				console.log("No connection")
@@ -127,7 +114,23 @@ app.ws('/connection', function(ws, req, next) {
 	}, 3000)
 })
 
-app.get('/competition', (req, res) => {})
+app.post('/timers/setup', (req, res) => {
+	// uid, nGate, distnace = []
+	res.send('ok')
+})
+
+app.get('/timers/start', (req, res) => {
+
+})
+
+app.get('/timers/stop', (req, res) => {
+	stopTimer()
+	res.send('ok')
+})
+
+app.ws('/competitions', (ws, req, next) => {})
+
+app.get('/competitions/reset', (req, res) => {})
 
 app.get('/users', (req, res) => {})
 
@@ -149,6 +152,7 @@ app.delete('/histories', (req, res) => {})
 
 app.delete('/histories/:id', (req, res) => {})
 
+app.post('/wifi', (req, res) => {})
 
 app.get('*', (req, res) => {
   res.send('ITimer API')
