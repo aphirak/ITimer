@@ -14,6 +14,7 @@
     "moment": "^2.17.1",
     "mqtt": "^2.2.1",
     "nanotimer": "^0.3.14",
+    "node-wifi": "^1.2.2",
     "socket.io": "^1.7.2"
   }
 }
