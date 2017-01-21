@@ -1,15 +1,15 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define TICKLE 0
-#define LED_TICKLE 4
+#define TICKLE 4
+#define LED_TICKLE 0
 #define LED_CONNECTION 5
 
-const char* ssid     = "bach1";
+const char* ssid     = "ITimer_wifi";
 const char* password = "aaaaaaaaaa";
 
-#define mqtt_server "192.168.2.44"
-#define mqtt_port 1900
+#define mqtt_server "192.168.42.1"
+#define mqtt_port 1883
 
 WiFiClient espClient;
 PubSubClient client(espClient);
