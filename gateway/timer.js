@@ -4,6 +4,8 @@ const moment = require('moment')
 const express = require('express')
 const path = require('path')
 const dns = require('dns')
+const bodyParser = require('body-parser')
+
 
 const config = {
   mqtt: {
@@ -16,52 +18,145 @@ const config = {
 }
 
 const client  = mqtt.connect(config.mqtt)
+
+const app = express()
+app.use(express.static(__dirname))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+})
+
+let PORT = process.env.PORT || config.api.port
+let server = app.listen(PORT, () => {
+  console.log('Production Express server API running at localhost:' + PORT)
+})
+
+const io = require('socket.io').listen(server);
+
 const timer = new NanoTimer()
-const handleTimer = new NanoTimer()
 
-let timestamp = moment.duration(0, 'milliseconds')
-let result = []
-let isStarted = false
-let numberOfGate;
+let state = {
+	uid: undefined,
+	nGate: undefined,
+	distances: [],
+	phase: 0,
+	isStarted: false,
+	results: [],
+	time: 0,
+	competitions: [{uid: 1000, time: 123}]
+}
 
-//----------------------------- Mqtt ------------------------------------------
+let users = [
+	{
+		id: 1,
+		student_id: 1001,
+		firstname: 'a',
+		lastname: 'a2',
+		nickname: 'a3'
+	},{
+		id: 2,
+		student_id: 1002,
+		firstname: 'b',
+		lastname: 'b2',
+		nickname: 'b3'
+	},{
+		id: 3,
+		student_id: 1003,
+		firstname: 'c',
+		lastname: 'c2',
+		nickname: 'c3'
+	}
+]
+
+let histories = [
+
+]
+
+//----------------------------- Socket ------------------------------------------
+
+function checkInternet(){
+	setInterval(() => {
+		dns.resolve('www.google.com', (err) => {
+			if (err) {
+				io.emit('connectInternet', 'not ok')
+				console.log("No connection")
+			} else {
+				io.emit('connectInternet', 'ok')
+				console.log("Connected")
+			}
+		})
+	}, 3000)
+}
+
+function emitState(){
+	let { time, phase } = state
+	io.emit('state', Object.assign({}, state, { time, phase }))
+}
+
+function emitCompetitions(){
+	io.emit('competitions', state.competitions)	
+}
 
 function startTimer(){
 	console.log('Start')
-  	isStarted = true
+  	state.isStarted = true
+	let timestamp = moment.duration(0, 'milliseconds')
     timer.setInterval(() => {
-		timestamp = moment.duration(timestamp + 1, 'milliseconds')
+    	timestamp = moment.duration(timestamp + 1, 'milliseconds')
+    	state.time = timestamp.asMilliseconds()
+		emitState()
     }, '', '1m')
 }
 
 function stopTimer(){
   	console.log('End')
-  	console.log(result)
+  	client.publish('/TIMINGGATE', 'Reset')
+  	console.log(state.results) //input to DB
 	timer.clearInterval()
-	handleTimer.clearInterval()
-  	isStarted = false
-	timestamp = moment.duration(0, 'milliseconds')
-	numberOfGate = undefined
-	result = []
+	let { uid, time } = state
+	state.competitions.push({ uid, time })
+	state = Object.assign({}, state, {
+		uid: undefined,
+		nGate: undefined,
+		distances: [],
+		phase: 0,
+		isStarted: false,
+		results: [],
+		time: 0
+	})
+	emitState()
+	emitCompetitions()
 }
 
+io.on('connect', function(socket) {
+	emitState()
+	emitCompetitions()
+	checkInternet()
+})
+
 client.on('connect', () => {
-  client.subscribe('/TIMINGGATE/TICKLE')
+	client.subscribe('/TIMINGGATE/TICKLE')
 })
  
 client.on('message', (topic, payload) => {
-	if(numberOfGate != undefined){
-		let msg = payload.toString()
+	let { isStarted, nGate, uid, distances, time } = state
+	let msg = payload.toString()
+
+	if(msg == '1' && nGate != 0 && uid != undefined && distances.length != 0){
+		state.phase++
 		if(!isStarted){
 			startTimer()
-		} else if(msg == "1"){
-		  	result.push(timestamp.asMilliseconds())  		
-		  	if(result.length == numberOfGate-1){
+		} else {
+		  	state.results.push(time)  		
+		  	if(state.results.length == nGate-1){
 				stopTimer()
 		  	}
 		}
 	} else {
-		console.log('Please config number of gate')
+		console.log('error')
 	}
 })
 
@@ -69,99 +164,53 @@ client.on('message', (topic, payload) => {
 
 //----------------------------- Api ------------------------------------------
 
-const app = express()
-const expressWs = require('express-ws')(app)
+app.route('/timers')
+	.post((req, res) => {
+		const { uid, nGate, distances } = req.body
+		state.uid = uid
+		state.nGate = nGate
+		state.distances = distances
+		emitState()
+		res.send()
+	})
+	.delete((req, res) => {
+		stopTimer()
+		res.send()
+	})
 
-app.use(express.static(__dirname))
+app.route('/competitions')
+	.delete((req, res) => {
+		state.competitions = []
+		emitCompetitions()	
+	})
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-  next()
-})
+app.route('/users')
+	.get((req, res) => { res.send('getusers')})
+	.post((req, res) => {
+		console.log(req.body)
+		res.send(req.body)
+	})
 
+app.route('/users/:id')
+	.get((req, res) => {})
+	.patch((req, res) => {})
+	.delete((req, res) => {})
 
-app.ws('/timer', (ws, req, next) => {
-    ws.on('close', function() {
-    	handleTimer.clearInterval()
-        console.log('The connection was closed!')
-    })
+app.route('/histories')
+	.get((req, res) => {})
+	.post((req, res) => {})
+	.delete((req, res) => {})
 
-	handleTimer.setInterval(() => {
-		ws.send({
-			time: timestamp.hours() + ":" + timestamp.minutes() + ":" + timestamp.seconds() + ":" + timestamp.milliseconds(),
-			phase: 1
-		})
-	}, '', '1m')
-})
+app.route('/histories/:id')
+	.get((req, res) => {})
+	.delete((req, res) => {})
 
-app.ws('/connection', (ws, req, next) => {
-    ws.on('close', () => {
-    	handleTimer.clearInterval()
-        console.log('The connection was closed!')
-    })
-
-	setInterval(() => {
-		dns.resolve('www.google.com', (err) => {
-			if (err) {
-				ws.send("No connection")
-				console.log("No connection")
-			} else {
-				ws.send("Connected")
-				console.log("Connected")
-			}
-		})
-	}, 3000)
-})
-
-app.post('/timers/setup', (req, res) => {
-	// uid, nGate, distnace = []
-	res.send('ok')
-})
-
-app.get('/timers/start', (req, res) => {
-
-})
-
-app.get('/timers/stop', (req, res) => {
-	stopTimer()
-	res.send('ok')
-})
-
-app.ws('/competitions', (ws, req, next) => {})
-
-app.get('/competitions/reset', (req, res) => {})
-
-app.get('/users', (req, res) => {})
-
-app.get('/users/:id', (req, res) => {})
-
-app.post('/users', (req, res) => {})
-
-app.patch('/users/:id', (req, res) => {})
-
-app.delete('/users/:id', (req, res) => {})
-
-app.get('/histories', (req, res) => {})
-
-app.get('/histories/:id', (req, res) => {})
-
-app.post('/histories', (req, res) => {})
-
-app.delete('/histories', (req, res) => {})
-
-app.delete('/histories/:id', (req, res) => {})
-
-app.post('/wifi', (req, res) => {})
+app.route('/wifi')
+	.get((req, res) => {})
+	.post((req, res) => {})
 
 app.get('*', (req, res) => {
   res.send('ITimer API')
 })
 
 //--------------------------------------------------------------------------
-
-
-let PORT = process.env.PORT || config.api.port
-app.listen(PORT, () => {
-  console.log('Production Express server API running at localhost:' + PORT)
-})
