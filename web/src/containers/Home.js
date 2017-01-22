@@ -15,6 +15,7 @@ class Home extends Component {
 						JSON.stringify(this.props.test)
 					}
 				</div>
+
 				<button className="button is-danger" onClick={this.props.getTest}>
 					Load
 				</button>

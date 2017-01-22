@@ -48,19 +48,23 @@ module.exports = {
 				],
 			},{
 				test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=10000&mimetype=application/font-woff"
+				use: "url?limit=25000&mimetype=application/font-woff"
 			},{
 				test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=10000&mimetype=application/font-woff"
+				use: "url?limit=25000&mimetype=application/font-woff"
 			},{
 				test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=10000&mimetype=application/octet-stream"
+				use: "url?limit=25000&mimetype=application/octet-stream"
 			},{
 				test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
 				use: "file"
 			},{
 				test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=10000&mimetype=image/svg+xml"
+				use: "url?limit=25000&mimetype=image/svg+xml"
+			},{
+				test: /\.(png|jpg|gif)$/,
+				include: path.resolve(projectRoot, 'src/assets'),
+				loader: 'url?limit=25000'
 			}
 		]
 	},
