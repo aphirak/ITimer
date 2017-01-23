@@ -9,7 +9,8 @@ const styles = {
 	  flexDirection: 'column'
 	},
 	siteContent: {
-	  flex: 1
+	  flex: 1,
+	  margin: 20
 	}
 }
 
@@ -20,7 +21,11 @@ export default class App extends Component {
 			<div style={styles.site}>
 				<Header />
 				<div style={styles.siteContent}>
-					{this.props.children}
+				  <section className="section">
+						<div className="container">
+							{this.props.children}
+						</div>
+				</section>
 				</div>
 				<Footer />
 			</div>
