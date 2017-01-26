@@ -2,52 +2,70 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Field, FieldArray, reduxForm, formValueSelector } from 'redux-form'
+const socket = require('socket.io-client')('http://localhost:9090');
+import * as actions from 'actions'
 
-const renderField = ({ input, label, type, min}) => (
+const { setupTimer } = actions
+
+const renderField = ({ input, label, type, min, max, step}) => (
   <div>
     <label>{label}</label>{' : '}
-	<input {...input} type={type} min={min}/>
+	<input {...input} type={type} min={min} max={max} step={step} />
 	<br />
   </div>
 )
 
-const distanceEqual = () => (
-	<div>
-		<Field name="1.distanceValue" component="input" /> Meter
-	</div>
-)
+const renderFields = ({ nGate }) => {
+	let fields = []
+	for(let i=0;i<nGate-1;i++){
+		fields.push(0)
+	}
 
-const distanceNotEqual = () => (
-	<div>
-		<FieldArray name="1.distanceValue" component="input" /> Meter
-	</div>
-)
+	return (
+		<div>
+			{
+				fields.map((field, index) => (
+			        <Field
+						name={`distanceValues[${index}]`}
+						type="number"
+						component={renderField}
+						label={`Distance ${index+1} - ${index+2}`}
+						key={index}
+					/> 
+				))
+			}
+		</div>
+	)
+}
 
-const renderMembers = ({ fields }) => (
-  <ul>
-    {fields.map((member, index) =>
-      <li key={index}>
-        <h4>Member #{index + 1}</h4>
-        <Field
-          name={`${member}.firstName`}
-          type="text"
-          component="input"
-          label="First Name"/>
-        <Field
-          name={`${member}.lastName`}
-          type="text"
-          component="input"
-          label="Last Name"/>
-      </li>
-    )}
-  </ul>
-)
+// const distanceEqual = () => (
+// 	<div>
+// 		<FieldArray name="1.distanceValue" component="input" /> Meter
+// 	</div>
+// )
+
+// const distanceNotEqual = () => (
+// 	<div>
+// 		<FieldArray name="1.distanceValue" component="input" /> Meter
+// 	</div>
+// )
+
+
 
 
 class Timer extends Component {
+
+
+	componentWillMount(){
+		socket.on('state', (data) => {
+			console.log(data)
+		})
+	}
+
+
 	render(){
+		console.log(this.props.nGate)
 		const { handleSubmit } = this.props
-		console.log(this.props.distanceValue)
 		return (
 			<div className="has-text-centered">
 				<div className="heading">
@@ -58,17 +76,15 @@ class Timer extends Component {
 				<hr />
 				<div className="content">
 				    <form onSubmit={handleSubmit} className='form' action='javascript:void(0)'>
-						<Field name="nGate" component={renderField} type="number" label='Number of gate' autoFocus />
-						<label>Distance</label>{' : '} 
+						<Field name="uid" component={renderField} type="text" label='Student ID' autoFocus />
+						<Field name="nGate" component={renderField} type="number" label='Number of gate' />
+						<label>Distance Type</label>{' : '} 
 						<Field name="distanceType" component="select">
 							<option value={undefined}></option>
 							<option value={0}>Not equal</option>
 							<option value={1}>Equal</option>
 						</Field>
-						<distanceEqual />
-						{ 
-							(this.props.distanceType != undefined) && ((this.props.distanceType == 1) ? distanceEqual() : distanceNotEqual())
-						}
+						<FieldArray name="distanceValues" component={renderFields} nGate={this.props.nGate} />
 						<br />
 						<button
 					    	type='submit'
@@ -83,6 +99,10 @@ class Timer extends Component {
 }
 
 
+						// { 
+						// 	(this.props.distanceType != undefined) && ((this.props.distanceType == 1) ? distanceEqual() : distanceNotEqual())
+						// }
+
 Timer = reduxForm({
 	form: 'timerForm'
 })(Timer)
@@ -90,13 +110,17 @@ Timer = reduxForm({
 const selector = formValueSelector('timerForm')
 
 const mapStateToProps = (state) => ({
+	nGate: selector(state, 'nGate'),
 	distanceType: selector(state, 'distanceType'),
-	distanceValue: selector(state, 'distanceValue')
+	distanceValues: selector(state, 'distanceValues')
 })
 
 const mapDispatchToProps = (dispatch) => ({
 	onSubmit(value){
-		console.log(value)
+		dispatch(setupTimer({
+			...value,
+			distances: value.distanceValues
+		}))
 	}
 })
 

@@ -7,13 +7,11 @@ const { getTest } = actions
 
 class Home extends Component {
 	render(){
+		console.log(this.props.test)
 		return (
 			<div>
 				<div className="content">
 				<h1>Home</h1>
-					{ 
-						JSON.stringify(this.props.test)
-					}
 				</div>
 
 				<button className="button is-danger" onClick={this.props.getTest}>

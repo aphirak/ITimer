@@ -8,7 +8,7 @@ class Header extends Component {
 
 	componentDidMount(){
 		let currentUrl = window.location.pathname
-		let text = (currentUrl.length == 1) ? 'Home' : currentUrl.substring(1)
+		let text = (currentUrl == '/') ? 'Home' : currentUrl.substring(1)
 		this.handleTab(text)
 	}
 
