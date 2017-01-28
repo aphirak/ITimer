@@ -138,9 +138,11 @@ function stopTimer(){
 }
 
 io.on('connect', function(socket) {
-	emitState()
-	emitCompetitions()
+	let { time, phase } = state
+	socket.emit('state', Object.assign({}, state, { time, phase }))
+	socket.emit('competitions', state.competitions)
 	checkInternet()
+	// emitCompetitions()
 })
 
 client.on('connect', () => {
@@ -151,7 +153,7 @@ client.on('message', (topic, payload) => {
 	let { isStarted, nGate, uid, distances, time } = state
 	let msg = payload.toString()
 
-	if(msg == '1' && nGate != 0 && uid != undefined && distances.length != 0){
+	if(msg == '1' && nGate >= 2 && uid != undefined && distances.length != 0){
 		state.phase++
 		if(!isStarted){
 			startTimer()
@@ -177,7 +179,7 @@ app.route('/timers')
 		state.nGate = nGate
 		state.distances = distances
 		emitState()
-		res.send()
+		res.send(state)
 	})
 	.delete((req, res) => {
 		stopTimer()
