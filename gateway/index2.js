@@ -45,23 +45,20 @@ let state = {
 	isSetup: false,
 	results: [],
 	time: 0,
-	competitions: [{uid: 1000, time: 123}]
+	competitions: [{ uid: 3, total_distance: 100, total_time: 200, speed_average: 0.5 }]
 }
 
 //----------------------------- ORM ------------------------------------------
 
-function insertHistory(){
+function insertHistory(total_distance, total_time, speed_average){
 	// let results = [{phase: 1, distance: 100, time: 1.125, speed: 88.889 }, {phase: 2, distance: 200, time: 1.5, speed: 133.333 }]
-	let { results, uid, nGate } = state
-	let total_distance = results.reduce((sum,value) => sum + (+value.distance), 0)
-	let total_time = results.reduce((sum,value) => sum + (+value.time), 0).toFixed(3)
-	let speedAverage = ((+total_distance)/(+total_time)).toFixed(3)
+	let { uid, nGate, results } = state
 	new History({ 
 		user_id: uid, 
 		total_gate: nGate, 
 		total_distance, 
 		total_time, 
-		speed_average: speedAverage 
+		speed_average 
 	}).save().then((author) => {
 		results.map((result) => {
 			new Detail({ 
@@ -108,14 +105,19 @@ function stopTimer(){
   	console.log('End')
   	client.publish('/gate', 'RESET')
   	console.log(state.results) //input to DB
-  	insertHistory()
+  	if(state.results.length != 0){
+		let { results, uid, nGate } = state
+		let total_distance = results.reduce((sum,value) => sum + (+value.distance), 0)
+		let total_time = results.reduce((sum,value) => sum + (+value.time), 0).toFixed(3)
+		let speed_average = ((+total_distance)/(+total_time)).toFixed(3)
+	  	insertHistory(total_distance, total_time, speed_average)  
+		state.competitions.push({ uid, total_distance, total_time, speed_average })
+		emitCompetitions()
+	  }
 	timer.clearInterval()
 	handleTimer.clearInterval()
 	state.isStarted = false
   	emitTimer()
-	let { uid, time, distances } = state
-	state.competitions.push({ uid, time, distances })
-	emitCompetitions()
 	state = { 
 		...state,
 		uid: undefined,
@@ -131,7 +133,7 @@ function stopTimer(){
 
 io.on('connect', function(socket) {
 	// console.log('eieiza')
-	let { gate, isStarted, isSetup, results, time, uid, nGate, distances } = state
+	let { gate, isStarted, isSetup, results, time, uid, nGate, distances, competitions } = state
 	socket.emit('timer', { 
 		gate,
 		isSetup,
@@ -142,7 +144,7 @@ io.on('connect', function(socket) {
 		nGate,
 		distances
 	})
-	// socket.emit('competitions', competitions)
+	socket.emit('competitions', competitions)
 	// checkInternet()
 	// socket.on('competitions', function(data) {
 	// 	socket.emit('competitions', competitions)

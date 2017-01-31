@@ -1,54 +1,84 @@
 import React, { Component } from 'react'
-import socket from 'socket.io-client'
+import { connect } from 'react-redux'
+import Layout from 'components/Layout'
+import * as actions from 'actions'
 
-let io
+const { getCompetitions, resetCompetitions } = actions
 
-export default class Competition extends Component {
 
-	state = {
-		competitions: []
-	}
+class Competition extends Component {
 
-		componentWillMount(){
-		// console.log('aaa')
-		// io.emit('competitions', 'GET')
-		// io.on('competitions', (data) => {
-		// 	// console.log(data)
-		// 	// this.setState({ competitions: data })
-		// })
-		io = socket('http://localhost:9090')
-		io.on('timer', (data) => {
-			let { phase, isSetup, isStarted, results, time } = data
-			console.log(data)
-			// this.setState({ phase, isSetup, isStarted, results, time })
-		})
+	state = {}
+
+	componentWillMount(){
+		this.props.getCompetitions()
 	}
 
 	render(){
+		let competitions = [...this.props.competition.data].sort((a, b) => (a.total_time - b.total_time))
 		return (
-			<div className="has-text-centered">
-				<div className="heading">
-					<h1 className="title">
-						<strong>Competition</strong>
-					</h1>
-				</div>
-				<hr />
-				<div className="content">
+			<Layout title='Competition'>
+				{
+					(competitions.length != 0) && <div className="notification is-primary">
+						<h1 className="title">
+							Top #1
+						</h1>
+						<h2 className="subtitle">
+							User ID : {competitions[0].uid}
+							<br />
+							Time : {competitions[0].total_time} s
+						</h2>
+					</div>					
+				}
+
+				<table className="table is-striped">
+				<thead>
+				  <tr>
+				    <th>#</th>
+				    <th>User ID</th>
+				    <th>Distance</th>
+				    <th>Time</th>
+				    <th>Speed</th>
+				  </tr>
+				</thead>
+				<tbody>
 					{
-						this.state.competitions.map((competition, index) => {
+						competitions.map((competition, index) => {
 							return (
-								<ul key={index}>
-									<li>{index+1}</li>
-									<li>{competition.uid}</li>
-									<li>{competition.time}</li>
-									<li>{JSON.stringify(competition.distances)}</li>
-									<hr />
-								</ul>
+						      <tr key={index}>
+						        <td>{index+1}</td>
+						        <td>{competition.uid}</td>
+						        <td>{competition.total_distance} m</td>
+						        <td>{competition.total_time} s</td>
+						        <td>{competition.speed_average} m/s</td>
+						      </tr>
 							)
 						})
 					}
-				</div>
-			</div>
+				</tbody>
+				</table>
+				<br />
+				<button className='button is-danger' onClick={this.props.resetCompetitions}>Reset</button>
+			</Layout>
 		)
 	}
 }
+
+
+const mapStateToProps = (state) => ({
+	competition: state.competition
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	getCompetitions(){
+		dispatch(getCompetitions())
+	},
+	resetCompetitions(){
+		dispatch(resetCompetitions())
+	}
+})
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(Competition)
