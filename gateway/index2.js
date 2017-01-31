@@ -5,6 +5,12 @@ import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import config from './config'
+import bookshelf from './bookshelf'
+import {
+	User,
+	History,
+	Detail
+} from './models'
 
 const client  = mqtt.connect(config.mqtt)
 const app = express()
@@ -28,11 +34,13 @@ const server = app.listen(PORT, () => {
 
 const io = require('socket.io').listen(server)
 
+let prevTime = 0
+
 let state = {
 	uid: undefined,
 	nGate: undefined,
 	distances: [],
-	phase: 0,
+	gate: 0,
 	isStarted: false,
 	isSetup: false,
 	results: [],
@@ -40,42 +48,45 @@ let state = {
 	competitions: [{uid: 1000, time: 123}]
 }
 
-let users = [
-	{
-		id: 1,
-		student_id: 1001,
-		firstname: 'a',
-		lastname: 'a2',
-		nickname: 'a3'
-	},{
-		id: 2,
-		student_id: 1002,
-		firstname: 'b',
-		lastname: 'b2',
-		nickname: 'b3'
-	},{
-		id: 3,
-		student_id: 1003,
-		firstname: 'c',
-		lastname: 'c2',
-		nickname: 'c3'
-	}
-]
+//----------------------------- ORM ------------------------------------------
 
-let histories = [
+function insertHistory(){
+	// let results = [{phase: 1, distance: 100, time: 1.125, speed: 88.889 }, {phase: 2, distance: 200, time: 1.5, speed: 133.333 }]
+	let { results, uid, nGate } = state
+	let total_distance = results.reduce((sum,value) => sum + (+value.distance), 0)
+	let total_time = results.reduce((sum,value) => sum + (+value.time), 0).toFixed(3)
+	let speedAverage = ((+total_distance)/(+total_time)).toFixed(3)
+	new History({ 
+		user_id: uid, 
+		total_gate: nGate, 
+		total_distance, 
+		total_time, 
+		speed_average: speedAverage 
+	}).save().then((author) => {
+		results.map((result) => {
+			new Detail({ 
+				history_id: author.attributes.id,
+				...result 
+			}).save()		
+		})
+	})
+}
 
-]
+//-------------------------------------------------------------------------------
 
 //----------------------------- Socket ------------------------------------------
 
 function emitTimer(){
-	let { phase, isStarted, isSetup, results, time } = state
+	let { gate, isStarted, isSetup, results, time, uid, nGate, distances } = state
 	io.emit('timer', {
-		phase,
+		gate,
 		isSetup,
 		results,
 		time,
-		isStarted
+		isStarted,
+		uid,
+		nGate,
+		distances
 	})
 }
 
@@ -85,19 +96,19 @@ function emitCompetitions(){
 
 function startTimer(){
 	console.log('Start')
-  	state.isStarted = true
 	let timestamp = moment.duration(0, 'milliseconds')
     timer.setInterval(() => {
     	timestamp = moment.duration(timestamp + 1, 'milliseconds')
-    	state.time = timestamp.asSeconds()
+    	state.time = timestamp.asSeconds().toFixed(3)
     }, '', '1m')
     handleTimer.setInterval(emitTimer, '', '9m')
 }
 
 function stopTimer(){
   	console.log('End')
-  	client.publish('/TIMINGGATE', 'RESET')
+  	client.publish('/gate', 'RESET')
   	console.log(state.results) //input to DB
+  	insertHistory()
 	timer.clearInterval()
 	handleTimer.clearInterval()
 	state.isStarted = false
@@ -110,23 +121,32 @@ function stopTimer(){
 		uid: undefined,
 		nGate: undefined,
 		distances: [],
-		phase: 0,
+		gate: 0,
 		isStarted: false,
 		isSetup: false,
 		results: [],
 		time: 0
 	}
-	// emitState()
 }
 
 io.on('connect', function(socket) {
-	let { phase, isStarted, isSetup, results, time, competitions } = state
-	socket.emit('timer', { phase, isSetup, results, time, isStarted })
+	// console.log('eieiza')
+	let { gate, isStarted, isSetup, results, time, uid, nGate, distances } = state
+	socket.emit('timer', { 
+		gate,
+		isSetup,
+		results,
+		time,
+		isStarted,
+		uid,
+		nGate,
+		distances
+	})
 	// socket.emit('competitions', competitions)
 	// checkInternet()
-	socket.on('competitions', function(data) {
-		socket.emit('competitions', competitions)
-	})
+	// socket.on('competitions', function(data) {
+	// 	socket.emit('competitions', competitions)
+	// })
 })
 
 // io.on('competitions', function(data) {
@@ -148,14 +168,24 @@ client.on('message', (topic, payload) => {
 	console.log(msg)
 
 	if(msg == '1' && isSetup){
-		state.phase++
+		state.gate++
 		if(!isStarted){
+		  	state.isStarted = true
+		  	prevTime = state.time
+		  	emitTimer()
 			startTimer()
 		} else {
-			console.log(time)
-		  	state.results.push(time)  		
+			let currentTime = state.time
+			let timeResult = (currentTime - prevTime).toFixed(3)
+			let distanceResult = state.distances[state.gate-2]
+		  	state.results.push({
+		  		phase: state.gate-1,
+		  		time: timeResult,
+		  		distance: distanceResult,
+		  		speed: (distanceResult/timeResult).toFixed(3)
+		  	})
+		  	prevTime = currentTime
 		  	if(state.results.length == nGate-1){
-				state.phase--
 				stopTimer()
 		  	}
 		}
@@ -170,7 +200,7 @@ client.on('message', (topic, payload) => {
 app.route('/timers')
 	.post((req, res) => {
 		const { uid, nGate, distances } = req.body
-		if(!state.isSetup && uid != undefined && nGate >= 2 && distances.length == nGate-1){
+		if(!state.isStarted && uid != undefined && nGate >= 2 && distances.length == nGate-1){
 			state.uid = uid
 			state.nGate = nGate
 			state.distances = distances

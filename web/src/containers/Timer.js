@@ -1,59 +1,77 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import socket from 'socket.io-client'
-import { push } from 'react-router-redux'
-import { SetupTimer, DisplayTimer } from 'containers'
+import { reduxForm, formValueSelector } from 'redux-form'
 import * as actions from 'actions'
+import { DisplayTimer, SetupTimer } from 'components/timers'
 
-const io = socket('http://localhost:9090')
-const { stopTimer } = actions
+const { setupTimer, stopTimer, getTimer } = actions
 
 class Timer extends Component {
 
-	state = {
-		phase: 0,
-		isSetup: false,
-		isStarted: false,
-		results: [],
-		time: 0
-	}
+	state = {}
 
 	goSetup(){
-		this.setState({isSetup: false})
-	}
-
-	componentDidMount(){
-		io.on('timer', (data) => {
-			let { phase, isSetup, isStarted, results, time } = data
-			this.setState({ phase, isSetup, isStarted, results, time })
+		this.props.dispatch({
+			type: 'SET_ISSETUP_TIMER',
+			payload: false
 		})
 	}
 
+	componentWillMount(){
+		this.props.getTimer()
+	}
+
 	render(){
+		const { gate, results, time, isStarted, isSetup, stopTimer, distances, nGate, uid } = this.props.timer
 		return (
 			<div>
-				{ 
-					(this.state.isSetup) ? <DisplayTimer 
-												phase={this.state.phase}
-												results={this.state.results}
-												time={this.state.time}
-												isStarted={this.state.isStarted}
-												stopTimer={this.props.stopTimer}
-												goSetup={this.goSetup.bind(this)}
-											/> : <SetupTimer />
-
+				{
+					(!isSetup) ? 
+						<SetupTimer
+							handleSubmit={this.props.handleSubmit}
+						/> :
+						<DisplayTimer 
+							gate={gate}
+							results={results}
+							time={time}
+							isStarted={isStarted}
+							nGate={nGate}
+							distances={distances}
+							uid={uid}
+							stopTimer={this.props.stopTimer}
+							goSetup={this.goSetup.bind(this)}
+						/> 
 				}
 			</div>
 		)
 	}
 }
 
-const mapStateToProps = (state) => ({})
+Timer = reduxForm({
+	form: 'timerForm'
+})(Timer)
 
-const mapDispatchToProps = (dispatch) => ({
+const selector = formValueSelector('timerForm')
+
+const mapStateToProps = (state) => ({
+	initialValues: {
+		uid: state.timer.uid,
+		nGate: state.timer.nGate,
+		distanceType: 0,
+		distances: state.timer.distances
+	},
+	timer: state.timer
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	onSubmit(value){
+		dispatch(setupTimer(value))
+	},
 	stopTimer(){
 		dispatch(stopTimer())
+	},
+	getTimer(){
+		dispatch(getTimer())
 	}
 })
 

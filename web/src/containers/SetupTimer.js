@@ -93,6 +93,27 @@ class SetupTimer extends Component {
 							label={`Distance 1 - 2`}
 						/> 
 						<br />
+				        <Field
+							name={`distanceValues[1]`}
+							type="number"
+							component={renderField}
+							label={`Distance 2 - 3`}
+						/> 
+						<br />
+				        <Field
+							name={`distanceValues[2]`}
+							type="number"
+							component={renderField}
+							label={`Distance 3 - 4`}
+						/> 
+						<br />
+				        <Field
+							name={`distanceValues[3]`}
+							type="number"
+							component={renderField}
+							label={`Distance 4 - 5`}
+						/> 
+						<br />
 						<button
 					    	type='submit'
 					        className='button is-primary'>

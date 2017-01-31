@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import socket from 'socket.io-client'
 
-const io = socket('http://localhost:9090')
+let io
 
 export default class Competition extends Component {
 
@@ -9,12 +9,18 @@ export default class Competition extends Component {
 		competitions: []
 	}
 
-	componentWillMount(){
-		console.log('aaa')
-		io.emit('competitions', 'GET')
-		io.on('competitions', (data) => {
-			// console.log(data)
-			this.setState({ competitions: data })
+		componentWillMount(){
+		// console.log('aaa')
+		// io.emit('competitions', 'GET')
+		// io.on('competitions', (data) => {
+		// 	// console.log(data)
+		// 	// this.setState({ competitions: data })
+		// })
+		io = socket('http://localhost:9090')
+		io.on('timer', (data) => {
+			let { phase, isSetup, isStarted, results, time } = data
+			console.log(data)
+			// this.setState({ phase, isSetup, isStarted, results, time })
 		})
 	}
 
