@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import * as actions  from 'action'
 
-export default class User extends Component {
+
+
+class User extends Component {
 	render(){
 		return (
 			<div className="has-text-centered">
@@ -42,3 +46,12 @@ export default class User extends Component {
 		)
 	}
 }
+
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = (dispatch) => ({})
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(User)

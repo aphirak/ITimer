@@ -92,7 +92,7 @@ function syncGlobal(){
 		}
 		return results
 	}).then((data) => {
-		axios.post('http://192.168.2.44:7070/sync', data)
+		axios.post(`${config.apiGlobal.host}:${config.apiGlobal.port}/sync`, data)
 			.then((response) => {
 				console.log(response.data)
 			})
