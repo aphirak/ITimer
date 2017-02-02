@@ -1,5 +1,5 @@
-const bookshelf = require('../bookshelf')
-const History = require('./history')
+import bookshelf from '../bookshelf'
+import History from './history'
 
 const Detail = bookshelf.Model.extend({
 	tableName: 'details',
@@ -9,4 +9,4 @@ const Detail = bookshelf.Model.extend({
 	}
 })
 
-module.exports = Detail
+export default Detail

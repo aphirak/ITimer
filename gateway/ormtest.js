@@ -5,6 +5,18 @@ import {
 	Detail
 } from './models'
 
+// new User({id: 1}).fetch({withRelated: ['histories']}).then((user) => {
+// 	console.log(user.toJSON())
+//   // console.log(JSON.stringify(author.related('details')));
+// });
+
+
+
+
+
+
+
+
 // new User({ username:"user4", firstname: "eiei1", lastname: "eiei2", nickname: "eiei3" }).save().then((error) => {
 // 	bookshelf.knex.destroy()
 // })
@@ -31,4 +43,34 @@ function insertHistory(uid, nGate){
 	// })
 }
 
-insertHistory(1, 3)
+// insertHistory(1, 3)
+
+// new User().fetchAll().then((collection) => {
+// 	console.log(collection.toJSON())
+//         // collection.map((model) => {
+//         //     console.log(model.attributes)
+//         // })    
+//     })
+
+
+// new User().fetchAll().then((collection) => {
+// 		res.json(collection.toJSON())
+//     })
+
+
+// new User({id:1}).fetch({ withRelated: ['histories']}).then((model) => {
+// 	console.log(model.toJSON())
+// })
+
+// new User({id: 1}).fetch({withRelated: ['histories']}).then(function(author) {
+// 	// console.log(author)
+//   // console.log(JSON.stringify(author.related('details')));
+// });
+
+
+
+
+
+
+
+

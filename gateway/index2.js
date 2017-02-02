@@ -4,6 +4,8 @@ import moment from 'moment'
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
+import axios from 'axios'
+import wifi from 'node-wifi'
 import config from './config'
 import bookshelf from './bookshelf'
 import {
@@ -16,6 +18,10 @@ const client  = mqtt.connect(config.mqtt)
 const app = express()
 const timer = new NanoTimer()
 const handleTimer = new NanoTimer()
+
+wifi.init({
+    iface : null
+})
 
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
@@ -48,12 +54,59 @@ let state = {
 	competitions: [{ uid: 3, total_distance: 100, total_time: 200, speed_average: 0.5 }]
 }
 
+
+function checkInternet(){
+	setInterval(() => {
+		dns.resolve('www.google.com', (err) => {
+			if (err) {
+				io.emit('connectInternet', 'not ok')
+				console.log("No connection")
+			} else {
+				io.emit('connectInternet', 'ok')
+				console.log("Connected")
+			}
+		})
+	}, 3000)
+}
+
+function syncGlobal(){
+	let p1 = User.forge().fetchAll().then((collection) => {
+		return collection.toJSON()
+	})
+
+	let p2 = History.forge().fetchAll().then((collection) => {
+		return collection.toJSON()
+	})
+
+	let p3 = Detail.forge().fetchAll().then((collection) => {
+		return collection.toJSON()
+	})
+
+	Promise.all([ p1, p2, p3 ]).then((values) => {
+		let results = {
+			users: values[0],
+			histories: values[1],
+			details: values[2]
+		}
+		return results
+	}).then((data) => {
+		axios.post('http://localhost:7070/sync', data)
+			.then((response) => {
+				console.log(response.data)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	})
+}
+
+syncGlobal()
+
 //----------------------------- ORM ------------------------------------------
 
 function insertHistory(total_distance, total_time, speed_average){
-	// let results = [{phase: 1, distance: 100, time: 1.125, speed: 88.889 }, {phase: 2, distance: 200, time: 1.5, speed: 133.333 }]
 	let { uid, nGate, results } = state
-	new History({ 
+	History.forge({ 
 		user_id: uid, 
 		total_gate: nGate, 
 		total_distance, 
@@ -61,7 +114,7 @@ function insertHistory(total_distance, total_time, speed_average){
 		speed_average 
 	}).save().then((author) => {
 		results.map((result) => {
-			new Detail({ 
+			Detail.forge({ 
 				history_id: author.attributes.id,
 				...result 
 			}).save()		
@@ -103,7 +156,7 @@ function startTimer(){
 
 function stopTimer(){
   	console.log('End')
-  	client.publish('/gate', 'RESET')
+  	client.publish('/TIMINGGATE', 'RESET')
   	console.log(state.results) //input to DB
   	if(state.results.length != 0){
 		let { results, uid, nGate } = state
@@ -132,7 +185,6 @@ function stopTimer(){
 }
 
 io.on('connect', function(socket) {
-	// console.log('eieiza')
 	let { gate, isStarted, isSetup, results, time, uid, nGate, distances, competitions } = state
 	socket.emit('timer', { 
 		gate,
@@ -146,18 +198,7 @@ io.on('connect', function(socket) {
 	})
 	socket.emit('competitions', competitions)
 	// checkInternet()
-	// socket.on('competitions', function(data) {
-	// 	socket.emit('competitions', competitions)
-	// })
 })
-
-// io.on('competitions', function(data) {
-	// console.log(data)
-	// let { phase, isStarted, isSetup, results, time, competitions } = state
-	// socket.emit('timer', { phase, isSetup, results, time, isStarted })
-	// socket.emit('competitions', competitions)
-	// checkInternet()
-// })
 
 client.on('connect', () => {
 	client.subscribe('/TIMINGGATE/TRACKING')
@@ -222,9 +263,121 @@ app.route('/timers')
 app.route('/competitions')
 	.delete((req, res) => {
 		state.competitions = []
-		emitCompetitions()	
+		emitCompetitions()
 	})
 
+app.route('/users')
+	.get((req, res) => { 
+		User.forge().fetchAll().then((collection) => {
+			res.json(collection.toJSON())
+		})
+	})
+	.post((req, res) => {
+		const { username, firstname, lastname, nickname } = req.body
+		User.forge({ username, firstname, lastname, nickname }).save().then((user) => {
+			res.json(user)
+		}).catch((err) => {
+			res.sendStatus(403)
+		})
+	})
+
+app.route('/users/:id')
+	.get((req, res) => {
+		let { id } = req.params
+		User.forge({ id }).fetch().then((user) => {
+			res.json(user)
+		})
+	})
+	.patch((req, res) => {
+		let { id } = req.params
+		const { username, firstname, lastname, nickname } = req.body
+		User.forge({ id }).fetch({require: true}).then((user) => {
+			user.save({ username, firstname, lastname, nickname }).then(() => {
+				res.sendStatus(200)
+			}).catch(() => {
+				res.sendStatus(403)
+			})
+		}).catch(() => {
+			res.sendStatus(404)
+		})
+	})
+	.delete((req, res) => {
+		let { id } = req.params
+		User.forge({ id }).destroy().then((user) => {
+			res.sendStatus(200)
+		})
+	})
+
+app.route('/users/:id/histories')
+	.get((req, res) => {
+		let { id } = req.params
+		User.forge({ id }).fetch({ withRelated: ['histories'] }).then((user) => {
+			res.json(user.toJSON().histories)
+		})
+	})
+	.delete((req, res) => {
+		let { id } = req.params
+		User.forge({ id }).fetch({ withRelated: ['histories'] }).then((user) => {
+			user.toJSON().histories.map((history) => {
+				History.forge({ id: history.id }).destroy().then(() => {
+					res.sendStatus(200)
+				})
+			})
+		})
+	})
+
+app.route('/histories')
+	.get((req, res) => {
+		History.forge().fetchAll().then((collection) => {
+			res.json(collection.toJSON())
+		})
+	})
+
+app.route('/histories/:id')
+	.get((req, res) => {
+		let { id } = req.params
+		History.forge({ id }).fetch({ withRelated: ['details'] }).then((history) => {
+			res.json(history)
+		})
+	})
+	.delete((req, res) => {
+		let { id } = req.params
+		History.forge({ id }).destroy().then((history) => {
+			res.sendStatus(200)
+		})
+	})
+
+// app.route('/wifi')
+// 	.get((req, res) => {
+// 		wifi.scan(function(err, networks) {
+// 		    if (err) {
+// 		        console.log(err)
+// 				res.send(err)
+// 		    } else {
+// 		        console.log(networks)
+// 		        let ssid = networks.map((network) => network.ssid)
+// 				res.send(ssid)
+// 		    }
+// 		})
+// 	})
+// 	.post((req, res) => {
+// 		wifi.connect({ ssid : req.body.ssid, password : req.body.password}, (err) => {
+// 		    if (err) {
+// 		        console.log(err)
+// 		    }
+// 		    console.log('Connected')
+// 		    res.send('Connected')
+// 		})
+// 	})
+// 	.delete((req, res) => {
+// 		wifi.disconnect((err) => {
+// 		    if (err) {
+// 		        console.log(err)
+// 		    }
+// 		    console.log('Disconnected')
+// 		    res.send('Disconnected')
+// 		})
+// 	})
 
 app.get('*', (req, res) => {
   res.send('ITimer API')

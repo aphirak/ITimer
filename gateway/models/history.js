@@ -1,6 +1,6 @@
-const bookshelf = require('../bookshelf')
-const User = require('./user')
-const Detail = require('./detail')
+import bookshelf from '../bookshelf'
+import User from './user'
+import Detail from './detail'
 
 const History = bookshelf.Model.extend({
 	tableName: 'histories',
@@ -11,7 +11,9 @@ const History = bookshelf.Model.extend({
 	details: function() {
 		return this.hasMany(Detail)
 	}
+}, {
+	dependents: ['details']
 })
 
 
-module.exports = History
+export default History

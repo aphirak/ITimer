@@ -10,7 +10,7 @@
 const char* ssid     = "James";
 const char* password = "12345678";
 
-// #define mqtt_server "192.168.42.1"
+// #define mqtt_server "192.168.42.3"
 #define mqtt_server "172.20.10.2"
 // #define mqtt_port 1883
 #define mqtt_port 1900
@@ -62,7 +62,7 @@ void loop() {
 
   if(!client.connected()){
     Serial.print("Attemping MQTT connecting...");
-    if(client.connect("TimingGate2")){
+    if(client.connect("TimingGate")){
       Serial.println("connected");
       client.subscribe("/TIMINGGATE");
       digitalWrite(LED_CONNECTION, 1);
