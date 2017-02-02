@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index2.js --exec babel-node",
-    "dev-orm": "nodemon ormtest.js --exec babel-node",
-    "dev-orm2": "nodemon ormtest2.js --exec babel-node"
+    "dev": "nodemon index.js --exec babel-node",
   },
   "author": "",
   "license": "ISC",

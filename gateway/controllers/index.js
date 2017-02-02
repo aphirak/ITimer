@@ -1,2 +1,2 @@
-export * from './HistoryController'
-export * from './UserController'
+export * as HistoryController from './HistoryController'
+export * as UserController from './UserController'
