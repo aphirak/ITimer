@@ -10,7 +10,8 @@ module.exports = {
       user: 'homestead',
       password: 'secret',
       database: 'itimer',
-      charset: 'utf8'
+      charset: 'utf8',
+      timezone: "UTC"
     }
   },
 

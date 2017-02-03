@@ -17,7 +17,7 @@ import {
 	AddUser,
 	EditUser,
 	ProfileUser,
-	HistoryUser
+	ListHistoryUser
 } from 'containers'
 
 
@@ -33,7 +33,7 @@ export default (store, history) => (
 				<Route path=':id'>
 					<IndexRoute component={ProfileUser} />
 					<Route path='edit' component={EditUser} />
-					<Route path='history' component={HistoryUser} />
+					<Route path='history' component={ListHistoryUser} />
 				</Route>
 			</Route>
 			<Route path='history' component={History} />
