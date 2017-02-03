@@ -270,8 +270,8 @@ app.route('/users/:id')
 	.delete(UserController.deleteUserById)
 
 app.route('/users/:id/histories')
-	.get(UserController.getHistoriesByUserId)
-	.delete(UserController.deleteHistoriesByUserId)
+	.get(HistoryController.getHistoriesByUserId)
+	.delete(HistoryController.deleteHistoriesByUserId)
 
 app.route('/histories')
 	.get(HistoryController.getHistories)

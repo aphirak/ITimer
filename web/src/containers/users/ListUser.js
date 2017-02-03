@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import * as actions  from 'actions'
 
 const { getUsers } = actions
 
 
-class User extends Component {
+class ListUser extends Component {
 
 	componentWillMount(){
 		this.props.getUsers()
@@ -22,7 +23,7 @@ class User extends Component {
 						    <strong>User</strong>
 						  </div>
 						  <div className="column is-1">
-							  <div className="button is-info">ADD</div>
+							  <Link to='/user/add'><button className="button is-info">ADD</button></Link>
 						  </div>
 						</div>
 					</h1>
@@ -51,9 +52,7 @@ class User extends Component {
 								        <td>{user.lastname}</td>
 								        <td>{user.nickname}</td>
 								        <td>
-										  <div className="button is-primary">EDIT</div>
-										  {' '}
-										  <div className="button is-danger">DELETE</div>
+										  <Link to={`/user/${user.id}`} className="button is-primary">Detail</Link>
 								        </td>
 								      </tr>
 									)
@@ -80,4 +79,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(User)
+)(ListUser)

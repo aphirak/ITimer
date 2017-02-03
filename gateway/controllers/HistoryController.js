@@ -26,8 +26,28 @@ const deleteHistoryById = (req, res) => {
 	})
 }
 
+const getHistoriesByUserId = (req, res) => {
+	let { id } = req.params
+	User.forge({ id }).fetch({ withRelated: ['histories'] }).then((user) => {
+		res.json(user.toJSON().histories)
+	})
+}
+
+const deleteHistoriesByUserId = (req, res) => {
+	let { id } = req.params
+	User.forge({ id }).fetch({ withRelated: ['histories'] }).then((user) => {
+		user.toJSON().histories.map((history) => {
+			History.forge({ id: history.id }).destroy().then(() => {
+				res.sendStatus(200)
+			})
+		})
+	})
+}
+
 export {
 	getHistories,
 	getHistoryById,
-	deleteHistoryById
+	deleteHistoryById,
+	getHistoriesByUserId,
+	deleteHistoriesByUserId
 }

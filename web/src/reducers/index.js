@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import testReducers from 'reducers/testReducers'
 import timerReducers from 'reducers/timerReducers'
 import competitionReducers from 'reducers/competitionReducers'
+import userReducers from 'reducers/userReducers'
 
 export default combineReducers({
 	routing: routerReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
 	}),
 	test: testReducers,
 	timer: timerReducers,
-	competition: competitionReducers
+	competition: competitionReducers,
+	user: userReducers
 })
