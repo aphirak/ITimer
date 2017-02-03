@@ -1,87 +1,51 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import { Field, FieldArray, reduxForm, formValueSelector } from 'redux-form'
+import { reduxForm, formValueSelector } from 'redux-form'
+import * as actions from 'actions'
+import { DisplayTimer, SetupTimer } from 'components/timers'
 
-const renderField = ({ input, label, type, min}) => (
-  <div>
-    <label>{label}</label>{' : '}
-	<input {...input} type={type} min={min}/>
-	<br />
-  </div>
-)
-
-const distanceEqual = () => (
-	<div>
-		<Field name="1.distanceValue" component="input" /> Meter
-	</div>
-)
-
-const distanceNotEqual = () => (
-	<div>
-		<FieldArray name="1.distanceValue" component="input" /> Meter
-	</div>
-)
-
-const renderMembers = ({ fields }) => (
-  <ul>
-    {fields.map((member, index) =>
-      <li key={index}>
-        <h4>Member #{index + 1}</h4>
-        <Field
-          name={`${member}.firstName`}
-          type="text"
-          component="input"
-          label="First Name"/>
-        <Field
-          name={`${member}.lastName`}
-          type="text"
-          component="input"
-          label="Last Name"/>
-      </li>
-    )}
-  </ul>
-)
-
+const { setupTimer, stopTimer, getTimer } = actions
 
 class Timer extends Component {
+
+	state = {}
+
+	goSetup(){
+		this.props.dispatch({
+			type: 'SET_ISSETUP_TIMER',
+			payload: false
+		})
+	}
+
+	componentWillMount(){
+		this.props.getTimer()
+	}
+
 	render(){
-		const { handleSubmit } = this.props
-		console.log(this.props.distanceValue)
+		const { gate, results, time, isStarted, isSetup, stopTimer, distances, nGate, uid } = this.props.timer
 		return (
-			<div className="has-text-centered">
-				<div className="heading">
-					<h1 className="title">
-						<strong>Setup</strong>
-					</h1>
-				</div>
-				<hr />
-				<div className="content">
-				    <form onSubmit={handleSubmit} className='form' action='javascript:void(0)'>
-						<Field name="nGate" component={renderField} type="number" label='Number of gate' autoFocus />
-						<label>Distance</label>{' : '} 
-						<Field name="distanceType" component="select">
-							<option value={undefined}></option>
-							<option value={0}>Not equal</option>
-							<option value={1}>Equal</option>
-						</Field>
-						<distanceEqual />
-						{ 
-							(this.props.distanceType != undefined) && ((this.props.distanceType == 1) ? distanceEqual() : distanceNotEqual())
-						}
-						<br />
-						<button
-					    	type='submit'
-					        className='button is-primary'>
-					        Search
-				    	</button>
-				    </form>
-				</div>
+			<div>
+				{
+					(!isSetup) ? 
+						<SetupTimer
+							handleSubmit={this.props.handleSubmit}
+						/> :
+						<DisplayTimer 
+							gate={gate}
+							results={results}
+							time={time}
+							isStarted={isStarted}
+							nGate={nGate}
+							distances={distances}
+							uid={uid}
+							stopTimer={this.props.stopTimer}
+							goSetup={this.goSetup.bind(this)}
+						/> 
+				}
 			</div>
 		)
 	}
 }
-
 
 Timer = reduxForm({
 	form: 'timerForm'
@@ -90,13 +54,24 @@ Timer = reduxForm({
 const selector = formValueSelector('timerForm')
 
 const mapStateToProps = (state) => ({
-	distanceType: selector(state, 'distanceType'),
-	distanceValue: selector(state, 'distanceValue')
+	initialValues: {
+		uid: state.timer.uid,
+		nGate: state.timer.nGate,
+		distanceType: 0,
+		distances: state.timer.distances
+	},
+	timer: state.timer
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
 	onSubmit(value){
-		console.log(value)
+		dispatch(setupTimer(value))
+	},
+	stopTimer(){
+		dispatch(stopTimer())
+	},
+	getTimer(){
+		dispatch(getTimer())
 	}
 })
 

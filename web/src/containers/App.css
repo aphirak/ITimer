@@ -1,0 +1,7 @@
+.content table th, .content table td {
+	text-align: center;
+}
+
+.card-header-title {
+	font-size: 1.6rem;
+}

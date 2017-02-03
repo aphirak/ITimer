@@ -1,30 +1,34 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define TICKLE 4
-#define LED_TICKLE 0
+#define TRACKING 4
+#define LED_TRACKING 0
 #define LED_CONNECTION 5
 
-const char* ssid     = "ITimer_wifi";
-const char* password = "aaaaaaaaaa";
+// const char* ssid     = "ITimer_wifi";
+// const char* password = "aaaaaaaaaa";
+const char* ssid     = "James";
+const char* password = "12345678";
 
-#define mqtt_server "192.168.42.1"
-#define mqtt_port 1883
+// #define mqtt_server "192.168.42.3"
+#define mqtt_server "172.20.10.2"
+// #define mqtt_port 1883
+#define mqtt_port 1900
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-int valueTickle = 0;
+int valueTracking = 0;
 bool isDisable = false;
+bool isSetup = false;
 String macAddress;
-// char* mqttTopic;
 
 void setup() {
 
   // -------------- Setup Pin --------------------
   Serial.begin(9600);
-  pinMode(TICKLE, INPUT);
-  pinMode(LED_TICKLE, OUTPUT);
+  pinMode(TRACKING, INPUT);
+  pinMode(LED_TRACKING, OUTPUT);
   pinMode(LED_CONNECTION, OUTPUT);
   // ---------------------------------------------
 
@@ -33,7 +37,10 @@ void setup() {
   Serial.println(ssid);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    digitalWrite(LED_CONNECTION, 1);
+    delay(250);
+    digitalWrite(LED_CONNECTION, 0);
+    delay(250);
     Serial.print(".");
   }
   Serial.println("");
@@ -49,13 +56,6 @@ void setup() {
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
   // ---------------------------------------------
-  // strcat(mqttTopic, "/TIMINGGATE/");
-  // strcat(mqttTopic, macAddress.c_str());
-  // strcat(mqttTopic, "/TICKLE");
-  // mqttTopic += "/";
-  // mqttTopic += macAddress;
-  // mqttTopic += "/TICKLE";
-  // Serial.println(mqttTopic);
 }
 
 void loop() {
@@ -66,22 +66,28 @@ void loop() {
       Serial.println("connected");
       client.subscribe("/TIMINGGATE");
       digitalWrite(LED_CONNECTION, 1);
-      digitalWrite(LED_TICKLE, 1);
+      digitalWrite(LED_TRACKING, 1);
     } else{
+      digitalWrite(LED_CONNECTION, 1);
+      delay(250);
       digitalWrite(LED_CONNECTION, 0);
+      delay(250);
       Serial.print("failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      delay(5000);
+      Serial.println(" try again in few seconds");
     }
   } else {
     // ------------- Check Tickle ------------------
-    valueTickle = digitalRead(TICKLE);
-    if(valueTickle && !isDisable){
+    valueTracking = digitalRead(TRACKING);
+
+    if(!isSetup){
+      digitalWrite(LED_TRACKING, valueTracking);
+    }
+    else if(!valueTracking && !isDisable){
       isDisable = true;
-      Serial.println("Tickle");
-      client.publish("/TIMINGGATE/TICKLE", "1");
-      digitalWrite(LED_TICKLE, 0);
+      Serial.println("Tracking");
+      client.publish("/TIMINGGATE/TRACKING", "1");
+      digitalWrite(LED_TRACKING, 0);
     }
     // ---------------------------------------------
   }
@@ -95,9 +101,14 @@ void callback(char* topic, byte* payload, uint length){
   String msg = "";
   int i = 0;
   while (i<length) msg += (char)payload[i++];
-  if(msg == "RESET"){
+
+  if(msg == "SETUP"){
+    isSetup = true;
+    digitalWrite(LED_TRACKING, 1);
+  }
+  else if(msg == "RESET"){
     isDisable = false;
-    digitalWrite(LED_TICKLE, 1);
+    isSetup = false;
     Serial.println(msg);
     return;
   }

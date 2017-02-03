@@ -25,11 +25,13 @@ module.exports = merge.smart(baseWebpackConfig, {
 	    new webpack.HotModuleReplacementPlugin()
 	],
 	devServer: {
-		inline: false,
 		hot: true,
+		inline: false,
 		host: 'localhost',
 		port: 8080,
-		historyApiFallback: true,
+		historyApiFallback: {
+			index: '/static/'
+		},
 		quiet: true
 	}
 })
