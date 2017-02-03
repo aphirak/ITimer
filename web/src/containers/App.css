@@ -5,3 +5,7 @@
 .card-header-title {
 	font-size: 1.6rem;
 }
+
+.card {
+	height: 12em;
+}
