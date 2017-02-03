@@ -1,107 +1,51 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import { Field, FieldArray, reduxForm, formValueSelector } from 'redux-form'
-const socket = require('socket.io-client')('http://localhost:9090');
+import { reduxForm, formValueSelector } from 'redux-form'
 import * as actions from 'actions'
+import { DisplayTimer, SetupTimer } from 'components/timers'
 
-const { setupTimer } = actions
-
-const renderField = ({ input, label, type, min, max, step}) => (
-  <div>
-    <label>{label}</label>{' : '}
-	<input {...input} type={type} min={min} max={max} step={step} />
-	<br />
-  </div>
-)
-
-const renderFields = ({ nGate }) => {
-	let fields = []
-	for(let i=0;i<nGate-1;i++){
-		fields.push(0)
-	}
-
-	return (
-		<div>
-			{
-				fields.map((field, index) => (
-			        <Field
-						name={`distanceValues[${index}]`}
-						type="number"
-						component={renderField}
-						label={`Distance ${index+1} - ${index+2}`}
-						key={index}
-					/> 
-				))
-			}
-		</div>
-	)
-}
-
-// const distanceEqual = () => (
-// 	<div>
-// 		<FieldArray name="1.distanceValue" component="input" /> Meter
-// 	</div>
-// )
-
-// const distanceNotEqual = () => (
-// 	<div>
-// 		<FieldArray name="1.distanceValue" component="input" /> Meter
-// 	</div>
-// )
-
-
-
+const { setupTimer, stopTimer, getTimer } = actions
 
 class Timer extends Component {
 
+	state = {}
 
-	componentWillMount(){
-		socket.on('state', (data) => {
-			console.log(data)
+	goSetup(){
+		this.props.dispatch({
+			type: 'SET_ISSETUP_TIMER',
+			payload: false
 		})
 	}
 
+	componentWillMount(){
+		this.props.getTimer()
+	}
 
 	render(){
-		console.log(this.props.nGate)
-		const { handleSubmit } = this.props
+		const { gate, results, time, isStarted, isSetup, stopTimer, distances, nGate, uid } = this.props.timer
 		return (
-			<div className="has-text-centered">
-				<div className="heading">
-					<h1 className="title">
-						<strong>Setup</strong>
-					</h1>
-				</div>
-				<hr />
-				<div className="content">
-				    <form onSubmit={handleSubmit} className='form' action='javascript:void(0)'>
-						<Field name="uid" component={renderField} type="text" label='Student ID' autoFocus />
-						<Field name="nGate" component={renderField} type="number" label='Number of gate' />
-						<label>Distance Type</label>{' : '} 
-						<Field name="distanceType" component="select">
-							<option value={undefined}></option>
-							<option value={0}>Not equal</option>
-							<option value={1}>Equal</option>
-						</Field>
-						<FieldArray name="distanceValues" component={renderFields} nGate={this.props.nGate} />
-						<br />
-						<button
-					    	type='submit'
-					        className='button is-primary'>
-					        Search
-				    	</button>
-				    </form>
-				</div>
+			<div>
+				{
+					(!isSetup) ? 
+						<SetupTimer
+							handleSubmit={this.props.handleSubmit}
+						/> :
+						<DisplayTimer 
+							gate={gate}
+							results={results}
+							time={time}
+							isStarted={isStarted}
+							nGate={nGate}
+							distances={distances}
+							uid={uid}
+							stopTimer={this.props.stopTimer}
+							goSetup={this.goSetup.bind(this)}
+						/> 
+				}
 			</div>
 		)
 	}
 }
-
-
-						// { 
-						// 	(this.props.distanceType != undefined) && ((this.props.distanceType == 1) ? distanceEqual() : distanceNotEqual())
-						// }
 
 Timer = reduxForm({
 	form: 'timerForm'
@@ -110,17 +54,24 @@ Timer = reduxForm({
 const selector = formValueSelector('timerForm')
 
 const mapStateToProps = (state) => ({
-	nGate: selector(state, 'nGate'),
-	distanceType: selector(state, 'distanceType'),
-	distanceValues: selector(state, 'distanceValues')
+	initialValues: {
+		uid: state.timer.uid,
+		nGate: state.timer.nGate,
+		distanceType: 0,
+		distances: state.timer.distances
+	},
+	timer: state.timer
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
 	onSubmit(value){
-		dispatch(setupTimer({
-			...value,
-			distances: value.distanceValues
-		}))
+		dispatch(setupTimer(value))
+	},
+	stopTimer(){
+		dispatch(stopTimer())
+	},
+	getTimer(){
+		dispatch(getTimer())
 	}
 })
 

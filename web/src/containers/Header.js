@@ -8,7 +8,8 @@ class Header extends Component {
 
 	componentDidMount(){
 		let currentUrl = window.location.pathname
-		let text = (currentUrl == '/') ? 'Home' : currentUrl.substring(1)
+		let text = currentUrl.split('/')[1]
+		if(text == "") text = 'Home'
 		this.handleTab(text)
 	}
 
@@ -30,17 +31,17 @@ class Header extends Component {
 			<nav className="nav has-shadow">
 			  <div className="container">
 			    <div className="nav-left">
-			      <a className="nav-item">
+			      <a className="nav-item" onClick={this.handleTab.bind(this, "Home", '/')} >
 			        <img src={logoITimer} alt="ITimer logo" />
 			      </a>
 			    </div>
 			    <div className="nav-right" ref='menu'>
 					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Home", '/')}>Home</a>
-					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Competition", 'competition')}>Competition</a>
-					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Timer", 'timer')}>Timer</a>
-					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "User", 'user')}>User</a>
-					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "History", 'history')}>History</a>
-					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Contact", 'contact')}>Contact</a>
+					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Competition", '/competition')}>Competition</a>
+					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Timer", '/timer')}>Timer</a>
+					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "User", '/user')}>User</a>
+					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "History", '/history')}>History</a>
+					<a className="nav-item is-tab" onClick={this.handleTab.bind(this, "Contact", '/contact')}>Contact</a>
 			    </div>
 			  </div>
 			</nav>

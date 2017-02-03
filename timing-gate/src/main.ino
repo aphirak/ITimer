@@ -7,11 +7,11 @@
 
 // const char* ssid     = "ITimer_wifi";
 // const char* password = "aaaaaaaaaa";
-const char* ssid     = "bach1";
-const char* password = "aaaaaaaaaa";
+const char* ssid     = "James";
+const char* password = "12345678";
 
-// #define mqtt_server "192.168.42.1"
-#define mqtt_server "192.168.2.44"
+// #define mqtt_server "192.168.42.3"
+#define mqtt_server "172.20.10.2"
 // #define mqtt_port 1883
 #define mqtt_port 1900
 

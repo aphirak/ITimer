@@ -13,7 +13,11 @@ import {
 	Contact,
 	History,
 	Timer,
-	User
+	ListUser,
+	AddUser,
+	EditUser,
+	ProfileUser,
+	HistoryUser
 } from 'containers'
 
 
@@ -21,11 +25,19 @@ export default (store, history) => (
 	<Router history={syncHistoryWithStore(history, store)}>
 		<Route path='/' component={App}>
 			<IndexRoute component={Home} />
-			<route path='competition' component={Competition} />
-			<route path='timer' component={Timer} />
-			<route path='user' component={User} />
-			<route path='history' component={History} />
-			<route path='contact' component={Contact} />
+			<Route path='competition' component={Competition} />
+			<Route path='timer' component={Timer} />
+			<Route path='user'>
+				<IndexRoute component={ListUser} />
+				<Route path='add' component={AddUser} />
+				<Route path=':id'>
+					<IndexRoute component={ProfileUser} />
+					<Route path='edit' component={EditUser} />
+					<Route path='history' component={HistoryUser} />
+				</Route>
+			</Route>
+			<Route path='history' component={History} />
+			<Route path='contact' component={Contact} />
 			<Redirect from='*' to='/' />
 		</Route>
 	</Router>

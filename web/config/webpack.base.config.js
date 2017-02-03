@@ -12,6 +12,7 @@ module.exports = {
 	],
 	output: {
 		path: path.resolve(projectRoot, 'build/static'),
+		publicPath: '/static/',
 		filename: 'bundle.js'
 	},
 	resolve: {
@@ -64,7 +65,7 @@ module.exports = {
 			},{
 				test: /\.(png|jpg|gif)$/,
 				include: path.resolve(projectRoot, 'src/assets'),
-				loader: 'url?limit=25000'
+				use: 'url?limit=25000'
 			}
 		]
 	},
