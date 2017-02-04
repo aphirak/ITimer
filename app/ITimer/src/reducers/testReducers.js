@@ -1,10 +1,10 @@
 const initialState = {
-	value: ''
+	value: {}
 }
 
 export default (state = initialState, action) => {
 	switch(action.type) {
-		case 'TEST_SUCCESS':
+		case 'LOAD_TEST_SUCCESS':
 			return {
 				...state,
 				value: action.payload

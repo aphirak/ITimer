@@ -1,22 +1,26 @@
-export default (text) => ({
-	type : 'TEST_SUCCESS',
-	payload : text
+import axios from 'axios'
+
+const requestStart = () => ({
+	type: 'LOAD_TEST_REQUEST'
 })
 
-// import { CALL_API } from 'redux-api-middleware'
+const requestSuccess = (res) => ({
+	type: 'LOAD_TEST_SUCCESS',
+	payload: res.data
+})
 
-// export default () => dispatch => dispatch({
-// 	[CALL_API]: {
-// 		endpoint: `http://localhost:9090/users`,
-// 		headers: {
-// 		  'Accept': 'application/json',
-// 		  'Content-Type': 'application/json'
-// 		},
-// 		method: 'GET',
-// 		types: [
-// 			'LOAD_USER_REQUEST',
-// 			'LOAD_USER_SUCCESS',
-// 			'LOAD_USER_FAILURE'
-// 	    ]
-// 	}
-// })
+const requestFailure = (err) => ({
+	type: 'LOAD_TEST_FAILURE',
+	payload: err
+})
+
+export default () => dispatch => {
+	dispatch(requestStart())
+	axios.get('https://jsonplaceholder.typicode.com/posts')
+		.then((res) => {
+			dispatch(requestSuccess(res))
+		})
+		.catch((err) => {
+			dispatch(requestFailure(err))
+		})
+}

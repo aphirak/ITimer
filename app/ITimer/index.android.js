@@ -1,5 +1,5 @@
 import React from 'react'
 import { AppRegistry } from 'react-native'
-import App from './src/App'
+import Root from 'ITimer/src/Root'
 
-AppRegistry.registerComponent('ITimer', () => App)
+AppRegistry.registerComponent('ITimer', () => Root)
