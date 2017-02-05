@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import { Actions, DefaultRenderer } from 'react-native-router-flux'
-import { Container, Content, Footer, FooterTab, Button, Icon, Badge } from 'native-base'
+import { Header, Title, Container, Content, Footer, FooterTab, Button, Icon, Badge } from 'native-base'
 
 export default class App extends Component {
 
@@ -12,7 +12,7 @@ export default class App extends Component {
 	switchTab(tab){
 		switch(tab){
 			case 0:
-				Actions.competition({ type: "replace" })
+				Actions.competition({ type: "replace", direction: 'horizontal' })
 				break
 			case 1:
 				Actions.timer({ type: "replace" })
@@ -27,6 +27,15 @@ export default class App extends Component {
 	render(){
 		return (
             <Container>
+                <Header>
+                    <Button transparent>
+                        <Icon name='ios-arrow-back' />
+                    </Button>
+                    <Title>{this.props.navigationState.children[0].title}</Title>
+                    <Button transparent onPress={this.props.navigationState.children[0].aaa}>
+                        <Icon name='ios-menu' />
+                    </Button>
+                </Header>
                 <Content>
 				   <DefaultRenderer 
 						navigationState={this.props.navigationState.children[0]} 
@@ -36,13 +45,12 @@ export default class App extends Component {
                 <Footer >
                     <FooterTab>
                         <Button active={this.state.footerTab == 0} onPress={this.switchTab.bind(this, 0)}>
-                            <Badge>2</Badge>
                             Competition
                             <Icon name='ios-apps-outline' />
                         </Button>
                         <Button active={this.state.footerTab == 1} onPress={this.switchTab.bind(this, 1)}>
                             Timer
-                            <Icon name='ios-compass' />
+                            <Icon name='ios-clock-outline' />
                         </Button>
                         <Button active={this.state.footerTab == 2} onPress={this.switchTab.bind(this, 2)}>
                             User

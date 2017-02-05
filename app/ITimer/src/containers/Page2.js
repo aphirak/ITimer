@@ -11,24 +11,6 @@ export default class Page2 extends Component {
 		return (
 			<View style={{"backgroundColor" : "blue", "paddingTop": 10}}>
 				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
-				<Text>Page2</Text>
 			</View>
 		)
 	}

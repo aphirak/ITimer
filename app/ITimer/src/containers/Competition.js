@@ -1,24 +1,97 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-import { Button, Icon, Header, Title } from 'native-base'
+import { View, StyleSheet, Dimensions } from 'react-native'
+import { List, ListItem, Col, Row, Grid, Button, Text, Card, CardItem } from 'native-base'
+import { connect } from 'react-redux'
+import * as actions from 'ITimer/src/actions'
 
-export default class Competition extends Component {
+const { getCompetitions, resetCompetitions } = actions
+
+const styles = StyleSheet.create({
+	colStyle: {
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	cardStyle: {
+		flex: 1,
+		marginTop: 10,
+		marginLeft: 5,
+		marginRight: 5
+	},
+	listStyle: {
+		marginRight: 15,
+	},
+	buttonStyle: {
+		flex: 1,
+		alignSelf: 'stretch',
+		backgroundColor: '#fff',
+		borderRadius: 5,
+		borderWidth: 1,
+		borderColor: '#FC3C5F'
+	},
+	textButtonStyle: {
+		alignSelf: 'center',
+		color: '#FC3C5F',
+		fontSize: 16,
+		fontWeight: '600',
+	}
+})
+
+class Competition extends Component {
+
+	componentWillMount(){
+		this.props.getCompetitions()
+	}
+
 	render(){
+		let competitions = [...this.props.competition.data].sort((a, b) => (a.total_time - b.total_time))
 		return(
-			<View>
-                <Header>
-                    <Button transparent>
-                        <Icon name='ios-arrow-back' />
-                    </Button>
-                    
-                    <Title>Competition</Title>
-                    
-                    <Button transparent>
-                        <Icon name='ios-menu' />
-                    </Button>
-                </Header>
-				<Text>Competition</Text>				
-			</View>
+			<Card style={styles.cardStyle}>
+	            <CardItem>
+	                <List style={styles.listStyle}>
+		            	<ListItem>
+			                <Grid>
+			                    <Col style={styles.colStyle}><Text>Time</Text></Col>
+			                    <Col style={styles.colStyle}><Text>Distance</Text></Col>
+			                    <Col style={styles.colStyle}><Text>Name</Text></Col>
+			                </Grid>
+		                </ListItem>
+						{
+							competitions.map((competition, index) => {
+			                    return(
+			                    	<ListItem key={index}>
+						                <Grid>
+						                    <Col style={styles.colStyle}><Text>{competition.total_time}</Text></Col>
+						                    <Col style={styles.colStyle}><Text>{competition.total_distance}</Text></Col>
+						                    <Col style={styles.colStyle}><Text>{competition.uid}</Text></Col>
+						                </Grid>
+				                    </ListItem>
+				                )
+							})
+						}
+	                </List>
+                </CardItem>
+                <CardItem button style={styles.buttonStyle} onPress={this.props.resetCompetitions}>
+					 <Text style={styles.textButtonStyle}>Reset</Text>
+	             </CardItem>
+			</Card>
 		)
 	}
 }
+
+const mapStateToProps = (state) => ({
+	competition: state.competition
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	getCompetitions(){
+		dispatch(getCompetitions())
+	},
+	resetCompetitions(){
+		dispatch(resetCompetitions())
+	}
+})
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(Competition)
