@@ -9,8 +9,8 @@ export default class Page2 extends Component {
 
 	render(){
 		return (
-			<View style={{"backgroundColor" : "blue", "paddingTop": 10}}>
-				<Text>Page2</Text>
+			<View style={{"paddingTop": 60}}>
+
 			</View>
 		)
 	}

@@ -23,8 +23,8 @@ class Home extends Component {
 					<br />
 					<div className="columns">
 					  <div className="column">
-					  <div className="card">
-					  <header class="card-header">
+					  <div className="card home">
+					  <header>
 						 <p className="card-header-title " style={{ "justifyContent": "center", 'alignItems': 'center' }} >
 							<a>Competition</a>
 						</p>
@@ -37,8 +37,8 @@ class Home extends Component {
 						</div>
 					  </div>
 					  <div className="column">
-					  <div className="card">
-					  <header class="card-header">
+					  <div className="card home">
+					  <header>
 						 <p className="card-header-title " style={{ "justifyContent": "center", 'alignItems': 'center' }} >
 							<a>Timer</a>
 						</p>
@@ -51,8 +51,8 @@ class Home extends Component {
 						</div>
 					  </div>
 					  <div className="column">
-					  <div className="card">
-					  <header class="card-header">
+					  <div className="card home">
+					  <header>
 						 <p className="card-header-title " style={{ "justifyContent": "center", 'alignItems': 'center' }} >
 							<a>History</a>
 						</p>

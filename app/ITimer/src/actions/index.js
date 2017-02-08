@@ -1,8 +1,3 @@
 import testAction from './testAction'
-import { getCompetitions, resetCompetitions } from 'ITimer/src/actions/competitions'
-
-export {
-	testAction,
-	getCompetitions,
-	resetCompetitions
-}
+export * from 'ITimer/src/actions/competitions'
+export * from 'ITimer/src/actions/users'

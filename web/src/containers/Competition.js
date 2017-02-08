@@ -26,9 +26,6 @@ class Competition extends Component {
 						    <strong>Competition</strong>
 						  </div>
 						  <div className="column is-3">
-							  <button className="button is-primary">Primary</button>
-							  <button className="button is-info">Info</button>
-							  <button className="button is-success">Success</button>
 						  </div>
 						</div>
 					</div>
