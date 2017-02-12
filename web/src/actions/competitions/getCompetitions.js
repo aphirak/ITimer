@@ -22,7 +22,7 @@ const requestFail = (error) =>  {
 export default () => {
 	return (dispatch) => {
 		dispatch(requestFetch())
-        const io = socket('http://localhost:9090')
+        const io = socket(__API__)
 		io.on('competitions', (response) => {
 			dispatch(requestSuccess(response))
 		})

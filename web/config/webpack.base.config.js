@@ -79,6 +79,9 @@ module.exports = {
 			postcss: [autoprefixer()],
 	        context: __dirname,
 	      }
-	    })
+	    }),
+	    new webpack.DefinePlugin({
+	    	__API__: '"http://192.168.3.2:9090"'
+	    }),
 	]
 }

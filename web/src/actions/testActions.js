@@ -1,6 +1,6 @@
 // import axios from 'axios'
 import socket from 'socket.io-client'
-let io = socket('http://localhost:9090')
+let io = socket(__API__)
 
 const requestFetch = () => {
     return {

@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware'
 
 export default (id) => dispatch => dispatch({
 	[CALL_API]: {
-		endpoint: `http://localhost:9090/users/${id}`,
+		endpoint: `${__API__}/users/${id}`,
 	    headers: {
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'

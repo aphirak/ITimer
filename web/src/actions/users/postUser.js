@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 
 export default (value) => dispatch => dispatch({
 	[CALL_API]: {
-		endpoint: `http://localhost:9090/users`,
+		endpoint: `${__API__}/users`,
 	    headers: {
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
