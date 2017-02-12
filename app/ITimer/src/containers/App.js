@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
 import { Actions, DefaultRenderer } from 'react-native-router-flux'
-import { Header, Title, Container, Content, Footer, FooterTab, Button, Icon, Badge, Text } from 'native-base'
+import { Container, Header, Title, Button, Left, Right, Body, Icon, Content, Footer, FooterTab, Text } from 'native-base'
 
 export default class App extends Component {
 
@@ -28,21 +27,27 @@ export default class App extends Component {
 		return (
             <Container>
                 <Header>
-                    <Button transparent>
-                        <Icon name='ios-arrow-back' />
-                    </Button>
-                    <Title>{this.props.navigationState.children[0].title}</Title>
-                    <Button transparent onPress={this.props.navigationState.children[0].aaa}>
-                        <Icon name='ios-menu' />
-                    </Button>
+                    <Left>
+                        <Button transparent>
+                            <Icon name='arrow-back' />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title>{this.props.navigationState.children[0].title}</Title>
+                    </Body>
+                    <Right>
+                        <Button transparent>
+                            <Icon name='menu' onPress={this.props.navigationState.children[0].aaa}/>
+                        </Button>
+                    </Right>
                 </Header>
-                <Content>
+                <Content padder>
 				   <DefaultRenderer 
 						navigationState={this.props.navigationState.children[0]} 
 						onNavigate={this.props.onNavigate} 
 				   />
                 </Content>
-                <Footer >
+                <Footer>
                     <FooterTab>
                         <Button active={this.state.footerTab == 0} onPress={this.switchTab.bind(this, 0)}>
                             <Text>Competition</Text>
