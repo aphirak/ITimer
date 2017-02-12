@@ -6,7 +6,7 @@ import * as actions from 'ITimer/src/actions'
 
 const { getCompetitions, resetCompetitions } = actions
 
-const styles = StyleSheet.create({
+const styles = {
 	colStyle: {
 		alignItems: 'center',
 		justifyContent: 'center'
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '600',
 	}
-})
+}
 
 class Competition extends Component {
 
@@ -47,7 +47,6 @@ class Competition extends Component {
 		return(
 			<Card style={styles.cardStyle}>
 	            <CardItem>
-	                <List style={styles.listStyle}>
 		            	<ListItem>
 			                <Grid>
 			                    <Col style={styles.colStyle}><Text>Time</Text></Col>
@@ -68,7 +67,6 @@ class Competition extends Component {
 				                )
 							})
 						}
-	                </List>
                 </CardItem>
                 <CardItem button style={styles.buttonStyle} onPress={this.props.resetCompetitions}>
 					 <Text style={styles.textButtonStyle}>Reset</Text>

@@ -1,17 +1,27 @@
-import { CALL_API } from 'redux-api-middleware'
+import axios from 'axios'
+import config from 'ITimer/config'
 
-export default (value) => dispatch => dispatch({
-	[CALL_API]: {
-		endpoint: `http://localhost:9090/timers`,
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    },
-		method: 'DELETE',
-		types: [
-			'STOP_TIMER_REQUEST',
-			'STOP_TIMER_SUCCESS',
-			'STOP_TIMER_FAILURE'
-	    ]
-	}
+const requestStart = () => ({
+	type: 'STOP_TIMER_REQUEST'
 })
+
+const requestSuccess = (res) => ({
+	type: 'STOP_TIMER_SUCCESS',
+	payload: res.data
+})
+
+const requestFailure = (err) => ({
+	type: 'STOP_TIMER_FAILURE',
+	payload: err
+})
+
+export default () => dispatch => {
+	dispatch(requestStart())
+	axios.delete(`${config.host}/timers`)
+		.then((res) => {
+			dispatch(requestSuccess(res))
+		})
+		.catch((err) => {
+			dispatch(requestFailure(err))
+		})
+}

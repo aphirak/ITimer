@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { Actions, DefaultRenderer } from 'react-native-router-flux'
-import { Header, Title, Container, Content, Footer, FooterTab, Button, Icon, Badge } from 'native-base'
+import { Header, Title, Container, Content, Footer, FooterTab, Button, Icon, Badge, Text } from 'native-base'
 
 export default class App extends Component {
 
@@ -45,15 +45,15 @@ export default class App extends Component {
                 <Footer >
                     <FooterTab>
                         <Button active={this.state.footerTab == 0} onPress={this.switchTab.bind(this, 0)}>
-                            Competition
+                            <Text>Competition</Text>
                             <Icon name='ios-apps-outline' />
                         </Button>
                         <Button active={this.state.footerTab == 1} onPress={this.switchTab.bind(this, 1)}>
-                            Timer
+                            <Text>Timer</Text>
                             <Icon name='ios-clock-outline' />
                         </Button>
                         <Button active={this.state.footerTab == 2} onPress={this.switchTab.bind(this, 2)}>
-                            User
+                            <Text>User</Text>
                             <Icon name='ios-contact-outline' />
                         </Button>
                     </FooterTab>

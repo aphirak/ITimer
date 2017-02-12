@@ -1,4 +1,5 @@
 import socket from 'socket.io-client'
+import config from 'ITimer/config'
 
 const requestFetch = () => {
     return {
@@ -22,7 +23,7 @@ const requestFail = (error) =>  {
 export default () => {
 	return (dispatch) => {
 		dispatch(requestFetch())
-        const io = socket('http://localhost:9090')
+        const io = socket(config.host, {jsonp: false})
 		io.on('timer', (response) => {
 			dispatch(requestSuccess(response))
 		})

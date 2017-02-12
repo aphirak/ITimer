@@ -1,27 +1,27 @@
-import { CALL_API } from 'redux-api-middleware'
-import { push } from 'react-router-redux'
+import axios from 'axios'
+import config from 'ITimer/config'
 
-export default (value, id) => dispatch => dispatch({
-	[CALL_API]: {
-		endpoint: `http://localhost:9090/users/${id}`,
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    },
-		method: 'PATCH',
-		body: JSON.stringify(value),
-		types: [
-			'PATCH_USER_REQUEST',
-			{
-				type: 'PATCH_USER_SUCCESS',
-				payload: (action, state, res) => {
-					return res.json().then((user) => {
-						dispatch(push(`/user/${id}`))
-						return user
-					})
-				}
-			},
-			'PATCH_USER_FAILURE'
-	    ]
-	}
+const requestStart = () => ({
+	type: 'PATCH_USER_REQUEST'
 })
+
+const requestSuccess = (res) => ({
+	type: 'PATCH_USER_SUCCESS',
+	payload: res.data
+})
+
+const requestFailure = (err) => ({
+	type: 'PATCH_USER_FAILURE',
+	payload: err
+})
+
+export default (value, id) => dispatch => {
+	dispatch(requestStart())
+	axios.patch(`${config.host}/users/${id}`, value)
+		.then((res) => {
+			dispatch(requestSuccess(res))
+		})
+		.catch((err) => {
+			dispatch(requestFailure(err))
+		})
+}

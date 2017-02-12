@@ -1,4 +1,5 @@
 import axios from 'axios'
+import config from 'ITimer/config'
 
 const requestStart = () => ({
 	type: 'GET_USER_BY_ID_REQUEST'
@@ -16,7 +17,7 @@ const requestFailure = (err) => ({
 
 export default (id) => dispatch => {
 	dispatch(requestStart())
-	axios.get(`http://localhost:9090/users/${id}`)
+	axios.get(`${config.host}/users/${id}`)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

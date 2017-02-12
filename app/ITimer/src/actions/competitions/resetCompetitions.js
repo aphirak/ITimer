@@ -1,4 +1,5 @@
 import axios from 'axios'
+import config from 'ITimer/config'
 
 const requestStart = () => ({
 	type: 'RESET_COMPETTIONS_REQUEST'
@@ -16,7 +17,7 @@ const requestFailure = (err) => ({
 
 export default () => dispatch => {
 	dispatch(requestStart())
-	axios.delete('http://localhost:9090/competitions')
+	axios.delete(`${config.host}/competitions`)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

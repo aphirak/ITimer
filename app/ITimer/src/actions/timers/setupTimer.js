@@ -1,18 +1,27 @@
-import { CALL_API } from 'redux-api-middleware'
+import axios from 'axios'
+import config from 'ITimer/config'
 
-export default (value) => dispatch => dispatch({
-	[CALL_API]: {
-		endpoint: `http://localhost:9090/timers`,
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    },
-		method: 'POST',
-		body: JSON.stringify(value),
-		types: [
-			'SETUP_TIMER_REQUEST',
-			'SETUP_TIMER_SUCCESS',
-			'SETUP_TIMER_FAILURE'
-	    ]
-	}
+const requestStart = () => ({
+	type: 'SETUP_TIMER_REQUEST'
 })
+
+const requestSuccess = (res) => ({
+	type: 'SETUP_TIMER_SUCCESS',
+	payload: res.data
+})
+
+const requestFailure = (err) => ({
+	type: 'SETUP_TIMER_FAILURE',
+	payload: err
+})
+
+export default (value) => dispatch => {
+	dispatch(requestStart())
+	axios.post(`${config.host}/timers`, value)
+		.then((res) => {
+			dispatch(requestSuccess(res))
+		})
+		.catch((err) => {
+			dispatch(requestFailure(err))
+		})
+}

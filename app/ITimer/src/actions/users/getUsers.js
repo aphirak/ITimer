@@ -1,17 +1,27 @@
-import { CALL_API } from 'redux-api-middleware'
+import axios from 'axios'
+import config from 'ITimer/config'
 
-export default () => dispatch => dispatch({
-	[CALL_API]: {
-		endpoint: `http://localhost:9090/users`,
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    },
-		method: 'GET',
-		types: [
-			'GET_USERS_REQUEST',
-			'GET_USERS_SUCCESS',
-			'GET_USERS_FAILURE'
-	    ]
-	}
+const requestStart = () => ({
+	type: 'GET_USERS_REQUEST'
 })
+
+const requestSuccess = (res) => ({
+	type: 'GET_USERS_SUCCESS',
+	payload: res.data
+})
+
+const requestFailure = (err) => ({
+	type: 'GET_USERS_FAILURE',
+	payload: err
+})
+
+export default () => dispatch => {
+	dispatch(requestStart())
+	axios.get(`${config.host}/users`)
+		.then((res) => {
+			dispatch(requestSuccess(res))
+		})
+		.catch((err) => {
+			dispatch(requestFailure(err))
+		})
+}
