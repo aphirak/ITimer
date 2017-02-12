@@ -1,7 +1,7 @@
 const config = {
   mqtt: {
     host: 'localhost',
-    port: 1900,
+    port: 1883,
   },
   api: {
     port: 9090    

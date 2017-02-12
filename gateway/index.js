@@ -5,7 +5,6 @@ import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import axios from 'axios'
-import wifi from 'node-wifi'
 import config from './config'
 import {
 	User,
@@ -21,15 +20,12 @@ import {
 	HistoryService,
 	DetailService
 } from './services'
+import { wifi } from './routes'
 
 const client  = mqtt.connect(config.mqtt)
 const app = express()
 const timer = new NanoTimer()
 const handleTimer = new NanoTimer()
-
-wifi.init({
-    iface : null
-})
 
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
@@ -233,6 +229,8 @@ client.on('message', (topic, payload) => {
 
 //-------------------------------------------------------------------------------
 //------------------------------ Api --------------------------------------------
+
+app.use('/wifi', wifi);
 
 app.route('/timers')
 	.post((req, res) => {

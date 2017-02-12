@@ -23,6 +23,7 @@
     "mysql": "^2.13.0",
     "nanotimer": "^0.3.14",
     "node-wifi": "^1.2.2",
+    "shelljs": "^0.7.6",
     "socket.io": "^1.7.2"
   }
 }
