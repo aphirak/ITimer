@@ -11,7 +11,6 @@ const styles = {
 	}
 }
 
-
 class Competition extends Component {
 
 	componentWillMount(){

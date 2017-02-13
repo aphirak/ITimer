@@ -1,1 +1,1 @@
-export getHistoriesByUserId from 'actions/histories/getHistoriesByUserId'
+export getHistoriesByUserId from './getHistoriesByUserId'

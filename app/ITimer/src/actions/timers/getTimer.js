@@ -23,7 +23,7 @@ const requestFail = (error) =>  {
 export default () => {
 	return (dispatch) => {
 		dispatch(requestFetch())
-        const io = socket(config.host, {jsonp: false})
+        const io = socket(config.host, { jsonp: false })
 		io.on('timer', (response) => {
 			dispatch(requestSuccess(response))
 		})
