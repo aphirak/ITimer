@@ -30,7 +30,7 @@ class ListHistoryUser extends Component {
 			speed: []
 		}
 		this.props.histories.map((history) => {
-			let data = moment(history.created_at).format("DD/MM/YYYY")
+			let data = moment(history.created_at).format("DD/MM/YY")
 			dataChart.time.push({ name: data, Time: history.total_time })
 			dataChart.speed.push({ name: data, Speed: history.speed_average })
 		})

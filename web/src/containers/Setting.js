@@ -111,7 +111,7 @@ const mapDispatchToProps = (dispatch) => ({
 		dispatch(getWifi())
 	},
 	onSubmit(value){
-		dispatch(postWifi())
+		dispatch(postWifi(value))
 	}
 })
 

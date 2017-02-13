@@ -4,6 +4,10 @@ import sh from 'shelljs'
 
 const router = express.Router()
 
+wifi.init({
+	iface: 'wlan1'
+})
+
 router.route('/')
 	.get((req, res) => {
 		wifi.scan(function(err, networks) {

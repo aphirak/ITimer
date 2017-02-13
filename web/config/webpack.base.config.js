@@ -81,7 +81,7 @@ module.exports = {
 	      }
 	    }),
 	    new webpack.DefinePlugin({
-	    	__API__: '"http://192.168.42.1:9090"'
+	    	__API__: '"http://localhost:9090"'
 	    }),
 	]
 }

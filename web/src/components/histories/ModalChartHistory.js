@@ -25,6 +25,9 @@ export default ({ data, isActive, inActiveModal }) => {
 					<Tooltip/>
 					<Line type="monotone" dataKey="Time" stroke="#00CCA9" strokeWidth="2" activeDot={{r: 8}}/>
 				</LineChart>
+				<div>
+					<strong>Vertical</strong> : time (s) , <strong>Horizontal</strong> : date
+				</div>
 
 				<h3>Speed</h3>
 				<br />
@@ -34,6 +37,9 @@ export default ({ data, isActive, inActiveModal }) => {
 					<Tooltip/>
 					<Line type="monotone" dataKey="Speed" stroke="#00CCA9" strokeWidth="2" activeDot={{r: 8}}/>
 				</LineChart>
+				<div>
+					<strong>Vertical</strong> : speed (m/s) , <strong>Horizontal</strong> : date
+				</div>
 			</Modal>
 	)
 }
