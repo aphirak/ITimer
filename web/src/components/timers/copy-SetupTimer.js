@@ -4,20 +4,13 @@ import Layout from 'components/Layout'
 
 
 const renderField = ({ input, label, type, min, max, step }) => {
-	return (
-		<div className="columns">
-			<div className="column is-4" />
-			<div className="column has-text-right">
-				<label>{label}</label>{' : '}
-			</div>
-			<div className="column has-text-left">
-				<input {...input} type={type} min={min} max={max} step={step} />
-			</div>
-			<div className="column is-4" />
-		</div>
-	)
-}
+	return <div>
+    <label>{label}</label>{' : '}
+	<input {...input} type={type} min={min} max={max} step={step} />
+	<br />
+  </div>
 
+}
 
 // const renderFields = ({ nGate }) => {
 // 	let fields = []
@@ -59,11 +52,31 @@ const SetupTimer = ({ handleSubmit, uid, nGate, distanceType, distances }) => {
 					type="number" 
 					label='Number of gate'
 				/>
+				<label>Distance Type</label>{' : '} 
+				<Field name="distanceType" component="select">
+					<option value={undefined}></option>
+					<option value={0}>Not equal</option>
+					<option value={1}>Equal</option>
+				</Field>
 		        <Field
 					name={`distances[0]`}
 					type="number"
 					component={renderField}
 					label={`Distance 1 - 2`}
+				/> 
+				<br />
+		        <Field
+					name={`distances[1]`}
+					type="number"
+					component={renderField}
+					label={`Distance 2 - 3`}
+				/> 
+				<br />
+		        <Field
+					name={`distances[2]`}
+					type="number"
+					component={renderField}
+					label={`Distance 3 - 4`}
 				/> 
 				<br />
 				<button

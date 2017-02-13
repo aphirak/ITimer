@@ -17,7 +17,8 @@ import {
 	AddUser,
 	EditUser,
 	ProfileUser,
-	ListHistoryUser
+	ListHistoryUser,
+	Setting
 } from 'containers'
 
 
@@ -38,6 +39,7 @@ export default (store, history) => (
 			</Route>
 			<Route path='history' component={History} />
 			<Route path='contact' component={Contact} />
+			<Route path='setting' component={Setting} />
 			<Redirect from='*' to='/' />
 		</Route>
 	</Router>

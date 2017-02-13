@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import Layout from 'components/Layout'
 import * as actions from 'actions'
 
@@ -51,6 +52,7 @@ class Competition extends Component {
 					    <th>Distance</th>
 					    <th>Time</th>
 					    <th>Speed</th>
+					    <th>Option</th>
 					  </tr>
 					</thead>
 					<tbody>
@@ -63,6 +65,9 @@ class Competition extends Component {
 							        <td>{competition.total_distance} m</td>
 							        <td>{competition.total_time} s</td>
 							        <td>{competition.speed_average} m/s</td>
+							        <td>
+										<Link to={`/user/${competition.uid}/history`} className="button is-primary">Detail</Link>
+							        </td>
 							      </tr>
 								)
 							})
@@ -79,7 +84,8 @@ class Competition extends Component {
 
 
 const mapStateToProps = (state) => ({
-	competition: state.competition
+	competition: state.competition,
+	users: state.user.values
 })
 
 const mapDispatchToProps = (dispatch) => ({

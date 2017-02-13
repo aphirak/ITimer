@@ -6,6 +6,7 @@ import timerReducers from 'reducers/timerReducers'
 import competitionReducers from 'reducers/competitionReducers'
 import userReducers from 'reducers/userReducers'
 import historyReducers from 'reducers/historyReducers'
+import wifiReducers from 'reducers/wifiReducers'
 
 export default combineReducers({
 	routing: routerReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
 	timer: timerReducers,
 	competition: competitionReducers,
 	user: userReducers,
-	history: historyReducers
+	history: historyReducers,
+	wifi: wifiReducers
 })
