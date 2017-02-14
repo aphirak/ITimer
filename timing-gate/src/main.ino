@@ -62,7 +62,7 @@ void loop() {
 
   if(!client.connected()){
     Serial.print("Attemping MQTT connecting...");
-    if(client.connect("TimingGate")){
+    if(client.connect("TimingGate222")){
       Serial.println("connected");
       client.subscribe("/TIMINGGATE");
       digitalWrite(LED_CONNECTION, 1);

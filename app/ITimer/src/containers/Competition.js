@@ -24,7 +24,7 @@ class Competition extends Component {
 	                <CardItem cardBody style={styles.cardItemStyle}>
 						<ListItem>
 							<Grid>
-								<Col><Text>Name</Text></Col>
+								<Col><Text>User ID</Text></Col>
 								<Col><Text>Distance</Text></Col>
 								<Col><Text>Time</Text></Col>
 							</Grid>
@@ -34,8 +34,8 @@ class Competition extends Component {
 	                    <List dataArray={competitions} renderRow={(competition) =>
 	                        <ListItem>
 			                    <Col><Text>{competition.uid}</Text></Col>
-			                    <Col><Text>{competition.total_distance}</Text></Col>
-			                    <Col><Text>{competition.total_time}</Text></Col>
+			                    <Col><Text>{competition.total_distance} m</Text></Col>
+			                    <Col><Text>{competition.total_time} s</Text></Col>
 	                        </ListItem>
 	                    } />
 	                </CardItem>

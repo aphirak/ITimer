@@ -19,10 +19,12 @@ class Timer extends Component {
 				{
 					(!isSetup) ? 
 						<SetupTimer 
-							onSubmit={(values) => alert(JSON.stringify(values))}
+							onSubmit={this.props.setupTimer}
 						/> :
-						<DisplayTimer 
-							onSubmit={(values) => alert(JSON.stringify(values))}
+						<DisplayTimer
+							{...this.props.timer}
+							stopTimer={this.props.stopTimer}
+							goSetup={this.props.goSetup}
 						/>
 				}
 			</View>
@@ -35,15 +37,20 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-	onSubmit(value){
-		dispatch(setupTimer(value))
+	setupTimer(values){
+		dispatch(setupTimer(values))
 	},
 	stopTimer(){
 		dispatch(stopTimer())
 	},
 	getTimer(){
-		console.log('eiei')
 		dispatch(getTimer())
+	},
+	goSetup(){
+		dispatch({
+			type: 'SET_ISSETUP_TIMER',
+			payload: false
+		})
 	}
 })
 
