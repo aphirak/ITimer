@@ -6,6 +6,9 @@ import { Card, CardItem, Form, Item, Input, Label, Button, Text, Body, Grid, Col
 const styles = {
 	cardItemStyle: {
 		marginRight: 15
+	},
+	titleText: {
+		fontWeight: 'bold'
 	}
 }
 
@@ -27,7 +30,7 @@ const renderField = ({ input, label ,...inputProps }) => {
 const SetupTimer = ({ handleSubmit }) => (
 	<Card>
         <CardItem header bordered style={{ justifyContent: 'center' }}>
-             <H2 >Setup</H2>
+             <H2 style={styles.titleText}>Setup</H2>
         </CardItem>
 	    <Form>
 			<Field

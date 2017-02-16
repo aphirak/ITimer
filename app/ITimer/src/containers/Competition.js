@@ -8,6 +8,9 @@ const { getCompetitions, resetCompetitions } = actions
 const styles = {
 	cardItemStyle: {
 		marginRight: 15
+	},
+	titleText: {
+		fontWeight: 'bold'
 	}
 }
 
@@ -21,16 +24,16 @@ class Competition extends Component {
 		let competitions = [...this.props.competition.data].sort((a, b) => (a.total_time - b.total_time))
 		return(
 	            <Card>
-	                <CardItem cardBody style={styles.cardItemStyle}>
+	                <CardItem cardBody bordered>
 						<ListItem>
 							<Grid>
-								<Col><Text>User ID</Text></Col>
-								<Col><Text>Distance</Text></Col>
-								<Col><Text>Time</Text></Col>
+								<Col><Text style={styles.titleText}>User ID</Text></Col>
+								<Col><Text style={styles.titleText}>Distance</Text></Col>
+								<Col><Text style={styles.titleText}>Time</Text></Col>
 							</Grid>
 						</ListItem>
 	                </CardItem>
-	                <CardItem cardBody style={styles.cardItemStyle}>
+	                <CardItem cardBody>
 	                    <List dataArray={competitions} renderRow={(competition) =>
 	                        <ListItem>
 			                    <Col><Text>{competition.uid}</Text></Col>

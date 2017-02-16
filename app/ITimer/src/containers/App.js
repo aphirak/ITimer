@@ -17,29 +17,36 @@ export default class App extends Component {
 				Actions.timer({ type: "replace" })
 				break
 			case 2:
-				Actions.user({ type: "replace" })
+				Actions.listUser({ type: "replace" })
 				break
 		}
 		this.setState({ footerTab: tab })
 	}
 
 	render(){
+        let { title, rightNav, leftNav, leftNavIcon, rightNavIcon } = this.props.navigationState.children[0]
 		return (
             <Container>
                 <Header>
                     <Left>
-                        <Button transparent>
-                            <Icon name='arrow-back' />
-                        </Button>
+                        {
+                            (leftNav != undefined) &&
+                                <Button transparent onPress={leftNav}>
+                                    <Icon name={leftNavIcon} />
+                                </Button>
+                        }
                     </Left>
                     <Body>
-                        <Title>{this.props.navigationState.children[0].title}</Title>
+                        <Title>{title}</Title>
                     </Body>
                     <Right>
-                        <Button transparent>
-                            <Icon name='menu' onPress={this.props.navigationState.children[0].aaa}/>
-                        </Button>
-                    </Right>
+                        {   
+                            (rightNav != undefined) &&
+                                <Button transparent onPress={rightNav}>
+                                    <Icon name={rightNavIcon} />
+                                </Button>
+                        }
+                    </Right>   
                 </Header>
                 <Content padder>
 				   <DefaultRenderer 
@@ -50,15 +57,12 @@ export default class App extends Component {
                 <Footer>
                     <FooterTab>
                         <Button active={this.state.footerTab == 0} onPress={this.switchTab.bind(this, 0)}>
-                            <Text>Competition</Text>
                             <Icon name='ios-apps-outline' />
                         </Button>
                         <Button active={this.state.footerTab == 1} onPress={this.switchTab.bind(this, 1)}>
-                            <Text>Timer</Text>
                             <Icon name='ios-clock-outline' />
                         </Button>
                         <Button active={this.state.footerTab == 2} onPress={this.switchTab.bind(this, 2)}>
-                            <Text>User</Text>
                             <Icon name='ios-contact-outline' />
                         </Button>
                     </FooterTab>

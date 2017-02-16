@@ -8,6 +8,9 @@ const styles = {
   },
   totalTextStyle: {
     color: '#40CC49'
+  },
+  titleText: {
+    fontWeight: 'bold'
   }
 }
 
@@ -19,7 +22,7 @@ const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGat
   return (
     <Card>
       <CardItem header bordered style={{ justifyContent: 'center' }}>
-        <H2>Time</H2>
+        <H2 style={styles.titleText}>Time</H2>
       </CardItem>
       <CardItem style={{ justifyContent: 'center' }}>
         <H2>{`${time}`} s</H2>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Actions } from 'react-native-router-flux'
 import config from 'ITimer/config'
 
 const requestStart = () => ({
@@ -19,6 +20,7 @@ export default (value) => dispatch => {
 	dispatch(requestStart())
 	axios.post(`${config.host}/users`, value)
 		.then((res) => {
+			Actions.listUser({ type: 'reset' })
 			dispatch(requestSuccess(res))
 		})
 		.catch((err) => {

@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 export default class Page2 extends Component {
 
 	componentWillMount(){
-		console.log('aaa')
+		console.log(this.props.uid)
 	}
 
 	render(){
