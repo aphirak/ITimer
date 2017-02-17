@@ -11,7 +11,9 @@ import {
 	AddUser,
 	EditUser,
 	ListHistoryUser,
-	Setting
+	Setting,
+	DetailHistory,
+	ChartHistory
 } from 'ITimer/src/containers'
 
 export default () => (
@@ -25,6 +27,8 @@ export default () => (
 			<Scene key='editUser' component={EditUser} title='User' leftNav={() => Actions.listUser({ type: "reset" })} leftNavIcon='arrow-back' />
 			<Scene key='history' component={ListHistoryUser} title='History' />
 			<Scene key='setting' component={Setting} title='Setting' />
+			<Scene key='detailHistory' component={DetailHistory} title='Detail' />
+			<Scene key='chartHistory' component={ChartHistory} title='Chart' />
 			<Scene key='page2' component={Page2} title='page2' />
 		</Scene>
 	</Router>

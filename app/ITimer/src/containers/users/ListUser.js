@@ -25,7 +25,7 @@ class ListUser extends Component {
 	                <CardItem cardBody bordered>
 						<ListItem>
 							<Grid>
-								<Col><Text style={styles.titleText}>Username</Text></Col>
+								<Col><Text style={styles.titleText}>User ID</Text></Col>
 								<Col><Text style={styles.titleText}>Nickname</Text></Col>
 								<Col><Text style={styles.titleText}>Option</Text></Col>
 							</Grid>
@@ -35,7 +35,7 @@ class ListUser extends Component {
 	                    <List dataArray={this.props.users} renderRow={(user) =>
 	                        <ListItem>
 								<Grid>
-				                    <Col><Text>{user.username}</Text></Col>
+				                    <Col><Text>{user.id}</Text></Col>
 				                    <Col><Text>{user.nickname}</Text></Col>
 				                    <Col>
 				                    	<Button bordered small style={{ alignSelf: 'center' }} onPress={() => Actions.profileUser({ type: "replace", params: { id: user.id } })}>

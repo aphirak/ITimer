@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Content, Text } from 'native-base'
 import { connect } from 'react-redux'
+import { Card, CardItem, Text, Body, Button, ListItem, Col, Grid, List, H2 } from 'native-base'
+import moment from 'moment'
+import { Actions } from 'react-native-router-flux'
 import * as actions  from 'ITimer/src/actions'
 
 const { getHistoriesByUserId, getUserById } = actions
@@ -12,6 +14,15 @@ const initialUser = {
 	nickname: ''
 }
 
+const styles = {
+	cardItemStyle: {
+		marginRight: 15
+	},
+	titleText: {
+		fontWeight: 'bold'
+	}
+}
+
 class ListHistoryUser extends Component {
 
 	componentWillMount(){
@@ -20,11 +31,38 @@ class ListHistoryUser extends Component {
 	}
 
 	render(){
+		let { firstname, lastname, nickname } = this.props.user
 		return (
-			<Content>
-				<Text>ListHistoryUser</Text>
-				<Text>{JSON.stringify(this.props.histories)}</Text>
-			</Content>
+            <Card>
+		        <CardItem header bordered style={{ justifyContent: 'center' }}>
+	             	<Text>{`${firstname} ${lastname} (${nickname})`}</Text>
+		        </CardItem>
+                <CardItem cardBody bordered>
+					<ListItem>
+						<Grid>
+							<Col><Text style={styles.titleText}>Time (s)</Text></Col>
+							<Col><Text style={styles.titleText}>Speed (m/s)</Text></Col>
+							<Col><Text style={styles.titleText}>Date</Text></Col>
+						</Grid>
+					</ListItem>
+                </CardItem>
+                <CardItem cardBody>
+                    <List dataArray={this.props.histories} renderRow={(history) =>
+                        <ListItem onPress={() => Actions.detailHistory({ type: 'reset', params: { details: history.details, total: { total_time: history.total_time, speed_average: history.speed_average, total_distance: history.total_distance } }})}>
+		                    <Col><Text>{history.total_time}</Text></Col>
+		                    <Col><Text>{history.speed_average}</Text></Col>
+		                    <Col><Text>{moment(history.created_at).fromNow()}</Text></Col>
+                        </ListItem>
+                    } />
+                </CardItem>
+                <CardItem>
+	                <Body>
+	                	<Button block warning bordered onPress={() => Actions.chartHistory({ type: 'reset' })}>
+	                		<Text>Chart</Text>
+	                	</Button>
+	                </Body>
+                </CardItem>
+           </Card>
 		)
 	}
 }

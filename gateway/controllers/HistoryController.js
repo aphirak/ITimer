@@ -29,7 +29,9 @@ const deleteHistoryById = (req, res) => {
 const getHistoriesByUserId = (req, res) => {
 	let { id } = req.params
 	User.forge({ id }).fetch({ withRelated: ['histories.details'] }).then((user) => {
-		res.json(user.toJSON().histories)
+		let histories = user.toJSON().histories
+		histories.sort((a, b) => (b.created_at - a.created_at))
+		res.json(histories)
 	})
 }
 
