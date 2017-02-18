@@ -141,7 +141,8 @@ function startTimer(){
     	timestamp = moment.duration(timestamp + 1, 'milliseconds')
     	state.time = timestamp.asSeconds().toFixed(3)
     }, '', '1m')
-    handleTimer.setInterval(emitTimer, '', '9m')
+    emitTimer()
+    // handleTimer.setInterval(emitTimer, '', '9m')
 }
 
 function stopTimer(){
@@ -156,7 +157,7 @@ function stopTimer(){
 	  	insertHistory(total_distance, total_time, speed_average)  
 		state.competitions.push({ uid, total_distance, total_time, speed_average })
 		emitCompetitions()
-	  }
+	}
 	timer.clearInterval()
 	handleTimer.clearInterval()
 	state.isStarted = false
@@ -201,7 +202,7 @@ client.on('message', (topic, payload) => {
 	console.log(msg)
 
 	if(msg == '1' && isSetup){
-		state.gate++
+		++state.gate
 		if(!isStarted){
 		  	state.isStarted = true
 		  	prevTime = state.time
@@ -218,6 +219,7 @@ client.on('message', (topic, payload) => {
 		  		speed: (distanceResult/timeResult).toFixed(3)
 		  	})
 		  	prevTime = currentTime
+			emitTimer()
 		  	if(state.results.length == nGate-1){
 				stopTimer()
 		  	}

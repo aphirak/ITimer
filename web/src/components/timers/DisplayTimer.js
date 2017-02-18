@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from 'components/Layout'
 
 const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGate, uid, distances }) => {
-	let total_distance = results.reduce((sum,value) => sum + (+value.distance), 0).toFixed(3)
+	let total_distance = results.reduce((sum,value) => sum + (+value.distance), 0)
 	let total_time = results.reduce((sum,value) => sum + (+value.time), 0).toFixed(3)
 	let speedAverage = ((+total_distance)/(+total_time)).toFixed(3)
 	return (

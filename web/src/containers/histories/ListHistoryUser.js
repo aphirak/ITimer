@@ -29,10 +29,13 @@ class ListHistoryUser extends Component {
 			time: [],
 			speed: []
 		}
-		this.props.histories.map((history) => {
+		let histories = [...this.props.histories]
+		histories.splice(40)
+		histories.reverse()
+		histories.map((history, index) => {
 			let data = moment(history.created_at).format("DD/MM/YY")
-			dataChart.time.push({ name: data, Time: history.total_time })
-			dataChart.speed.push({ name: data, Speed: history.speed_average })
+			dataChart.time.push({ name: `${data}(${40 - index})`, Time: history.total_time })
+			dataChart.speed.push({ name: `${data}(${40 - index})`, Speed: history.speed_average })
 		})
 		this.setState({ dataChart })
 		this.setState({ isModalActiveChart: true })

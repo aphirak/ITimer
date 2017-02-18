@@ -3,7 +3,7 @@ const initialState = {
 	isSetup: false,
 	isStarted: false,
 	results: [],
-	time: 0,
+	time: undefined,
 	uid: undefined,
 	nGate: undefined,
 	distances: []

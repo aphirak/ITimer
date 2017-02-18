@@ -19,28 +19,31 @@ const renderField = ({ input, label, type, min, max, step }) => {
 }
 
 
-// const renderFields = ({ nGate }) => {
-// 	let fields = []
-// 	for(let i=0;i<nGate-1;i++){
-// 		fields.push(0)
-// 	}
+const renderFields = ({ nGate }) => {
+	if(nGate <= 10){
+		let fields = []
+		for(let i=0;i<nGate-1;i++){
+			fields.push(0)
+		}
 
-// 	return (
-// 		<div>
-// 			{
-// 				fields.map((field, index) => (
-// 			        <Field
-// 						name={`distanceValues[${index}]`}
-// 						type="number"
-// 						component={renderField}
-// 						label={`Distance ${index+1} - ${index+2}`}
-// 						key={index}
-// 					/> 
-// 				))
-// 			}
-// 		</div>
-// 	)
-// }
+		return (
+			<div>
+				{
+					fields.map((field, index) => (
+				        <Field
+							name={`distanceValues[${index}]`}
+							type="number"
+							component={renderField}
+							label={`Distance of gate ${index+1} - ${index+2}`}
+							key={index}
+						/> 
+					))
+				}
+			</div>
+		)
+	}
+	return ( <div/> )
+}
 
 const SetupTimer = ({ handleSubmit, uid, nGate, distanceType, distances }) => {
 	return (
@@ -59,12 +62,7 @@ const SetupTimer = ({ handleSubmit, uid, nGate, distanceType, distances }) => {
 					type="number" 
 					label='Number of gate'
 				/>
-		        <Field
-					name={`distances[0]`}
-					type="number"
-					component={renderField}
-					label={`Distance 1 - 2`}
-				/> 
+				<FieldArray name="distanceValues" component={renderFields} nGate={nGate} />
 				<br />
 				<button
 			    	type='submit'
