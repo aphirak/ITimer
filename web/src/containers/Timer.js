@@ -79,24 +79,23 @@ class Timer extends Component {
 	}
 }
 
-const validate = values => {
-	let { uid, nGate } = values
-	let errors = {}
+// const validate = values => {
+// 	let { uid, nGate } = values
+// 	let errors = {}
 
-	if (!uid || uid.trim() == '') {
-    	errors.uid = 'Required'
-	}
+// 	if (!uid || uid.trim() == '') {
+//     	errors.uid = 'Required'
+// 	}
 
-	if (!nGate || nGate.trim() == '' || nGate > 10) {
-    	errors.nGate = 'Required'
-	}
+// 	if (!nGate || nGate.trim() == '' || nGate > 10) {
+//     	errors.nGate = 'Required'
+// 	}
 
-	return errors
-}
+// 	return errors
+// }
 
 Timer = reduxForm({
-	form: 'timerForm',
-	validate
+	form: 'timerForm'
 })(Timer)
 
 const selector = formValueSelector('timerForm')

@@ -31,7 +31,7 @@ const renderFields = ({ nGate }) => {
 				{
 					fields.map((field, index) => (
 				        <Field
-							name={`distanceValues[${index}]`}
+							name={`distances[${index}]`}
 							type="number"
 							component={renderField}
 							label={`Distance of gate ${index+1} - ${index+2}`}
@@ -62,7 +62,7 @@ const SetupTimer = ({ handleSubmit, uid, nGate, distanceType, distances }) => {
 					type="number" 
 					label='Number of gate'
 				/>
-				<FieldArray name="distanceValues" component={renderFields} nGate={nGate} />
+				<FieldArray name="distances" component={renderFields} nGate={nGate} />
 				<br />
 				<button
 			    	type='submit'

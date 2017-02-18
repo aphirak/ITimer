@@ -1,5 +1,5 @@
 import React from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { Field, FieldArray } from 'redux-form'
 import { View, StyleSheet, ScrollView } from 'react-native'
 import { Card, CardItem, Form, Item, Input, Label, Button, Text, Body, Grid, Col, H2 } from 'native-base'
 
@@ -27,7 +27,34 @@ const renderField = ({ input, label ,...inputProps }) => {
   )
 }
 
-const SetupTimer = ({ handleSubmit }) => (
+const renderFields = ({ nGate }) => {
+	if(nGate <= 10){
+		let fields = []
+		for(let i=0;i<nGate-1;i++){
+			fields.push(0)
+		}
+
+		return (
+			<View>
+				{
+					fields.map((field, index) => (
+				        <Field
+							name={`distances[${index}]`}
+							type="number"
+							component={renderField}
+							label={`Distance of gate ${index+1} - ${index+2}`}
+							key={index}
+						/> 
+					))
+				}
+			</View>
+		)
+	}
+	return ( <View/> )
+}
+
+const SetupTimer = ({ handleSubmit, nGate }) => {
+	return (
 	<Card>
         <CardItem header bordered style={{ justifyContent: 'center' }}>
              <H2 style={styles.titleText}>Setup</H2>
@@ -43,11 +70,7 @@ const SetupTimer = ({ handleSubmit }) => (
 				label='Number of gate'
 				component={renderField}
 			/>
-			<Field
-				name='distances[0]'
-				label='Distance 1 - 2'
-				component={renderField}
-			/>
+			<FieldArray name="distances" component={renderFields} nGate={nGate} />
 	    </Form>
         <CardItem>
             <Body>
@@ -57,8 +80,7 @@ const SetupTimer = ({ handleSubmit }) => (
             </Body>
         </CardItem>
 	</Card>
-)
+	)
+}
 
-export default reduxForm({
-  form: 'setupForm'
-})(SetupTimer)
+export default SetupTimer
