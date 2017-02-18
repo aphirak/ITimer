@@ -5,7 +5,7 @@ import sh from 'shelljs'
 const router = express.Router()
 
 wifi.init({
-	iface: 'wlan1'
+	iface: null
 })
 
 router.route('/')

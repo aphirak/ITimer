@@ -5,6 +5,7 @@ import competitionReducers from 'ITimer/src/reducers/competitionReducers'
 import userReducers from 'ITimer/src/reducers/userReducers'
 import timerReducers from 'ITimer/src/reducers/timerReducers'
 import historyReducers from 'ITimer/src/reducers/historyReducers'
+import wifiReducers from 'ITimer/src/reducers/wifiReducers'
 
 export default combineReducers({
 	form: formReducer.plugin({
@@ -28,5 +29,6 @@ export default combineReducers({
 	timer: timerReducers,
 	competition: competitionReducers,
 	user: userReducers,
-	history: historyReducers
+	history: historyReducers,
+	wifi: wifiReducers
 })

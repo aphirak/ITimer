@@ -55,13 +55,6 @@ class ListHistoryUser extends Component {
                         </ListItem>
                     } />
                 </CardItem>
-                <CardItem>
-	                <Body>
-	                	<Button block warning bordered onPress={() => Actions.chartHistory({ type: 'reset' })}>
-	                		<Text>Chart</Text>
-	                	</Button>
-	                </Body>
-                </CardItem>
            </Card>
 		)
 	}
