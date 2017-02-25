@@ -7,8 +7,8 @@ const config = {
     port: 9090    
   },
   apiGlobal: {
-  	host: 'http://192.168.2.44',
-  	port: '7070'
+  	host: 'http://128.199.83.103',
+  	port: 9090
   }
 }
 

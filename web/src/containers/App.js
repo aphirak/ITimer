@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Header from 'containers/Header'
 import Footer from 'containers/Footer'
+import moment from 'moment-timezone'
 import 'containers/App.css'
 
 const styles = {
@@ -17,6 +18,11 @@ const styles = {
 
 
 export default class App extends Component {
+
+	componentWillMount(){
+		// moment.tz.setDefault('Asia/Bangkok');
+	}
+
 	render(){
 		return (
 			<div style={styles.site}>

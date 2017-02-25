@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { ModalChartHistory, ModalDetailHistory } from 'components/histories'
 import * as actions  from 'actions'
 
@@ -30,12 +30,12 @@ class ListHistoryUser extends Component {
 			speed: []
 		}
 		let histories = [...this.props.histories]
-		histories.splice(40)
+		// histories.splice(40)
 		histories.reverse()
 		histories.map((history, index) => {
 			let data = moment(history.created_at).format("DD/MM/YY")
-			dataChart.time.push({ name: `${data}(${40 - index})`, Time: history.total_time })
-			dataChart.speed.push({ name: `${data}(${40 - index})`, Speed: history.speed_average })
+			dataChart.time.push({ name: `${data}`, Time: history.total_time })
+			dataChart.speed.push({ name: `${data}`, Speed: history.speed_average })
 		})
 		this.setState({ dataChart })
 		this.setState({ isModalActiveChart: true })
@@ -61,12 +61,15 @@ class ListHistoryUser extends Component {
 	}
 
 	componentWillMount(){
+		// moment.tz.setDefault("America/New_York");
 		this.props.getUserById(this.props.params.id)
 		this.props.getHistoriesByUserId(this.props.params.id)
 	}
 
 	render(){
 		let { firstname, lastname, nickname } = this.props.user
+		console.log(this.props.histories)
+		// console.log(moment(this.props.user.created_at).format("DD/MM/YY"))
 		return (
 			<div className="has-text-centered">
 				<div className="heading">

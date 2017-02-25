@@ -61,17 +61,20 @@ let state = {
 
 function checkInternet(){
 	setInterval(() => {
-		dns.resolve('www.google.com', (err) => {
-			if (err) {
-				io.emit('connectInternet', 'not ok')
-				console.log("No connection")
-			} else {
-				io.emit('connectInternet', 'ok')
-				console.log("Connected")
-			}
-		})
-	}, 3000)
+		syncGlobal()
+		// dns.resolve('www.google.com', (err) => {
+		// 	if (err) {
+		// 		io.emit('connectInternet', 'not ok')
+		// 		console.log("No connection")
+		// 	} else {
+		// 		io.emit('connectInternet', 'ok')
+		// 		console.log("Connected")
+		// 	}
+		// })
+	}, 5000)
 }
+
+checkInternet()
 
 function syncGlobal(){
 	let p1 = UserService.getUsers().then(users => users)
@@ -103,7 +106,6 @@ function syncGlobal(){
 	})
 }
 
-// syncGlobal()
 
 //----------------------------- ORM ------------------------------------------
 
@@ -173,6 +175,7 @@ function stopTimer(){
 		results: [],
 		time: 0
 	}
+	syncGlobal()
 }
 
 io.on('connect', function(socket) {
@@ -279,6 +282,55 @@ app.route('/histories')
 app.route('/histories/:id')
 	.get(HistoryController.getHistoryById)
 	.delete(HistoryController.deleteHistoryById)
+
+
+app.get('/sync', (req, res) => {
+
+	let p1 = UserService.getUsers().then(users => users)
+
+	let p2 = HistoryService.getHistories().then(histories => histories)
+
+	let p3 = DetailService.getDetails().then(details => details)
+
+	Promise.all([ p1, p2, p3 ]).then((values) => {
+		let results = {
+			users: values[0],
+			histories: values[1],
+			details: values[2]
+		}
+		return results
+	}).then((data) => {
+		axios.post(`${config.apiGlobal.host}:${config.apiGlobal.port}/sync`, data)
+			.then((response) => {
+				// console.log(response.data)
+				res.json(response.data)
+			})
+			.catch((error) => {
+				console.log(error)
+			    if (error.response) {
+			      console.log(error.response.data);
+			      console.log(error.response.status);
+			      console.log(error.response.headers);
+			    }
+				res.sendStatus(500)
+			})
+	})
+
+
+
+
+
+
+
+
+
+	// axios.post(`http://localhost:7070/sync`, {
+	// 	a: 100,
+	// 	b: 200
+	// }).then((response) => {
+	// 	res.json(response.data)
+	// })
+})
 
 // app.route('/wifi')
 // 	.get((req, res) => {

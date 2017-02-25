@@ -48,6 +48,16 @@ class ProfileUser extends Component {
 							<div className="columns">
 								<div className="column is-4" />
 								<div className="column">
+									<strong>User ID : </strong>
+								</div>
+								<div className="column">
+									{id}
+								</div>
+								<div className="column is-4" />
+							</div>
+							<div className="columns">
+								<div className="column is-4" />
+								<div className="column">
 									<strong>Username : </strong>
 								</div>
 								<div className="column">

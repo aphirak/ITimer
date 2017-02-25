@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { reduxForm, formValueSelector } from 'redux-form'
-import * as actions from 'ITimer/src/actions'
 import moment from 'moment'
+import BackgroundTimer from 'react-native-background-timer';
+import * as actions from 'ITimer/src/actions'
 import { SetupTimer, DisplayTimer } from 'ITimer/src/components/timers'
 
 const { setupTimer, stopTimer, getTimer } = actions
@@ -18,12 +19,15 @@ class Timer extends Component {
 
 	aaa(initTime){
 		let timestamp = moment.duration(initTime*1000, 'milliseconds')
-		console.log(timestamp)
-		x = setInterval(() => {
+		// console.log(timestamp)
+		// x = setInterval(() => {
+	    	// timestamp = moment.duration(timestamp + 77, 'milliseconds')
+	    	// this.setState({ time: timestamp.asSeconds().toFixed(3) })
+		// },77)
+		x = BackgroundTimer.setInterval(() => {
 	    	timestamp = moment.duration(timestamp + 77, 'milliseconds')
 	    	this.setState({ time: timestamp.asSeconds().toFixed(3) })
-		},77)
-		this.setState({ isCallLocalTimer: true })
+		}, 37);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -31,14 +35,16 @@ class Timer extends Component {
 			if(nextProps.timer.isStarted && !this.state.isCallLocalTimer){
 				this.aaa.bind(this)(nextProps.timer.time)
 			} else if(!nextProps.timer.isStarted){
-				clearInterval(x)
+				// clearInterval(x)
+				BackgroundTimer.clearInterval(x);
 				this.setState({ isCallLocalTimer: false, time: 0 })
 			}
 		}
 	}
 
 	componentWillUnmount(){
-		clearInterval(x)
+		// clearInterval(x)
+		BackgroundTimer.clearInterval(x);
 	}
 
 	componentWillMount(){
