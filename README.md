@@ -1,4 +1,4 @@
-# ITimer (Data Collection and Analysis System fot Running)
+# ITimer (Data Collection and Analysis System for Running)
 
 > A graduation project [Demo](http://chutiphon-k.info:8080)
 
