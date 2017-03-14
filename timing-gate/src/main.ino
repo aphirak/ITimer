@@ -62,7 +62,9 @@ void loop() {
 
   if(!client.connected()){
     Serial.print("Attemping MQTT connecting...");
-    if(client.connect("TimingGate222")){
+    char* name = const_cast<char*>(String(random(10000)).c_str());
+    Serial.print(name);
+    if(client.connect(name)){
       Serial.println("connected");
       client.subscribe("/TIMINGGATE");
       digitalWrite(LED_CONNECTION, 1);
@@ -90,9 +92,6 @@ void loop() {
       Serial.println(String(diffTime));
       Serial.println("Tracking");
       client.publish("/TIMINGGATE/TRACKING", String(diffTime).c_str());
-
-      // Serial.println("Tracking");
-      // client.publish("/TIMINGGATE/TRACKING", "1");
       digitalWrite(LED_TRACKING, 0);
     }
     // ---------------------------------------------
