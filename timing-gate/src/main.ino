@@ -122,8 +122,6 @@ void callback(char* topic, byte* payload, uint length){
   } else if(msg == "RESET"){
     isDisable = false;
     isSetup = false;
-    Serial.println(msg);
-    return;
   }
   Serial.println(msg);
 }

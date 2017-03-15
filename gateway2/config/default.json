@@ -1,6 +1,10 @@
 {
   "Api": {
     "url": "localhost",
-    "port": "9090"
+    "port": 9090
+  },
+  "Mqtt": {
+  	"host": "localhost",
+  	"port": 1883
   }
 }
