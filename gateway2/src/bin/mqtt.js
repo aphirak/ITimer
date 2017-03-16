@@ -1,6 +1,7 @@
 import mqtt from 'mqtt'
 import config from 'config'
 import moment from 'moment'
+import { History } from '../models'
 
 let mqttConnection = {}
 let results = []
@@ -26,7 +27,9 @@ mqttConnection.init = () => {
 		if(results.length == 2){
 			client.publish('/TIMINGGATE', "RESET")
 			client.publish('/TIMINGGATE', "SETUP")
-			console.log(`Time: ${(results[1]-results[0]).toFixed(3)} s`)
+			let total_time = (results[1]-results[0]).toFixed(3)
+			console.log(`Time: ${total_time} s`)
+			History.forge({ total_time }).save()
 			results = []
 		}
 		// if(msg == '1' && isSetup){

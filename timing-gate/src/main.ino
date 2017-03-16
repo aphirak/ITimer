@@ -120,6 +120,7 @@ void callback(char* topic, byte* payload, uint length){
       digitalWrite(LED_TRACKING, 1);
     }
   } else if(msg == "RESET"){
+    countAgain = 0;
     isDisable = false;
     isSetup = false;
   }
