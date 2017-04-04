@@ -25,11 +25,15 @@ mqttConnection.init = () => {
 		results.push(time)
 		console.log(results)
 		if(results.length == 2){
-			client.publish('/TIMINGGATE', "RESET")
-			client.publish('/TIMINGGATE', "SETUP")
+			setTimeout(() => {
+				console.log("Start New")
+				client.publish('/TIMINGGATE', "RESET")
+				client.publish('/TIMINGGATE', "SETUP")
+			}, 500)
+			results.sort()
 			let total_time = (results[1]-results[0]).toFixed(3)
 			console.log(`Time: ${total_time} s`)
-			History.forge({ total_time }).save()
+			History.forge({ time1: results[0], time2: results[1], total_time }).save()
 			results = []
 		}
 		// if(msg == '1' && isSetup){
