@@ -5,13 +5,13 @@
 #define LED_TRACKING 0
 #define LED_CONNECTION 5
 
-const char* ssid     = "bach1";
+// const char* ssid     = "bach1";
 const char* password = "aaaaaaaaaa";
-// const char* ssid     = "James";
+const char* ssid     = "James";
 // const char* password = "12345678";
 
-#define mqtt_server "192.168.2.42"
-// #define mqtt_server "172.20.10.2"
+// #define mqtt_server "192.168.2.42"
+#define mqtt_server "172.20.10.2"
 #define mqtt_port 1883
 // #define mqtt_port 1900
 
@@ -85,7 +85,7 @@ void loop() {
     if(!isSetup){
       digitalWrite(LED_TRACKING, valueTracking);
     }
-    else if(valueTracking && !isDisable){
+    else if(!valueTracking && !isDisable){
       isDisable = true;
       trackingTime = millis();
       diffTime = trackingTime - setupTime;

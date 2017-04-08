@@ -4,11 +4,12 @@ import nodeNotifier from 'node-notifier'
 import errorhandler from 'errorhandler'
 import compression from 'compression'
 import cors from 'cors'
-import routes from './routes'
+
+import routes from 'src/routes'
 
 const app = express()
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV == undefined) {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined) {
 	app.use(errorhandler({log: errorNotification}))
 }
 
