@@ -2,7 +2,7 @@ import http from 'http'
 import config from 'config'
 
 import app from 'src/app'
-import sockets from 'src/bin/sockets'
+import socket from 'src/bin/socket'
 import mqtt from 'src/bin/mqtt'
 
 const server = http.Server(app)
@@ -12,5 +12,5 @@ server.listen(port, () => {
 	console.log('[INFO] Listening on *:' + port)
 })
 
-sockets.init(server)
+socket.init(server)
 mqtt.init()
