@@ -4,7 +4,9 @@ import { History } from 'src/models'
 const Detail = bookshelf.Model.extend({
 	tableName: 'details',
 	hasTimestamps: true,
-	history: () => this.belongsTo(History)
+	history: function () {
+		return this.belongsTo(History)
+	}
 })
 
 export default Detail

@@ -4,7 +4,9 @@ import { History } from 'src/models'
 const User = bookshelf.Model.extend({
 	tableName: 'users',
 	hasTimestamps: true,
-	histories: () => this.hasMany(History)
+	histories: function () {
+		return this.hasMany(History)
+	}
 }, {
 	dependents: ['histories']
 })
