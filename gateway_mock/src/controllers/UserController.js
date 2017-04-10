@@ -1,5 +1,9 @@
-import { User } from 'src/models'
-import { UserService } from 'src/services'
+import {
+	User
+} from 'src/models'
+import {
+	UserService
+} from 'src/services'
 
 const getUsers = (req, res) => {
 	UserService.getUsers().then((users) => {
@@ -26,7 +30,7 @@ const getUserById = (req, res) => {
 const patchUserById = (req, res) => {
 	let { id } = req.params
 	const { username, firstname, lastname, nickname } = req.body
-	User.forge({ id }).fetch({ require: true }).then((user) => {
+	User.forge({ id }).fetch({require: true}).then((user) => {
 		user.save({ username, firstname, lastname, nickname }).then((user) => {
 			res.json(user)
 		}).catch(() => {
