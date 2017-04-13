@@ -12,7 +12,7 @@ const postTimer = (req, res) => {
 		emitTimer()
 		res.send(state)
 	} else {
-		res.sendStatus(400).json({
+		res.status(400).json({
 			status: 400,
 			message: 'Parameter is incorrect'
 		})
