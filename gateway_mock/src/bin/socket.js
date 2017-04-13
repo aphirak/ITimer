@@ -1,6 +1,6 @@
 import SocketIO from 'socket.io'
 
-import { state } from 'src/parameters'
+import { emitTimer, emitCompetition } from 'src/utilities'
 
 let sockets = {}
 let io
@@ -8,8 +8,8 @@ let io
 sockets.init = (server) => {
 	io = new SocketIO(server)
 	io.on('connect', (socket) => {
-		socket.emit('timer', { ...state, competitions: undefined })
-		socket.emit('competitions', state.competition)
+		emitTimer(socket)
+		emitCompetition(socket)
 	})
 }
 

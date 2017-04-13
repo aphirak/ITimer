@@ -2,28 +2,16 @@ import { Router } from 'express'
 
 import {
 	UserController,
-	HistoryController
+	HistoryController,
+	TimerController
 } from 'src/controllers'
-import { state } from 'src/parameters'
-import { client } from 'src/bin/mqtt'
+// import { state } from 'src/parameters'
+// import { client } from 'src/bin/mqtt'
 
 const router = Router()
 
 router.route('/timers')
-	.post((req, res) => {
-		const { uid, nGate, distances } = req.body
-		if (!state.isStarted && uid !== undefined && nGate >= 2 && distances.length === nGate - 1) {
-			state.uid = uid
-			state.nGate = nGate
-			state.distances = distances
-			state.isSetup = true
-			client.publish('/TIMINGGATE', 'SETUP')
-			// emitTimer()
-			res.send(state)
-		} else {
-			res.sendStatus(400)
-		}
-	})
+	.post(TimerController.postTimer)
 	.delete((req, res) => {
 		// stopTimer()
 		res.send('ok')
