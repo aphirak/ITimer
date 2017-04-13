@@ -1,6 +1,6 @@
 import { io } from 'src/bin/socket'
 import { state } from 'src/parameters'
-import { emitCompetition, pubTimingGate } from 'src/utilities'
+import { emitCompetition, pubTimingGate, insertHistory } from 'src/utilities'
 
 let prevTimeTracking
 
@@ -11,18 +11,16 @@ const emitTimer = (socket = io) => {
 const stopTimer = () => {
 	console.log('End')
 	pubTimingGate('RESET')
-	// console.log(state.results) // input to DB
+	console.log(state.results)
 	if (state.results.length !== 0) {
 		let { results, uid } = state
 		let totalDistance = results.reduce((sum, value) => sum + (+value.distance), 0)
 		let totalTime = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
 		let speedAverage = +(totalDistance / totalTime).toFixed(3)
-		// insertHistory(total_distance, total_time, speed_average)
+		insertHistory(totalDistance, totalTime, speedAverage)
 		state.competitions.push({ uid, totalDistance, totalTime, speedAverage })
 		emitCompetition()
 	}
-	// timer.clearInterval()
-	// handleTimer.clearInterval()
 	state.isStarted = false
 	emitTimer()
 
