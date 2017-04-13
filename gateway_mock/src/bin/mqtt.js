@@ -1,6 +1,8 @@
 import mqtt from 'mqtt'
 import config from 'config'
 
+import { trackingTimer } from 'src/utilities'
+
 let client
 
 const topicSub = '/TIMINGGATE/TRACKING'
@@ -13,7 +15,7 @@ const init = () => {
 
 	client.on('message', (topic, payload) => {
 		let msg = payload.toString()
-		console.log(msg)
+		trackingTimer(msg)
 	})
 }
 

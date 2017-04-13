@@ -36,10 +36,4 @@ router.route('/histories/:id')
 	.get(HistoryController.getHistoryById)
 	.delete(HistoryController.deleteHistoryById)
 
-// router.route('*')
-// 	.get((req, res) => {
-// 		console.log(state.x)
-// 		res.send(state.x)
-// 	})
-
 export default router
