@@ -1,5 +1,5 @@
 import { state } from 'src/parameters'
-import { emitTimer } from 'src/utilities'
+import { emitTimer, pubTimingGate, stopTimer } from 'src/utilities'
 
 const postTimer = (req, res) => {
 	const { uid, nGate, distances } = req.body
@@ -8,7 +8,7 @@ const postTimer = (req, res) => {
 		state.nGate = nGate
 		state.distances = distances
 		state.isSetup = true
-		// client.publish('/TIMINGGATE', 'SETUP')
+		pubTimingGate('SETUP')
 		emitTimer()
 		res.send(state)
 	} else {
@@ -19,6 +19,12 @@ const postTimer = (req, res) => {
 	}
 }
 
+const deleteTimer = (req, res) => {
+	stopTimer()
+	res.send('Stop timer success')
+}
+
 export {
-	postTimer
+	postTimer,
+	deleteTimer
 }

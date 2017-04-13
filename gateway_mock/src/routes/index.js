@@ -5,17 +5,12 @@ import {
 	HistoryController,
 	TimerController
 } from 'src/controllers'
-// import { state } from 'src/parameters'
-// import { client } from 'src/bin/mqtt'
 
 const router = Router()
 
 router.route('/timers')
 	.post(TimerController.postTimer)
-	.delete((req, res) => {
-		// stopTimer()
-		res.send('ok')
-	})
+	.delete(TimerController.deleteTimer)
 
 // app.route('/competitions')
 // 	.delete((req, res) => {

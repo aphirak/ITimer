@@ -2,8 +2,8 @@ import http from 'http'
 import config from 'config'
 
 import app from 'src/app'
-import socket from 'src/bin/socket'
-import mqtt from 'src/bin/mqtt'
+import * as socket from 'src/bin/socket'
+import * as mqtt from 'src/bin/mqtt'
 
 const server = http.Server(app)
 const port = process.env.PORT || config.Api.port

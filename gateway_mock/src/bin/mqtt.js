@@ -1,14 +1,14 @@
 import mqtt from 'mqtt'
 import config from 'config'
 
-let mqttConnection = {}
 let client
 
-mqttConnection.init = () => {
+const topicSub = '/TIMINGGATE/TRACKING'
+
+const init = () => {
 	client = mqtt.connect(config.Mqtt)
 	client.on('connect', () => {
-		client.subscribe('/TIMINGGATE/TRACKING')
-		client.publish('/TIMINGGATE', 'SETUP')
+		client.subscribe(topicSub)
 	})
 
 	client.on('message', (topic, payload) => {
@@ -17,5 +17,7 @@ mqttConnection.init = () => {
 	})
 }
 
-export { client }
-export default mqttConnection
+export {
+	init,
+	client
+}

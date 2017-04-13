@@ -2,10 +2,9 @@ import SocketIO from 'socket.io'
 
 import { emitTimer, emitCompetition } from 'src/utilities'
 
-let sockets = {}
 let io
 
-sockets.init = (server) => {
+let init = (server) => {
 	io = new SocketIO(server)
 	io.on('connect', (socket) => {
 		emitTimer(socket)
@@ -13,5 +12,7 @@ sockets.init = (server) => {
 	})
 }
 
-export { io }
-export default sockets
+export {
+	init,
+	io
+}

@@ -1,1 +1,1 @@
-export state from './state'
+export state from 'src/parameters/state'
