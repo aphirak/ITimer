@@ -12,8 +12,8 @@ const stopTimer = () => {
 	console.log('End')
 	pubTimingGate('RESET')
 	console.log(state.results)
-	if (state.results.length !== 0) {
-		let { results, uid } = state
+	let { results, uid } = state
+	if (results.length !== 0) {
 		let totalDistance = results.reduce((sum, value) => sum + (+value.distance), 0)
 		let totalTime = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
 		let speedAverage = +(totalDistance / totalTime).toFixed(3)
