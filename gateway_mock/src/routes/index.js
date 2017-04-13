@@ -3,7 +3,8 @@ import { Router } from 'express'
 import {
 	UserController,
 	HistoryController,
-	TimerController
+	TimerController,
+	CompetitionController
 } from 'src/controllers'
 
 const router = Router()
@@ -12,11 +13,8 @@ router.route('/timers')
 	.post(TimerController.postTimer)
 	.delete(TimerController.deleteTimer)
 
-// app.route('/competitions')
-// 	.delete((req, res) => {
-// 		state.competitions = []
-// 		emitCompetitions()
-// 	})
+router.route('/competitions')
+	.delete(CompetitionController.deleteCompetition)
 
 router.route('/users')
 	.get(UserController.getUsers)
