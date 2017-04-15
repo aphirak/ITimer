@@ -38,7 +38,7 @@ const stopTimer = () => {
 }
 
 const trackingTimer = (msgJson) => {
-	let { isStarted, isSetup, nGate, distances } = state
+	let { isStarted, isSetup, nGate, distances, mode } = state
 	let timeTracking = msgJson.payload / 1000
 	if (!isNaN(timeTracking) && isSetup) {
 		++state.gate
@@ -58,7 +58,10 @@ const trackingTimer = (msgJson) => {
 		prevTimeTracking = timeTracking
 		prevTimingGate = msgJson.id
 		emitTimer()
-		if (state.results.length === nGate - 1) {
+		if (mode !== 'sprint') {
+			pubTimingGates('AGAIN')
+		}
+		if (mode !== 'nonstop' && state.results.length === nGate - 1) {
 			stopTimer()
 		}
 	}
