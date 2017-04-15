@@ -5,16 +5,13 @@
 #define TRACKING 4
 #define LED_TRACKING 0
 #define LED_CONNECTION 5
+#define ID 1
 
 const char* ssid     = "bach1";
 const char* password = "aaaaaaaaaa";
-// const char* ssid     = "James";
-// const char* password = "12345678";
 
 #define mqtt_server "192.168.2.42"
-// #define mqtt_server "172.20.10.2"
 #define mqtt_port 1883
-// #define mqtt_port 1900
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -22,8 +19,9 @@ PubSubClient client(espClient);
 int valueTracking = 0;
 bool isDisable = false;
 bool isSetup = false;
-int setupTime, trackingTime, diffTime, countAgain = 0;
+int setupTime, trackingTime, diffTime, countAgain = 0, countSetup = 0;
 StaticJsonBuffer<200> jsonBuffer;
+JsonObject& json = jsonBuffer.createObject();
 
 void setup() {
 
@@ -82,18 +80,35 @@ void loop() {
     }
   } else {
     // ------------- Check Tickle ------------------
-    valueTracking = digitalRead(TRACKING);
+    valueTracking = !digitalRead(TRACKING);
 
     if(!isSetup){
-      digitalWrite(LED_TRACKING, valueTracking);
+      if(valueTracking){
+        ++countSetup;
+      } else {
+        countSetup = 0;
+      }
+
+      if(countSetup >= 10){
+        digitalWrite(LED_TRACKING, valueTracking);
+      } else {
+        digitalWrite(LED_TRACKING, 0);
+        delay(50);
+      }
     }
     else if(!valueTracking && !isDisable){
       isDisable = true;
       trackingTime = millis();
       diffTime = trackingTime - setupTime;
-      Serial.println(String(diffTime));
+      // Serial.println(String(diffTime));
       Serial.println("Tracking");
-      client.publish("/TIMINGGATE/TRACKING", String(diffTime).c_str());
+      json["id"] = ID;
+      json["type"] = "tracking";
+      json["data"] = diffTime;
+      String output;
+      json.printTo(output);
+      client.publish("/TIMINGGATE/TRACKING", output.c_str());
+      // client.publish("/TIMINGGATE/TRACKING", String(diffTime).c_str());
       digitalWrite(LED_TRACKING, 0);
     }
     // ---------------------------------------------
@@ -126,10 +141,12 @@ void callback(char* topic, byte* payload, uint length){
     isDisable = false;
     isSetup = false;
   } else if(msg == "STATUS"){
-    JsonObject& json = jsonBuffer.createObject();
-    json["id"] = 1;
-    json["status"] = 1;
-    json.printTo(Serial);
+    json["id"] = ID;
+    json["type"] = "status";
+    json["data"] = 1;
+    String output;
+    json.printTo(output);
+    client.publish("/TIMINGGATE/TRACKING", output.c_str());
   }
   Serial.println(msg);
 }
