@@ -1,11 +1,13 @@
+#define SENSOR_IR 4
+#define LED_TRACKING 0
+
 void setup() {
   Serial.begin(9600);
-  pinMode(4, INPUT);
-  pinMode(5, OUTPUT);
+  pinMode(SENSOR_IR, INPUT);
+  pinMode(LED_TRACKING, OUTPUT);
 }
 
-
 void loop() {
-  Serial.println(digitalRead(4));
-  digitalWrite(5, !digitalRead(4));
+  Serial.println(digitalRead(SENSOR_IR));
+  digitalWrite(LED_TRACKING, !digitalRead(SENSOR_IR));
 }
