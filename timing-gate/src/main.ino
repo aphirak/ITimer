@@ -103,7 +103,7 @@ void loop() {
       Serial.println("Tracking");
       json["id"] = ID;
       json["type"] = "tracking";
-      json["data"] = diffTime;
+      json["payload"] = diffTime;
       String output;
       json.printTo(output);
       client.publish("/TIMINGGATE/TRACKING", output.c_str());
@@ -141,7 +141,7 @@ void callback(char* topic, byte* payload, uint length){
   } else if(msg == "STATUS"){
     json["id"] = ID;
     json["type"] = "status";
-    json["data"] = 1;
+    json["payload"] = 1;
     String output;
     json.printTo(output);
     client.publish("/TIMINGGATE/TRACKING", output.c_str());

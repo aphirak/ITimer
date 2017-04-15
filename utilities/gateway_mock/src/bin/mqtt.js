@@ -15,7 +15,18 @@ const init = () => {
 
 	client.on('message', (topic, payload) => {
 		let msg = payload.toString()
-		trackingTimer(msg)
+		let msgJson = JSON.parse(msg)
+		switch (msgJson.type) {
+			case 'status':
+				console.log(msgJson.payload)
+				break
+			case 'tracking':
+				trackingTimer(msgJson)
+				break
+			default:
+				console.log('Error: Unknow Type')
+				break
+		}
 	})
 }
 

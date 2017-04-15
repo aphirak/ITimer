@@ -2,7 +2,7 @@ import { io } from 'src/bin/socket'
 import { state } from 'src/parameters'
 import { emitCompetition, pubTimingGate, insertHistory } from 'src/utilities'
 
-let prevTimeTracking
+let prevTimeTracking, prevTimingGate
 
 const emitTimer = (socket = io) => {
 	socket.emit('timer', { ...state, competitions: undefined })
@@ -33,15 +33,15 @@ const stopTimer = () => {
 	state.time = 0
 }
 
-const trackingTimer = (msg) => {
-	let { isStarted, isSetup, nGate, distances, results } = state
-	let timeTracking = msg / 1000
+const trackingTimer = (msgJson) => {
+	let { isStarted, isSetup, nGate, distances } = state
+	let timeTracking = msgJson.payload / 1000
 	if (!isNaN(timeTracking) && isSetup) {
 		++state.gate
 		if (!isStarted) {
 			state.isStarted = true
 		} else {
-			let distance = distances[state.gate - 2]
+			let distance = distances[prevTimingGate - 1][msgJson.id - 1]
 			let time = +(timeTracking - prevTimeTracking).toFixed(3)
 			let speed = +(distance / time).toFixed(3)
 			state.results.push({
@@ -52,8 +52,9 @@ const trackingTimer = (msg) => {
 			})
 		}
 		prevTimeTracking = timeTracking
+		prevTimingGate = msgJson.id
 		emitTimer()
-		if (results.length === nGate - 1) {
+		if (state.results.length === nGate - 1) {
 			stopTimer()
 		}
 	}
