@@ -1,17 +1,18 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include <ArduinoJson.h>
 
 #define TRACKING 4
 #define LED_TRACKING 0
 #define LED_CONNECTION 5
 
-// const char* ssid     = "bach1";
+const char* ssid     = "bach1";
 const char* password = "aaaaaaaaaa";
-const char* ssid     = "James";
+// const char* ssid     = "James";
 // const char* password = "12345678";
 
-// #define mqtt_server "192.168.2.42"
-#define mqtt_server "172.20.10.2"
+#define mqtt_server "192.168.2.42"
+// #define mqtt_server "172.20.10.2"
 #define mqtt_port 1883
 // #define mqtt_port 1900
 
@@ -22,6 +23,7 @@ int valueTracking = 0;
 bool isDisable = false;
 bool isSetup = false;
 int setupTime, trackingTime, diffTime, countAgain = 0;
+StaticJsonBuffer<200> jsonBuffer;
 
 void setup() {
 
@@ -123,6 +125,11 @@ void callback(char* topic, byte* payload, uint length){
     countAgain = 0;
     isDisable = false;
     isSetup = false;
+  } else if(msg == "STATUS"){
+    JsonObject& json = jsonBuffer.createObject();
+    json["id"] = 1;
+    json["status"] = 1;
+    json.printTo(Serial);
   }
   Serial.println(msg);
 }
