@@ -1,10 +1,9 @@
 import {
-	User,
-	History
-} from '../models'
+	User
+} from 'src/models'
 import {
 	UserService
-} from '../services'
+} from 'src/services'
 
 const getUsers = (req, res) => {
 	UserService.getUsers().then((users) => {
@@ -17,7 +16,9 @@ const postUser = (req, res) => {
 	User.forge({ username, firstname, lastname, nickname }).save().then((user) => {
 		res.json(user)
 	}).catch((err) => {
-		res.sendStatus(403)
+		if (err) {
+			res.sendStatus(403)
+		}
 	})
 }
 

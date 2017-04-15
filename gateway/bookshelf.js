@@ -1,9 +1,8 @@
-const dbConfig = require('./knexfile').development
-const knex = require('knex')(dbConfig)
-const bookshelf = require('bookshelf')(knex)
-const cascadeDelete = require('bookshelf-cascade-delete')
+import knex from 'knex'
+import bookshelf from 'bookshelf'
+import knexfile from './knexfile'
 
-bookshelf.plugin(cascadeDelete);
+const dbConfig = knexfile.development
+const Bookshelf = bookshelf(knex(dbConfig))
 
-
-module.exports = bookshelf
+export default Bookshelf

@@ -1,4 +1,4 @@
-import { Detail } from '../models'
+import { Detail } from 'src/models'
 
 const getDetails = () => {
 	return Detail.forge().fetchAll().then((collection) => {

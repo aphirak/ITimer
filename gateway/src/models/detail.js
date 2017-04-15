@@ -1,5 +1,5 @@
-import bookshelf from '../bookshelf'
-import History from './history'
+import bookshelf from 'root/bookshelf'
+import { History } from 'src/models'
 
 const Detail = bookshelf.Model.extend({
 	tableName: 'details',

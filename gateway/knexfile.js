@@ -9,9 +9,16 @@ module.exports = {
       port: 33060,
       user: 'homestead',
       password: 'secret',
-      database: 'itimer',
+      database: 'itimer_mock',
       charset: 'utf8',
       timezone: "UTC"
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: './src/migrations'
+    },
+    seeds: {
+      directory: './src/seeds'
     }
   },
 

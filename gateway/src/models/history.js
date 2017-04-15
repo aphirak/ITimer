@@ -1,6 +1,5 @@
-import bookshelf from '../bookshelf'
-import User from './user'
-import Detail from './detail'
+import bookshelf from 'root/bookshelf'
+import { User, Detail } from 'src/models'
 
 const History = bookshelf.Model.extend({
 	tableName: 'histories',
@@ -8,7 +7,7 @@ const History = bookshelf.Model.extend({
 	user: function () {
 		return this.belongsTo(User)
 	},
-	details: function() {
+	details: function () {
 		return this.hasMany(Detail)
 	}
 }, {

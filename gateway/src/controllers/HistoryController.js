@@ -1,10 +1,10 @@
 import {
 	User,
 	History
-} from '../models'
+} from 'src/models'
 import {
 	HistoryService
-} from '../services'
+} from 'src/services'
 
 const getHistories = (req, res) => {
 	HistoryService.getHistories().then((histories) => {
