@@ -100,7 +100,6 @@ void loop() {
       isDisable = true;
       trackingTime = millis();
       diffTime = trackingTime - setupTime;
-      // Serial.println(String(diffTime));
       Serial.println("Tracking");
       json["id"] = ID;
       json["type"] = "tracking";
@@ -108,7 +107,6 @@ void loop() {
       String output;
       json.printTo(output);
       client.publish("/TIMINGGATE/TRACKING", output.c_str());
-      // client.publish("/TIMINGGATE/TRACKING", String(diffTime).c_str());
       digitalWrite(LED_TRACKING, 0);
     }
     // ---------------------------------------------
