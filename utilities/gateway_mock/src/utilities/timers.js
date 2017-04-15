@@ -1,16 +1,20 @@
 import { io } from 'src/bin/socket'
 import { state } from 'src/parameters'
-import { emitCompetition, pubTimingGate, insertHistory } from 'src/utilities'
+import { emitCompetition, pubTimingGates, insertHistory } from 'src/utilities'
 
 let prevTimeTracking, prevTimingGate
 
 const emitTimer = (socket = io) => {
-	socket.emit('timer', { ...state, competitions: undefined })
+	socket.emit('timer', {
+		...state,
+		competitions: undefined,
+		timinggates: undefined
+	})
 }
 
 const stopTimer = () => {
 	console.log('End')
-	pubTimingGate('RESET')
+	pubTimingGates('RESET')
 	console.log(state.results)
 	let { results, uid } = state
 	if (results.length !== 0) {

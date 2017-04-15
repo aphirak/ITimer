@@ -1,7 +1,7 @@
 import mqtt from 'mqtt'
 import config from 'config'
 
-import { trackingTimer } from 'src/utilities'
+import { trackingTimer, handleTimingGate } from 'src/utilities'
 
 let client
 
@@ -18,7 +18,7 @@ const init = () => {
 		let msgJson = JSON.parse(msg)
 		switch (msgJson.type) {
 			case 'status':
-				console.log(msgJson.payload)
+				handleTimingGate(msgJson)
 				break
 			case 'tracking':
 				trackingTimer(msgJson)

@@ -1,5 +1,5 @@
 import { state } from 'src/parameters'
-import { emitTimer, pubTimingGate, stopTimer } from 'src/utilities'
+import { emitTimer, pubTimingGates, stopTimer } from 'src/utilities'
 
 const postTimer = (req, res) => {
 	const { uid, nGate, distances } = req.body
@@ -8,7 +8,7 @@ const postTimer = (req, res) => {
 		state.nGate = nGate
 		state.distances = distances
 		state.isSetup = true
-		pubTimingGate('SETUP')
+		pubTimingGates('SETUP')
 		emitTimer()
 		res.send(state)
 	} else {

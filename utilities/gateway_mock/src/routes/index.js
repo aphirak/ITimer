@@ -4,7 +4,8 @@ import {
 	UserController,
 	HistoryController,
 	TimerController,
-	CompetitionController
+	CompetitionController,
+	TimingGateController
 } from 'src/controllers'
 
 const router = Router()
@@ -35,5 +36,8 @@ router.route('/histories')
 router.route('/histories/:id')
 	.get(HistoryController.getHistoryById)
 	.delete(HistoryController.deleteHistoryById)
+
+router.route('/timinggates')
+	.get(TimingGateController.getTimingGates)
 
 export default router
