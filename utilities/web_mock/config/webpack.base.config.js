@@ -36,6 +36,10 @@ module.exports = {
 			}, {
 				test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
 				use: 'url?limit=10000&mimetype=image/svg+xml'
+			}, {
+				test: /\.(png|jpg|gif)$/,
+				use: 'url?limit=25000',
+				include: path.resolve(projectRoot, 'src/assets')
 			}
 		]
 	},
