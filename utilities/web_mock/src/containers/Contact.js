@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 
-class Contact extends Component {
+export default class Contact extends Component {
 	render () {
 		return (
-			<div>
-				<h1>Contact</h1>
+			<div className="has-text-centered">
+				<div className="heading">
+					<h1 className="title">
+						<strong>Contact</strong>
+					</h1>
+				</div>
+				<hr />
+				<div className="content">
+
+				</div>
 			</div>
 		)
 	}
 }
-
-export default Contact
