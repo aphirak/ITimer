@@ -18,6 +18,7 @@ module.exports = merge(baseWebpackConfig, {
 		path.resolve(projectRoot, 'src/index.js')
 	],
 	output: {
+		publicPath: '/static/',
 		filename: 'bundle.js'
 	},
 	module: {
@@ -70,7 +71,7 @@ module.exports = merge(baseWebpackConfig, {
 		}),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development',
-			API: 'https://jsonplaceholder.typicode.com'
+			API: 'http://localhost:9090/api'
 		}),
 		new webpack.NamedModulesPlugin()
 	],
@@ -79,7 +80,9 @@ module.exports = merge(baseWebpackConfig, {
 		hot: true,
 		host: 'localhost',
 		port: 8080,
-		historyApiFallback: true,
+		historyApiFallback: {
+			index: '/static/'
+		},
 		quiet: true
 	}
 })

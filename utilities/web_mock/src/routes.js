@@ -2,7 +2,8 @@ import React from 'react'
 import {
 	Router,
 	Route,
-	IndexRoute
+	IndexRoute,
+	Redirect
 } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
@@ -16,11 +17,24 @@ function loadRoute (cb) {
 
 const routes = (store, history) => (
 	<Router history={syncHistoryWithStore(history, store)}>
-		<Route path='/'
-			getComponent = {(location, cb) => { System.import('containers/App').then(loadRoute(cb)).catch(errorLoading) }}>
+		<Route path='/' getComponent = {(location, cb) => { System.import('containers/App').then(loadRoute(cb)).catch(errorLoading) }}>
 			<IndexRoute getComponent = {(location, cb) => { System.import('containers/Home').then(loadRoute(cb)).catch(errorLoading) }} />
-			<Route path='about' getComponent = {(location, cb) => { System.import('containers/About').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='competition' getComponent = {(location, cb) => { System.import('containers/Competition').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='timer' getComponent = {(location, cb) => { System.import('containers/Timer').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='user'>
+				<IndexRoute getComponent = {(location, cb) => { System.import('containers/ListUser').then(loadRoute(cb)).catch(errorLoading) }} />
+				<Route path='add' getComponent = {(location, cb) => { System.import('containers/AddUser').then(loadRoute(cb)).catch(errorLoading) }} />
+				<Route path=':user_id'>
+					<IndexRoute getComponent = {(location, cb) => { System.import('containers/ProfileUser').then(loadRoute(cb)).catch(errorLoading) }} />
+					<Route path='edit' getComponent = {(location, cb) => { System.import('containers/EditUser').then(loadRoute(cb)).catch(errorLoading) }} />
+					<Route path='about' getComponent = {(location, cb) => { System.import('containers/ListHistoryUser').then(loadRoute(cb)).catch(errorLoading) }} />
+				</Route>
+			</Route>
+			<Route path='history' getComponent = {(location, cb) => { System.import('containers/History').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='contact' getComponent = {(location, cb) => { System.import('containers/Contact').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='setting' getComponent = {(location, cb) => { System.import('containers/Setting').then(loadRoute(cb)).catch(errorLoading) }} />
 		</Route>
+		<Redirect from='*' to='/' />
 	</Router>
 )
 

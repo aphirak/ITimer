@@ -95,7 +95,7 @@ module.exports = merge(baseWebpackConfig, {
 			}
 		}),
 		new HtmlWebpackPlugin({
-			title: 'React Redux Boilerplate',
+			title: 'ITimer',
 			filename: path.resolve(projectRoot, 'build/index.html'),
 			template: path.resolve(projectRoot, 'public/index.html'),
 			minify: {
@@ -123,7 +123,7 @@ module.exports = merge(baseWebpackConfig, {
 		}),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'production',
-			API: 'https://jsonplaceholder.typicode.com'
+			API: 'http://localhost:9090/api'
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
