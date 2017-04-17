@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from 'containers/App/Header'
 import Footer from 'containers/App/Footer'
-import 'containers/App.css'
+import 'stylesheets/main.css'
 
 const styles = {
 	site: {

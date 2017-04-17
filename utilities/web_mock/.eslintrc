@@ -8,12 +8,13 @@
   ],
   "rules": {
       "no-tabs": "off",        
-      "indent": ["error", "tab", {"SwitchCase": 1}],
+      "indent": [ "error", "tab", { "SwitchCase": 1 } ],
       "no-console": "warn",
       "no-var": "error",      
       "react/jsx-uses-react": "error",
       "react/jsx-uses-vars": "error",
-      "react/jsx-space-before-closing": "error"
+      "react/jsx-space-before-closing": "error",
+      "react/jsx-indent": [ "error", "tab" ]
   },
   "parserOptions": {
     "ecmaVersion": 6,

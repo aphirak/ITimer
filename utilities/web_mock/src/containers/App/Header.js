@@ -49,4 +49,11 @@ class Header extends Component {
 	}
 }
 
-export default connect(null, null)(Header)
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = (dispatch) => ({})
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Header)
