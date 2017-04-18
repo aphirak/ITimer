@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('histories', function(table){
       table.increments().primary()
       table.integer('user_id').notNullable()
-      table.decimal('total_gate', null, 3).notNullable()
+      table.integer('total_phase').notNullable()
       table.decimal('total_distance', null, 3).notNullable()
       table.decimal('total_time', null, 3).notNullable()
       table.timestamp('created_at').defaultTo(knex.fn.now())

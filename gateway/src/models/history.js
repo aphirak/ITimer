@@ -14,5 +14,4 @@ const History = bookshelf.Model.extend({
 	dependents: ['details']
 })
 
-
 export default History

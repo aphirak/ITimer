@@ -3,6 +3,7 @@ import { state } from 'src/parameters'
 import { emitCompetition, pubTimingGates, insertHistory } from 'src/utilities'
 
 let prevTimeTracking, prevTimingGate
+let phase = 0
 
 const emitTimer = (socket = io) => {
 	socket.emit('timer', {
@@ -29,27 +30,27 @@ const stopTimer = () => {
 	emitTimer()
 
 	state.uid = undefined
-	state.nGate = undefined
+	state.nPhase = undefined
 	state.distances = []
-	state.gate = 0
 	state.isSetup = false
 	state.results = []
 	state.time = 0
+	phase = 0
 }
 
 const trackingTimer = (msgJson) => {
-	let { isStarted, isSetup, nGate, distances, mode } = state
+	let { isStarted, isSetup, nPhase, distances, mode } = state
 	let timeTracking = msgJson.payload / 1000
 	if (!isNaN(timeTracking) && isSetup) {
-		++state.gate
 		if (!isStarted) {
 			state.isStarted = true
 		} else {
+			++phase
 			let distance = distances[prevTimingGate - 1][msgJson.id - 1]
 			let time = +(timeTracking - prevTimeTracking).toFixed(3)
 			let speed = +(distance / time).toFixed(3)
 			state.results.push({
-				phase: state.gate - 1,
+				phase,
 				time,
 				distance,
 				speed
@@ -58,10 +59,8 @@ const trackingTimer = (msgJson) => {
 		prevTimeTracking = timeTracking
 		prevTimingGate = msgJson.id
 		emitTimer()
-		if (mode !== 'sprint') {
-			pubTimingGates('AGAIN')
-		}
-		if (mode !== 'nonstop' && state.results.length === nGate - 1) {
+		pubTimingGates('AGAIN')
+		if (mode !== 'nonstop' && state.results.length === nPhase) {
 			stopTimer()
 		}
 	}

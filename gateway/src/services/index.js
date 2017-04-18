@@ -1,3 +1,3 @@
-export * as UserService from './UserService'
-export * as HistoryService from './HistoryService'
-export * as DetailService from './DetailService'
+export * as UserService from 'src/services/UserService'
+export * as HistoryService from 'src/services/HistoryService'
+export * as DetailService from 'src/services/DetailService'

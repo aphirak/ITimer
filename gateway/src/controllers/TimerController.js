@@ -2,23 +2,24 @@ import { state } from 'src/parameters'
 import { emitTimer, pubTimingGates, stopTimer } from 'src/utilities'
 
 const postTimer = (req, res) => {
-	const { uid, nGate, distances, mode } = req.body
-	if (!state.isStarted && uid !== undefined && nGate >= 2 && distances.length === nGate) {
+	const { uid, nPhase, distances, mode } = req.body
+	console.log(req.body)
+	if (!state.isStarted && uid !== undefined && distances.length >= 2 && ((mode === 'sprint' && nPhase >= 1) || mode === 'nonstop')) {
 		state.uid = uid
-		state.nGate = nGate
+		state.nPhase = nPhase
 		state.distances = distances
+		state.mode = mode
 		state.isSetup = true
-		state.mode = mode || 'sprint'
 		pubTimingGates('SETUP')
 		emitTimer()
-		res.send({
+		res.json({
 			...state,
 			competitions: undefined,
 			timinggates: undefined
 		})
 	} else {
-		res.status(400).json({
-			status: 400,
+		res.status(403).json({
+			status: 403,
 			message: 'Parameter is incorrect'
 		})
 	}

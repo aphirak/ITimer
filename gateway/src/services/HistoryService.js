@@ -7,11 +7,11 @@ const getHistories = () => {
 	})
 }
 
-const postHistory = (uid, nGate, results, totalDistance, totalTime, speedAverage) => {
+const postHistory = (uid, results, totalDistance, totalTime, speedAverage) => {
 	bookshelf.transaction((t) => {
 		return History.forge({
 			user_id: uid,
-			total_gate: nGate,
+			total_phase: results.length,
 			total_distance: totalDistance,
 			total_time: totalTime,
 			speed_average: speedAverage

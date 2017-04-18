@@ -1,8 +1,7 @@
 export default {
 	uid: undefined,
-	nGate: undefined,
+	nPhase: undefined,
 	distances: [],
-	gate: 0,
 	isStarted: false,
 	isSetup: false,
 	results: [],
