@@ -1,9 +1,9 @@
-const initialState = { 
+const initialState = {
 	data: []
 }
 
 export default (state = initialState, action) => {
-	switch(action.type) {
+	switch (action.type) {
 		case 'GET_COMPETITIONS_SUCCESS':
 			return {
 				...state,

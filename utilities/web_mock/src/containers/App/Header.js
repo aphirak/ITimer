@@ -28,20 +28,20 @@ class Header extends Component {
 
 	render () {
 		return (
-			<nav className="nav has-shadow">
-				<div className="container">
-					<div className="nav-left">
-						<a className="nav-item" onClick={this.handleTab.bind(this, 'Home', '/')} >
-							<img src={logoITimer} alt="ITimer logo" />
+			<nav className='nav has-shadow'>
+				<div className='container'>
+					<div className='nav-left'>
+						<a className='nav-item' onClick={this.handleTab.bind(this, 'Home', '/')} >
+							<img src={logoITimer} alt='ITimer logo' />
 						</a>
 					</div>
-					<div className="nav-right" ref='menu'>
-						<a className="nav-item is-tab" onClick={this.handleTab.bind(this, 'Home', '/')}>Home</a>
-						<a className="nav-item is-tab" onClick={this.handleTab.bind(this, 'Competition', '/competition')}>Competition</a>
-						<a className="nav-item is-tab" onClick={this.handleTab.bind(this, 'Timer', '/timer')}>Timer</a>
-						<a className="nav-item is-tab" onClick={this.handleTab.bind(this, 'User', '/user')}>User</a>
-						<a className="nav-item is-tab" onClick={this.handleTab.bind(this, 'Contact', '/contact')}>Contact</a>
-						<a className="nav-item is-tab" onClick={this.handleTab.bind(this, 'Setting', '/setting')}>Setting</a>
+					<div className='nav-right' ref='menu'>
+						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Home', '/')}>Home</a>
+						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Competition', '/competition')}>Competition</a>
+						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Timer', '/timer')}>Timer</a>
+						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'User', '/user')}>User</a>
+						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Contact', '/contact')}>Contact</a>
+						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Setting', '/setting')}>Setting</a>
 					</div>
 				</div>
 			</nav>

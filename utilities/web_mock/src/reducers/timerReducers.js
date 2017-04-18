@@ -1,4 +1,4 @@
-const initialState = { 
+const initialState = {
 	gate: 0,
 	isSetup: false,
 	isStarted: false,
@@ -10,7 +10,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-	switch(action.type) {
+	switch (action.type) {
 		case 'GET_TIMER_SUCCESS':
 			return {
 				...state,

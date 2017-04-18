@@ -21,8 +21,8 @@ export default class App extends Component {
 			<div style={styles.site}>
 				<Header />
 				<div style={styles.siteContent}>
-					<section className="section">
-						<div className="container">
+					<section className='section'>
+						<div className='container'>
 							{this.props.children}
 						</div>
 					</section>
