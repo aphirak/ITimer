@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Header from 'containers/App/Header'
-import Footer from 'containers/App/Footer'
+import Header from 'containers/Apps/Header'
+import Footer from 'containers/Apps/Footer'
 import 'stylesheets/main.css'
 
 const styles = {
