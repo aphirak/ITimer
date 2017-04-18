@@ -23,7 +23,7 @@ const routes = (store, history) => (
 			<Route path='timer' getComponent = {(location, cb) => { System.import('containers/Timer').then(loadRoute(cb)).catch(errorLoading) }} />
 			<Route path='user'>
 				<IndexRoute getComponent = {(location, cb) => { System.import('containers/Users').then(loadRoute(cb)).catch(errorLoading) }} />
-				<Route path='add' getComponent = {(location, cb) => { System.import('containers/AddUser').then(loadRoute(cb)).catch(errorLoading) }} />
+				<Route path='add' getComponent = {(location, cb) => { System.import('containers/Users/AddUser').then(loadRoute(cb)).catch(errorLoading) }} />
 				<Route path=':user_id'>
 					<IndexRoute getComponent = {(location, cb) => { System.import('containers/ProfileUser').then(loadRoute(cb)).catch(errorLoading) }} />
 					<Route path='edit' getComponent = {(location, cb) => { System.import('containers/EditUser').then(loadRoute(cb)).catch(errorLoading) }} />
