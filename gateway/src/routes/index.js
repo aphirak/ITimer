@@ -1,43 +1,11 @@
 import { Router } from 'express'
 
-import {
-	UserController,
-	HistoryController,
-	TimerController,
-	CompetitionController,
-	TimingGateController
-} from 'src/controllers'
+import web from 'src/routes/web'
+import api from 'src/routes/api'
 
 const router = Router()
 
-router.route('/timers')
-	.post(TimerController.postTimer)
-	.delete(TimerController.deleteTimer)
-
-router.route('/competitions')
-	.delete(CompetitionController.deleteCompetition)
-
-router.route('/users')
-	.get(UserController.getUsers)
-	.post(UserController.postUser)
-
-router.route('/users/:id')
-	.get(UserController.getUserById)
-	.patch(UserController.patchUserById)
-	.delete(UserController.deleteUserById)
-
-router.route('/users/:id/histories')
-	.get(HistoryController.getHistoriesByUserId)
-	.delete(HistoryController.deleteHistoriesByUserId)
-
-router.route('/histories')
-	.get(HistoryController.getHistories)
-
-router.route('/histories/:id')
-	.get(HistoryController.getHistoryById)
-	.delete(HistoryController.deleteHistoryById)
-
-router.route('/timinggates')
-	.get(TimingGateController.getTimingGates)
+router.use('/', web)
+router.use('/api', api)
 
 export default router
