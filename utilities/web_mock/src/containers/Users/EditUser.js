@@ -25,10 +25,10 @@ class EditUser extends Component {
 }
 
 const initialValues = (state, ownProps) => {
-	if (!state.user.value.hasOwnProperty(ownProps.params.id)) {
+	if (!state.user.value.hasOwnProperty(ownProps.params.user_id)) {
 		return {}
 	} else {
-		let { username, firstname, lastname, nickname } = state.user.value[ownProps.params.id]
+		let { username, firstname, lastname, nickname } = state.user.value[ownProps.params.user_id]
 		return {
 			username,
 			firstname,
@@ -40,12 +40,12 @@ const initialValues = (state, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => ({
 	initialValues: initialValues(state, ownProps),
-	user: state.user.value[ownProps.params.id]
+	user: state.user.value[ownProps.params.user_id]
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onSubmit (value) {
-		dispatch(patchUserById(value, ownProps.params.id))
+		dispatch(patchUserById(value, ownProps.params.user_id))
 	},
 	getUserById (id) {
 		dispatch(getUserById(id))
