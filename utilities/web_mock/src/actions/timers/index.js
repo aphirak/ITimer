@@ -1,3 +1,3 @@
-export setupTimer from './setupTimer'
-export stopTimer from './stopTimer'
-export getTimer from './getTimer'
+export setupTimer from 'actions/timers/setupTimer'
+export stopTimer from 'actions/timers/stopTimer'
+export getTimer from 'actions/timers/getTimer'

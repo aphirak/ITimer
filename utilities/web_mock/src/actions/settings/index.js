@@ -1,2 +1,2 @@
-export getWifi from './getWifi'
-export postWifi from './postWifi'
+export getWifi from 'actions/settings/getWifi'
+export postWifi from 'actions/settings/postWifi'

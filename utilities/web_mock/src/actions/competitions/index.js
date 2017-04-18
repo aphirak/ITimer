@@ -1,2 +1,2 @@
-export getCompetitions from './getCompetitions'
-export resetCompetitions from './resetCompetitions'
+export getCompetitions from 'actions/compertitions/getCompetitions'
+export resetCompetitions from 'actions/compertitions/resetCompetitions'

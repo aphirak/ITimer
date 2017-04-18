@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack -p --config ./config/webpack.prod.config.js"
   },
   "dependencies": {
-    "bulma": "^0.3.1",
+    "bulma": "0.3.1",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",
     "react": "^15.4.2",
@@ -21,7 +21,8 @@
     "redux": "^3.6.0",
     "redux-api-middleware": "^1.0.2",
     "redux-form": "^6.4.3",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "socket.io-client": "^1.7.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
@@ -62,7 +63,7 @@
     "uglifyjs-webpack-plugin": "^0.4.3",
     "url-loader": "^0.5.7",
     "webpack": "^2.4.1",
-    "webpack-dashboard": "^0.2.1",
+    "webpack-dashboard": "^0.3.0",
     "webpack-dev-server": "^2.4.2",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-merge": "^4.1.0"
