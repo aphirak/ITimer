@@ -27,7 +27,7 @@ const routes = (store, history) => (
 				<Route path=':user_id'>
 					<IndexRoute getComponent = {(location, cb) => { System.import('containers/Users/ProfileUser').then(loadRoute(cb)).catch(errorLoading) }} />
 					<Route path='edit' getComponent = {(location, cb) => { System.import('containers/Users/EditUser').then(loadRoute(cb)).catch(errorLoading) }} />
-					<Route path='history' getComponent = {(location, cb) => { System.import('containers/ListHistoryUser').then(loadRoute(cb)).catch(errorLoading) }} />
+					<Route path='history' getComponent = {(location, cb) => { System.import('containers/Histories/ListHistoryUser').then(loadRoute(cb)).catch(errorLoading) }} />
 				</Route>
 			</Route>
 			<Route path='history' getComponent = {(location, cb) => { System.import('containers/History').then(loadRoute(cb)).catch(errorLoading) }} />

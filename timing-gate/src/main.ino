@@ -5,7 +5,7 @@
 #define TRACKING 4
 #define LED_TRACKING 0
 #define LED_CONNECTION 5
-#define ID 1
+#define ID 2
 
 const char* ssid     = "bach1";
 const char* password = "aaaaaaaaaa";

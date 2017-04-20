@@ -1,4 +1,4 @@
-#define LED_IR 4
+#define LED_IR 13
 
 void setup() {
   Serial.begin(9600);
