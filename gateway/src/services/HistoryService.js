@@ -7,14 +7,14 @@ const getHistories = () => {
 	})
 }
 
-const postHistory = (uid, results, totalDistance, totalTime, speedAverage) => {
+const postHistory = (uid, results, total_distance, total_time, speed_average) => {
 	bookshelf.transaction((t) => {
 		return History.forge({
 			user_id: uid,
 			total_phase: results.length,
-			total_distance: totalDistance,
-			total_time: totalTime,
-			speed_average: speedAverage
+			total_distance,
+			total_time,
+			speed_average
 		}).save(null, { transacting: t }).then((history) => {
 			results.map((result) => {
 				Detail.forge(result)

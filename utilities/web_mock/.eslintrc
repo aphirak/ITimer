@@ -11,6 +11,7 @@
       "indent": [ "error", "tab", { "SwitchCase": 1 } ],
       "no-console": "warn",
       "no-var": "error",
+      "camelcase": 0,
       "jsx-quotes": [ 2, "prefer-single" ],
       "react/jsx-uses-react": "error",
       "react/jsx-uses-vars": "error",

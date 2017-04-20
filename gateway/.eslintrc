@@ -7,8 +7,9 @@
   ],
   "rules": {
       "no-tabs": "off",        
-      "indent": ["error", "tab", {"SwitchCase": 1}],
-      "no-console": "warn"
+      "indent": ["error", "tab", { "SwitchCase": 1 }],
+      "no-console": "warn",
+      "camelcase": 0
   },
   "parserOptions": {
     "ecmaVersion": 6,

@@ -19,11 +19,11 @@ const stopTimer = () => {
 	console.log(state.results)
 	let { results, uid } = state
 	if (results.length !== 0) {
-		let totalDistance = results.reduce((sum, value) => sum + (+value.distance), 0)
-		let totalTime = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
-		let speedAverage = +(totalDistance / totalTime).toFixed(3)
-		insertHistory(totalDistance, totalTime, speedAverage)
-		state.competitions.push({ uid, totalDistance, totalTime, speedAverage })
+		let total_distance = results.reduce((sum, value) => sum + (+value.distance), 0)
+		let total_time = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
+		let speed_average = +(total_distance / total_time).toFixed(3)
+		insertHistory(total_distance, total_time, speed_average)
+		state.competitions.push({ uid, total_distance, total_time, speed_average })
 		emitCompetition()
 	}
 	state.isStarted = false
