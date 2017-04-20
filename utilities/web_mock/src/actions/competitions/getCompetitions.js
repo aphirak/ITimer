@@ -16,7 +16,7 @@ const requestSuccess = (response) => {
 export default () => {
 	return (dispatch) => {
 		dispatch(requestFetch())
-		const io = socket(process.env.API)
+		const io = socket(process.env.SOCKET)
 		io.on('competitions', (response) => {
 			dispatch(requestSuccess(response))
 		})

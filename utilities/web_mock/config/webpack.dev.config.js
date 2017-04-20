@@ -71,7 +71,8 @@ module.exports = merge(baseWebpackConfig, {
 		}),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development',
-			API: 'http://localhost:9090/api'
+			API: 'http://localhost:9090/api',
+			SOCKET: 'http://localhost:9090'
 		}),
 		new webpack.NamedModulesPlugin()
 	],

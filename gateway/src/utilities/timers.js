@@ -24,6 +24,7 @@ const stopTimer = () => {
 		let speed_average = +(total_distance / total_time).toFixed(3)
 		insertHistory(total_distance, total_time, speed_average)
 		state.competitions.push({ uid, total_distance, total_time, speed_average })
+		state.competitions.sort((a, b) => (a.total_time - b.total_time))
 		emitCompetition()
 	}
 	state.isStarted = false

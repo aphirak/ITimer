@@ -123,7 +123,8 @@ module.exports = merge(baseWebpackConfig, {
 		}),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'production',
-			API: 'http://localhost:9090/api'
+			API: 'http://localhost:9090/api',
+			SOCKET: 'http://localhost:9090'
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
