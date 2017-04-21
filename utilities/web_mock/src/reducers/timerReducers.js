@@ -5,7 +5,7 @@ const initialState = {
 	results: [],
 	time: undefined,
 	uid: undefined,
-	nGate: undefined,
+	nPhase: undefined,
 	distances: []
 }
 

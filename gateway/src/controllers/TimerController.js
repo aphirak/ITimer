@@ -1,9 +1,19 @@
+import _ from 'lodash'
+
 import { state } from 'src/parameters'
 import { emitTimer, pubTimingGates, stopTimer } from 'src/utilities'
 
 const postTimer = (req, res) => {
-	const { uid, nPhase, distances, mode } = req.body
-	console.log(req.body)
+	const { uid, nPhase, routes, mode } = req.body
+	let gates = _.uniq(routes.reduce((sum, route) => [...sum, route.startGate, route.endGate], []))
+	let distances = []
+	gates.map((gate) => {
+		distances.push([])
+	})
+	routes.map((route) => {
+		distances[route.startGate - 1][route.endGate - 1] = route.distance
+		distances[route.endGate - 1][route.startGate - 1] = route.distance
+	})
 	if (!state.isStarted && uid !== undefined && distances.length >= 2 && ((mode === 'sprint' && nPhase >= 1) || mode === 'nonstop')) {
 		state.uid = uid
 		state.nPhase = nPhase
@@ -12,6 +22,11 @@ const postTimer = (req, res) => {
 		state.isSetup = true
 		pubTimingGates('SETUP')
 		emitTimer()
+		console.log({
+			...state,
+			competitions: undefined,
+			timinggates: undefined
+		})
 		res.json({
 			...state,
 			competitions: undefined,
