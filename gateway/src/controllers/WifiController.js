@@ -2,7 +2,7 @@ import wifi from 'node-wifi'
 import sh from 'shelljs'
 
 wifi.init({
-	iface: null
+	iface: 'wlan1'
 })
 
 const getWifi = (req, res) => {
@@ -28,11 +28,7 @@ const postWifi = (req, res) => {
 	let str_cmd = `sudo nmcli device wifi connect ${req.body.ssid}` + ((req.body.password !== undefined) ? ` password ${req.body.password} ` : ' ') + `ifname wlan1`
 	let output = sh.exec(str_cmd)
 	if (output.stderr.indexOf('Error: Failed to add/activate new connection: Unknown error') !== -1) {
-		res.json({
-			ssid: req.body.ssid,
-			status: 'Connected',
-			error: ''
-		})
+		getWifiConnected(req, res)
 	} else {
 		res.json({
 			ssid: req.body.ssid,
@@ -42,9 +38,27 @@ const postWifi = (req, res) => {
 	}
 }
 
+const getWifiConnected = (req, res) => {
+	let str_cmd = `nmcli device show wlan1`
+	let output = sh.exec(str_cmd)
+	if (output.stderr.indexOf(`Error: Device 'wlan1' not found.`) === -1) {
+		let data = output.stdout.split('\n').filter(value => value.indexOf('GENERAL.DEVICE') !== -1 || value.indexOf('IP4.ADDRESS[1]') !== -1)
+		let ssid = data[0].replace(/\s/g, '').split(':')[1]
+		let ip = data[1].replace(/\s/g, '').split(/[=,/]/)[1]
+		res.json({
+			ssid,
+			ip,
+			status: 'Connected'
+		})
+	} else {
+		res.json({ error: output.stderr })
+	}
+}
+
 export {
 	getWifi,
-	postWifi
+	postWifi,
+	getWifiConnected
 }
 
 // router.route('/')

@@ -41,8 +41,10 @@ router.route('/histories/:id')
 router.route('/timinggates')
 	.get(TimingGateController.getTimingGates)
 
-router.route('/wifi')
+router.route('/wifis')
 	.get(WifiController.getWifi)
 	.post(WifiController.postWifi)
+
+router.get('/wifis/connected', WifiController.getWifiConnected)
 
 export default router

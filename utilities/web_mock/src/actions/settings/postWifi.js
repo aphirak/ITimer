@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware'
 
 export default (value) => dispatch => dispatch({
 	[CALL_API]: {
-		endpoint: `${process.env.API}/wifi`,
+		endpoint: `${process.env.API}/wifis`,
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
