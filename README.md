@@ -44,7 +44,7 @@
 
 ### Timing Gate
 - NodeMCU V2
-- Infrared sesor
+- Infrared Sensor
 
 ## Software
 
