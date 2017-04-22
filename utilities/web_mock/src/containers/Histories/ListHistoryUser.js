@@ -89,28 +89,28 @@ class ListHistoryUser extends Component {
 					<table className='table is-striped is-fullwidth'>
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Number of gate</th>
-								<th>Total Distance (m)</th>
-								<th>Total Time (s)</th>
-								<th>Speed Average (m/s)</th>
-								<th>Date</th>
-								<th>Option</th>
+								<th style={{ 'textAlign': 'center' }}>#</th>
+								<th style={{ 'textAlign': 'center' }}>Number of phase</th>
+								<th style={{ 'textAlign': 'center' }}>Total Distance (m)</th>
+								<th style={{ 'textAlign': 'center' }}>Total Time (s)</th>
+								<th style={{ 'textAlign': 'center' }}>Speed Average (m/s)</th>
+								<th style={{ 'textAlign': 'center' }}>Date</th>
+								<th style={{ 'textAlign': 'center' }}>Option</th>
 							</tr>
 						</thead>
 						<tbody>
 							{
 								this.props.histories.map((history, index) => {
-									let { id, total_gate, total_distance, total_time, speed_average, created_at } = history
+									let { id, total_phase, total_distance, total_time, speed_average, created_at } = history
 									return (
 										<tr key={index}>
-											<td>{index + 1}</td>
-											<td>{total_gate}</td>
-											<td>{total_distance}</td>
-											<td>{total_time}</td>
-											<td>{speed_average}</td>
-											<td>{moment(created_at).fromNow()}</td>
-											<td>
+											<td style={{ 'textAlign': 'center' }}>{index + 1}</td>
+											<td style={{ 'textAlign': 'center' }}>{total_phase}</td>
+											<td style={{ 'textAlign': 'center' }}>{total_distance}</td>
+											<td style={{ 'textAlign': 'center' }}>{total_time}</td>
+											<td style={{ 'textAlign': 'center' }}>{speed_average}</td>
+											<td style={{ 'textAlign': 'center' }}>{moment(created_at).fromNow()}</td>
+											<td style={{ 'textAlign': 'center' }}>
 												<button onClick={this.activeModalDetail.bind(this, id, total_distance, total_time, speed_average)} className='button is-primary'>Detail</button>
 											</td>
 										</tr>
