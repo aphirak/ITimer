@@ -11,10 +11,10 @@ export default ({ data, isActive, inActiveModal, total }) => {
 				<table className='table is-striped'>
 					<thead>
 						<tr>
-							<th>Phase</th>
-							<th>Distance (m)</th>
-							<th>Time (s)</th>
-							<th>Speed (m/s)</th>
+							<th style={{ 'textAlign': 'center' }}>Phase</th>
+							<th style={{ 'textAlign': 'center' }}>Distance (m)</th>
+							<th style={{ 'textAlign': 'center' }}>Time (s)</th>
+							<th style={{ 'textAlign': 'center' }}>Speed (m/s)</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -22,19 +22,19 @@ export default ({ data, isActive, inActiveModal, total }) => {
 							data.map((value, index) => {
 								return (
 									<tr key={index}>
-										<td>{value.phase}</td>
-										<td>{value.distance}</td>
-										<td>{value.time}</td>
-										<td>{value.speed}</td>
+										<td style={{ 'textAlign': 'center' }}>{value.phase}</td>
+										<td style={{ 'textAlign': 'center' }}>{value.distance}</td>
+										<td style={{ 'textAlign': 'center' }}>{value.time}</td>
+										<td style={{ 'textAlign': 'center' }}>{value.speed}</td>
 									</tr>
 								)
 							})
 						}
 						<tr>
-							<td><strong>Total</strong></td>
-							<td><strong>{total.total_distance}</strong></td>
-							<td><strong>{total.total_time}</strong></td>
-							<td><strong>{total.speed_average}</strong></td>
+							<td style={{ 'textAlign': 'center' }}><strong>Total</strong></td>
+							<td style={{ 'textAlign': 'center' }}><strong>{total.total_distance}</strong></td>
+							<td style={{ 'textAlign': 'center' }}><strong>{total.total_time}</strong></td>
+							<td style={{ 'textAlign': 'center' }}><strong>{total.speed_average}</strong></td>
 						</tr>
 					</tbody>
 				</table>

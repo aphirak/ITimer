@@ -32,19 +32,19 @@ class ListHistoryUser extends Component {
 		histories.reverse()
 		histories.map((history, index) => {
 			let data = moment(history.created_at).format('DD/MM/YY')
-			dataChart.time.push({ name: `${data}`, Time: history.totalTime })
-			dataChart.speed.push({ name: `${data}`, Speed: history.speedAverage })
+			dataChart.time.push({ name: `${data}`, Time: history.total_time })
+			dataChart.speed.push({ name: `${data}`, Speed: history.speed_average })
 		})
 		this.setState({ dataChart })
 		this.setState({ isModalActiveChart: true })
 	}
 
-	activeModalDetail (id, total_distance, totalTime, speedAverage) {
+	activeModalDetail (id, total_distance, total_time, speed_average) {
 		let dataDetail = this.props.histories.find((history) => history.id === id).details
 		let totalDetail = {
 			total_distance,
-			totalTime,
-			speedAverage
+			total_time,
+			speed_average
 		}
 		this.setState({ dataDetail, totalDetail })
 		this.setState({ isModalActiveDetail: true })
