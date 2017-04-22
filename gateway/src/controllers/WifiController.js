@@ -42,7 +42,7 @@ const getWifiConnected = (req, res) => {
 	let str_cmd = `nmcli device show wlan1`
 	let output = sh.exec(str_cmd)
 	if (output.stderr.indexOf(`Error: Device 'wlan1' not found.`) === -1) {
-		let data = output.stdout.split('\n').filter(value => value.indexOf('GENERAL.DEVICE') !== -1 || value.indexOf('IP4.ADDRESS[1]') !== -1)
+		let data = output.stdout.split('\n').filter(value => value.indexOf('GENERAL.CONNECTION') !== -1 || value.indexOf('IP4.ADDRESS[1]') !== -1)
 		let ssid = data[0].replace(/\s/g, '').split(':')[1]
 		let ip = data[1].replace(/\s/g, '').split(/[=,/]/)[1]
 		res.json({
