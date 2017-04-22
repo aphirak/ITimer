@@ -5,28 +5,24 @@ import { emitTimer, pubTimingGates, stopTimer } from 'src/utilities'
 
 const postTimer = (req, res) => {
 	const { uid, nPhase, routes, mode } = req.body
-	let gates = _.uniq(routes.reduce((sum, route) => [...sum, route.startGate, route.endGate], []))
+	let gates = _.uniq(routes.reduce((sum, route) => [...sum, parseInt(route.startGate), parseInt(route.endGate)], []))
 	let distances = []
 	gates.map((gate) => {
 		distances.push([])
 	})
 	routes.map((route) => {
-		distances[route.startGate - 1][route.endGate - 1] = route.distance
-		distances[route.endGate - 1][route.startGate - 1] = route.distance
+		distances[route.startGate - 1][route.endGate - 1] = parseInt(route.distance)
+		distances[route.endGate - 1][route.startGate - 1] = parseInt(route.distance)
 	})
+	console.log(distances)
 	if (!state.isStarted && uid !== undefined && distances.length >= 2 && ((mode === 'sprint' && nPhase >= 1) || mode === 'nonstop')) {
 		state.uid = uid
-		state.nPhase = nPhase
+		state.nPhase = parseInt(nPhase)
 		state.distances = distances
 		state.mode = mode
 		state.isSetup = true
 		pubTimingGates('SETUP')
 		emitTimer()
-		console.log({
-			...state,
-			competitions: undefined,
-			timinggates: undefined
-		})
 		res.json({
 			...state,
 			competitions: undefined,

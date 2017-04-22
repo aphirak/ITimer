@@ -9,26 +9,28 @@ import wifiReducers from 'reducers/wifiReducers'
 
 export default combineReducers({
 	routing: routerReducer,
-	form: formReducer.plugin({
-		timerForm: (state, action) => {
-			switch (action.type) {
-				case 'GET_TIMER_SUCCESS':
-					return {
-						...state,
-						values: {
-							uid: action.payload.uid,
-							nPhase: action.payload.nPhase,
-							mode: action.payload.mode || 'sprint'
-						}
-					}
-				default:
-					return state
-			}
-		}
-	}),
+	form: formReducer,
 	timer: timerReducers,
 	competition: competitionReducers,
 	user: userReducers,
 	history: historyReducers,
 	wifi: wifiReducers
 })
+
+	// form: formReducer.plugin({
+	// 	timerForm: (state, action) => {
+	// 		switch (action.type) {
+	// 			case 'GET_TIMER_SUCCESS':
+	// 				return {
+	// 					...state,
+	// 					values: {
+	// 						uid: action.payload.uid,
+	// 						nPhase: action.payload.nPhase,
+	// 						mode: action.payload.mode || 'sprint'
+	// 					}
+	// 				}
+	// 			default:
+	// 				return state
+	// 		}
+	// 	}
+	// }),

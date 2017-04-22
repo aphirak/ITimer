@@ -58,7 +58,8 @@ class Timer extends Component {
 					(!isSetup) ? (
 						<SetupTimerMock
 							handleSubmit={this.props.handleSubmit}
-							mode={this.props.mode} />
+							mode={this.props.mode}
+							array={this.props.array} />
 					) : (
 						<DisplayTimer
 							gate={gate}
@@ -105,7 +106,8 @@ const mapStateToProps = (state) => ({
 	initialValues: {
 		uid: state.timer.uid,
 		nPhase: state.timer.nPhase,
-		mode: state.timer.mode
+		mode: state,
+		routes: [{}]
 	},
 	mode: selector(state, 'mode'),
 	timer: state.timer
