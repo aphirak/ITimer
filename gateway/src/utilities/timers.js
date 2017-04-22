@@ -3,7 +3,6 @@ import { state } from 'src/parameters'
 import { emitCompetition, pubTimingGates, insertHistory } from 'src/utilities'
 
 let prevTimeTracking, prevTimingGate
-let phase = 0
 
 const emitTimer = (socket = io) => {
 	socket.emit('timer', {
@@ -14,13 +13,13 @@ const emitTimer = (socket = io) => {
 }
 
 const stopTimer = () => {
-	console.log('End')
+	console.log('------------------End---------------------')
 	pubTimingGates('RESET')
-	console.log(state.results)
-	let { results, uid } = state
+	console.log('Result', state.results)
+	let { results, uid, time } = state
 	if (results.length !== 0) {
-		let total_distance = results.reduce((sum, value) => sum + (+value.distance), 0)
-		let total_time = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
+		let total_distance = +results.reduce((sum, value) => sum + (+value.distance), 0).toFixed(3)
+		let total_time = time
 		let speed_average = +(total_distance / total_time).toFixed(3)
 		insertHistory(total_distance, total_time, speed_average)
 		state.competitions.push({ uid, total_distance, total_time, speed_average })
@@ -36,7 +35,7 @@ const stopTimer = () => {
 	state.isSetup = false
 	state.results = []
 	state.time = 0
-	phase = 0
+	state.phase = 0
 }
 
 const trackingTimer = (msgJson) => {
@@ -47,16 +46,17 @@ const trackingTimer = (msgJson) => {
 		if (!isStarted) {
 			state.isStarted = true
 		} else {
-			++phase
+			++state.phase
 			let distance = distances[prevTimingGate - 1][msgJson.id - 1]
 			let time = +(timeTracking - prevTimeTracking).toFixed(3)
 			let speed = +(distance / time).toFixed(3)
 			state.results.push({
-				phase,
+				phase: state.phase,
 				time,
 				distance,
 				speed
 			})
+			state.time = +state.results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
 		}
 		prevTimeTracking = timeTracking
 		prevTimingGate = msgJson.id

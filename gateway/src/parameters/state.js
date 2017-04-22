@@ -1,5 +1,7 @@
 export default {
 	uid: undefined,
+	phase: 0,
+	time: 0,
 	nPhase: undefined,
 	distances: [],
 	isStarted: false,

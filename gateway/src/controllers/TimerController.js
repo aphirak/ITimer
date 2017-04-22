@@ -11,8 +11,8 @@ const postTimer = (req, res) => {
 		distances.push([])
 	})
 	routes.map((route) => {
-		distances[route.startGate - 1][route.endGate - 1] = parseInt(route.distance)
-		distances[route.endGate - 1][route.startGate - 1] = parseInt(route.distance)
+		distances[route.startGate - 1][route.endGate - 1] = +route.distance
+		distances[route.endGate - 1][route.startGate - 1] = +route.distance
 	})
 	console.log(distances)
 	if (!state.isStarted && uid !== undefined && distances.length >= 2 && ((mode === 'sprint' && nPhase >= 1) || mode === 'nonstop')) {

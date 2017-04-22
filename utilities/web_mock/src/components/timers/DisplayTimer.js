@@ -2,14 +2,15 @@ import React from 'react'
 
 import Layout from 'components/Layout'
 
-const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGate, uid, distances }) => {
-	let total_distance = results.reduce((sum, value) => sum + (+value.distance), 0)
-	let total_time = results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
-	let speedAverage = ((+total_distance) / (+total_time)).toFixed(3)
+const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPhase, uid, mode }) => {
+	let total_distance = +results.reduce((sum, value) => sum + (+value.distance), 0).toFixed(3)
+	let total_time = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
+	let speed_average = +(total_distance / total_time).toFixed(3)
 	return (
 		<Layout title='Time' size='is-large'>
 			<h1>{time} s</h1>
-			<div><strong>Timing Gate</strong> : {gate} / {nGate}</div>
+			<div><strong>Phase</strong> : {phase} / {nPhase || 'unlimited'}</div>
+			<div><strong>Mode</strong> : {mode}</div>
 			<div><strong>User ID</strong> : {uid}</div>
 			<br />
 			{
@@ -18,9 +19,9 @@ const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGat
 						<thead>
 							<tr>
 								<th>Phase</th>
-								<th>Distance</th>
-								<th>Time</th>
-								<th>Speed</th>
+								<th>Distance (m)</th>
+								<th>Time (s)</th>
+								<th>Speed (m/s)</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -29,18 +30,18 @@ const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGat
 									return (
 										<tr key={index}>
 											<td>{result.phase}</td>
-											<td>{result.distance} m</td>
-											<td>{result.time} s</td>
-											<td>{result.speed} m/s</td>
+											<td>{result.distance}</td>
+											<td>{result.time}</td>
+											<td>{result.speed}</td>
 										</tr>
 									)
 								})
 							}
 							<tr>
 								<td><strong>Total</strong></td>
-								<td><strong>{total_distance} m</strong></td>
-								<td><strong>{total_time} s</strong></td>
-								<td><strong>{speedAverage} m/s</strong></td>
+								<td><strong>{total_distance}</strong></td>
+								<td><strong>{total_time}</strong></td>
+								<td><strong>{speed_average}</strong></td>
 							</tr>
 						</tbody>
 					</table>

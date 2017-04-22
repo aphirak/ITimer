@@ -7,7 +7,7 @@ import * as actions from 'actions'
 import { DisplayTimer, SetupTimerMock } from 'components/timers'
 
 const { setupTimer, stopTimer, getTimer } = actions
-let x
+let localTime
 
 class Timer extends Component {
 	state = {
@@ -22,36 +22,35 @@ class Timer extends Component {
 		})
 	}
 
-	aaa (initTime) {
+	handleLocalTime (initTime) {
+		clearInterval(localTime)
 		let timestamp = moment.duration(initTime * 1000, 'milliseconds')
-		x = setInterval(() => {
+		localTime = setInterval(() => {
 			timestamp = moment.duration(timestamp + 37, 'milliseconds')
 			this.setState({ time: timestamp.asSeconds().toFixed(3) })
 		}, 37)
-		this.setState({ isCallLocalTimer: true })
 	}
 
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.timer.time !== undefined) {
-			if (nextProps.timer.isStarted && !this.state.isCallLocalTimer) {
-				this.aaa.bind(this)(nextProps.timer.time)
+			if (nextProps.timer.isStarted) {
+				this.handleLocalTime.bind(this)(nextProps.timer.time)
 			} else if (!nextProps.timer.isStarted) {
-				clearInterval(x)
-				this.setState({ isCallLocalTimer: false })
+				clearInterval(localTime)
 			}
 		}
-	}
-
-	componentWillUnmount () {
-		clearInterval(x)
 	}
 
 	componentDidMount () {
 		this.props.getTimer()
 	}
 
+	componentWillUnmount () {
+		clearInterval(localTime)
+	}
+
 	render () {
-		const { gate, results, time, isStarted, isSetup, distances, nGate, uid } = this.props.timer
+		const { phase, results, time, isStarted, isSetup, nPhase, uid, mode } = this.props.timer
 		return (
 			<div>
 				{
@@ -62,15 +61,15 @@ class Timer extends Component {
 							array={this.props.array} />
 					) : (
 						<DisplayTimer
-							gate={gate}
+							phase={phase}
 							results={results}
 							time={(isStarted) ? this.state.time : time}
 							isStarted={isStarted}
-							nGate={nGate}
-							distances={distances}
+							nPhase={nPhase}
 							uid={uid}
 							stopTimer={this.props.stopTimer}
-							goSetup={this.goSetup.bind(this)} />
+							goSetup={this.goSetup.bind(this)}
+							mode={mode} />
 					)
 				}
 			</div>
