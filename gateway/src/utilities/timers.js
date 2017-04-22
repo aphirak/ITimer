@@ -62,7 +62,7 @@ const trackingTimer = (msgJson) => {
 		prevTimingGate = msgJson.id
 		emitTimer()
 		pubTimingGates('AGAIN')
-		if (mode !== 'nonstop' && state.results.length >= nPhase) {
+		if (mode !== 'nonstop' && state.results.length === nPhase) {
 			stopTimer()
 		}
 	}
