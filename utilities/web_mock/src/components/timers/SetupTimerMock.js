@@ -11,7 +11,15 @@ const renderField = ({ input, label, type, min, max, step }) => {
 				<label>{label}</label>{' : '}
 			</div>
 			<div className='column has-text-left'>
-				<input {...input} type={type} min={min} max={max} step={step} />
+				<input
+					{...input}
+					type={type}
+					min={min}
+					max={max}
+					step={step}
+					style={{ 'width': '50px', 'textAlign': 'center' }}
+					className='input is-primary is-small'
+				/>
 			</div>
 			<div className='column is-4' />
 		</div>
@@ -33,6 +41,7 @@ const renderRouteFields = ({ fields }) => {
 										name={`routes[${index}].startGate`}
 										component='input'
 										style={{ 'width': '30px', 'textAlign': 'center' }}
+										className='input is-primary is-small'
 									/>
 								</div>
 								<div className='column'>
@@ -43,6 +52,7 @@ const renderRouteFields = ({ fields }) => {
 										name={`routes[${index}].endGate`}
 										component='input'
 										style={{ 'width': '30px', 'textAlign': 'center' }}
+										className='input is-primary is-small'
 									/>
 								</div>
 								<div className='column'>
@@ -59,6 +69,7 @@ const renderRouteFields = ({ fields }) => {
 										name={`routes[${index}].distance`}
 										component='input'
 										style={{ 'width': '50px', 'textAlign': 'center' }}
+										className='input is-primary is-small'
 									/> m
 								</div>
 							</div>

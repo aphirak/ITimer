@@ -105,7 +105,7 @@ const mapStateToProps = (state) => ({
 	initialValues: {
 		uid: state.timer.uid,
 		nPhase: state.timer.nPhase,
-		mode: state,
+		mode: state.timer.mode,
 		routes: [{}]
 	},
 	mode: selector(state, 'mode'),
@@ -114,7 +114,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onSubmit (value) {
-		console.log(value)
 		dispatch(setupTimer(value))
 	},
 	stopTimer () {

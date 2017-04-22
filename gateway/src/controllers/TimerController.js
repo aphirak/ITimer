@@ -10,11 +10,10 @@ const postTimer = (req, res) => {
 	gates.map((gate) => {
 		distances.push([])
 	})
-	routes.map((route) => {
+	routes.filter(route => Object.values(route).length === 3).map((route) => {
 		distances[route.startGate - 1][route.endGate - 1] = +route.distance
 		distances[route.endGate - 1][route.startGate - 1] = +route.distance
 	})
-	console.log(distances)
 	if (!state.isStarted && uid !== undefined && distances.length >= 2 && ((mode === 'sprint' && nPhase >= 1) || mode === 'nonstop')) {
 		state.uid = uid
 		state.nPhase = parseInt(nPhase)
