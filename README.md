@@ -44,8 +44,7 @@
 
 ### Timing Gate
 - NodeMCU V2
-- Laser Pointer
-- Laser Receiver Module
+- Infrared sesor
 
 ## Software
 
