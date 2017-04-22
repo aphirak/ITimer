@@ -5,7 +5,8 @@ import {
 	HistoryController,
 	TimerController,
 	CompetitionController,
-	TimingGateController
+	TimingGateController,
+	WifiController
 } from 'src/controllers'
 
 const router = Router()
@@ -39,5 +40,9 @@ router.route('/histories/:id')
 
 router.route('/timinggates')
 	.get(TimingGateController.getTimingGates)
+
+router.route('/wifi')
+	.get(WifiController.getWifi)
+	.post(WifiController.postWifi)
 
 export default router

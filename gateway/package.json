@@ -27,6 +27,7 @@
     "mqtt": "^2.6.1",
     "mysql": "^2.13.0",
     "node-wifi": "^1.2.4",
+    "shelljs": "^0.7.7",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
