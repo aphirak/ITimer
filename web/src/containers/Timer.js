@@ -1,76 +1,78 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, formValueSelector } from 'redux-form'
+import NanoTimer from 'nanotimer'
 import moment from 'moment'
-
 import * as actions from 'actions'
-import { DisplayTimer, SetupTimerMock } from 'components/timers'
+import { DisplayTimer, SetupTimer } from 'components/timers'
 
 const { setupTimer, stopTimer, getTimer } = actions
-let localTime
+let x;
 
 class Timer extends Component {
+
 	state = {
 		time: 0,
 		isCallLocalTimer: false
 	}
 
-	goSetup () {
+	goSetup(){
 		this.props.dispatch({
 			type: 'SET_ISSETUP_TIMER',
 			payload: false
 		})
 	}
 
-	handleLocalTime (initTime) {
-		clearInterval(localTime)
-		let timestamp = moment.duration(initTime * 1000, 'milliseconds')
-		localTime = setInterval(() => {
-			timestamp = moment.duration(timestamp + 37, 'milliseconds')
-			this.setState({ time: timestamp.asSeconds().toFixed(3) })
-		}, 37)
+	aaa(initTime){
+		let timestamp = moment.duration(initTime*1000, 'milliseconds')
+		console.log(timestamp)
+		x = setInterval(() => {
+	    	timestamp = moment.duration(timestamp + 37, 'milliseconds')
+	    	this.setState({ time: timestamp.asSeconds().toFixed(3) })
+		},37)
+		this.setState({ isCallLocalTimer: true })
 	}
 
-	componentWillReceiveProps (nextProps) {
-		if (nextProps.timer.time !== undefined) {
-			if (nextProps.timer.isStarted) {
-				this.handleLocalTime.bind(this)(nextProps.timer.time)
-			} else if (!nextProps.timer.isStarted) {
-				clearInterval(localTime)
+	componentWillReceiveProps(nextProps){
+		if(nextProps.timer.time != undefined){
+			if(nextProps.timer.isStarted && !this.state.isCallLocalTimer){
+				this.aaa.bind(this)(nextProps.timer.time)
+			} else if(!nextProps.timer.isStarted){
+				clearInterval(x)
+				this.setState({ isCallLocalTimer: false })
 			}
 		}
 	}
 
-	componentDidMount () {
+	componentWillUnmount(){
+		clearInterval(x)
+	}
+
+	componentWillMount(){
 		this.props.getTimer()
 	}
 
-	componentWillUnmount () {
-		clearInterval(localTime)
-	}
-
-	render () {
-		const { phase, results, time, isStarted, isSetup, nPhase, uid, mode } = this.props.timer
+	render(){
+		const { gate, results, time, isStarted, isSetup, stopTimer, distances, nGate, uid } = this.props.timer
 		return (
 			<div>
 				{
-					(!isSetup) ? (
-						<SetupTimerMock
+					(!isSetup) ? 
+						<SetupTimer
 							handleSubmit={this.props.handleSubmit}
-							mode={this.props.mode}
-							array={this.props.array} />
-					) : (
-						<DisplayTimer
-							phase={phase}
+							nGate={this.props.nGate}
+						/> :
+						<DisplayTimer 
+							gate={gate}
 							results={results}
 							time={(isStarted) ? this.state.time : time}
 							isStarted={isStarted}
-							nPhase={nPhase}
+							nGate={nGate}
+							distances={distances}
 							uid={uid}
 							stopTimer={this.props.stopTimer}
 							goSetup={this.goSetup.bind(this)}
-							mode={mode} />
-					)
+						/> 
 				}
 			</div>
 		)
@@ -92,34 +94,31 @@ class Timer extends Component {
 // 	return errors
 // }
 
-const selector = formValueSelector('timerForm')
+Timer = reduxForm({
+	form: 'timerForm'
+})(Timer)
 
-	// initialValues: {
-	// 	uid: state.timer.uid,
-	// 	nPhase: state.timer.nPhase,
-	// 	mode: state.timer.mode,
-	// 	distances: state.timer.distances
-	// },
+const selector = formValueSelector('timerForm')
 
 const mapStateToProps = (state) => ({
 	initialValues: {
 		uid: state.timer.uid,
-		nPhase: state.timer.nPhase,
-		mode: state.timer.mode,
-		routes: [{}]
+		nGate: state.timer.nGate,
+		distanceType: 0,
+		distances: state.timer.distances
 	},
-	mode: selector(state, 'mode'),
+	nGate: selector(state, 'nGate'),
 	timer: state.timer
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-	onSubmit (value) {
+	onSubmit(value){
 		dispatch(setupTimer(value))
 	},
-	stopTimer () {
+	stopTimer(){
 		dispatch(stopTimer())
 	},
-	getTimer () {
+	getTimer(){
 		dispatch(getTimer())
 	}
 })
@@ -127,6 +126,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(reduxForm({
-	form: 'timerForm'
-})(Timer))
+)(Timer)

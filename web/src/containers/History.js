@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 
-class History extends Component {
-	render () {
+export default class History extends Component {
+	render(){
 		return (
-			<div>
-				<h1>History</h1>
+			<div className="has-text-centered">
+				<div className="heading">
+					<h1 className="title">
+						<strong>History</strong>
+					</h1>
+				</div>
+				<hr />
+				<div className="content">
+
+				</div>
 			</div>
 		)
 	}
 }
-
-export default History

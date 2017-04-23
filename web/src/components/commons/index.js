@@ -1,1 +1,1 @@
-export Modal from 'components/commons/Modal'
+export Modal from './Modal'
