@@ -18,7 +18,7 @@ const requestFailure = (err) => ({
 
 export default (value) => dispatch => {
 	dispatch(requestStart())
-	axios.post(`${config.host}/users`, value)
+	axios.post(`${config.API}/users`, value)
 		.then((res) => {
 			Actions.listUser({ type: 'reset' })
 			dispatch(requestSuccess(res))

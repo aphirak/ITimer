@@ -8,23 +8,7 @@ import historyReducers from 'ITimer/src/reducers/historyReducers'
 import wifiReducers from 'ITimer/src/reducers/wifiReducers'
 
 export default combineReducers({
-	form: formReducer.plugin({
-	    timerForm: (state, action) => {
-			switch(action.type) {
-				case 'GET_TIMER_SUCCESS':
-					return {
-						...state,
-						values: {
-							uid: action.payload.uid,
-							nGate: action.payload.nGate,
-							distances: action.payload.distances,
-						}
-					}
-				default:
-					return state
-			}
-		}
-	}),
+	form: formReducer,
 	test: testReducers,
 	timer: timerReducers,
 	competition: competitionReducers,

@@ -65,6 +65,11 @@ const SetupTimer = ({ handleSubmit, nGate }) => {
 				label='User ID'
 				component={renderField}
 			/>
+			<Field 
+				name='mode'
+				label='Mode'
+				component={renderFieldSelect} 
+			/>
 			<Field
 				name='nGate'
 				label='Number of gate'

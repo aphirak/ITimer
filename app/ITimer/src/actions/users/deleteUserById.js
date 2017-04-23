@@ -17,7 +17,7 @@ const requestFailure = (err) => ({
 
 export default (id) => dispatch => {
 	dispatch(requestStart())
-	axios.delete(`${config.host}/users/${id}`)
+	axios.delete(`${config.API}/users/${id}`)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

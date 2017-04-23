@@ -6,41 +6,35 @@ import {
 	Redirect
 } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-import {
-	App,
-	Home,
-	Competition,
-	Contact,
-	History,
-	Timer,
-	ListUser,
-	AddUser,
-	EditUser,
-	ProfileUser,
-	ListHistoryUser,
-	Setting
-} from 'containers'
 
+function errorLoading (error) {
+	throw new Error(`Dynamic page loading failed: ${error}`)
+}
 
-export default (store, history) => (
+function loadRoute (cb) {
+	return component => cb(null, component.default || component)
+}
+
+const routes = (store, history) => (
 	<Router history={syncHistoryWithStore(history, store)}>
-		<Route path='/' component={App}>
-			<IndexRoute component={Home} />
-			<Route path='competition' component={Competition} />
-			<Route path='timer' component={Timer} />
+		<Route path='/' getComponent = {(location, cb) => { System.import('containers/apps').then(loadRoute(cb)).catch(errorLoading) }}>
+			<IndexRoute getComponent = {(location, cb) => { System.import('containers/Home').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='competition' getComponent = {(location, cb) => { System.import('containers/Competition').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='timer' getComponent = {(location, cb) => { System.import('containers/Timer').then(loadRoute(cb)).catch(errorLoading) }} />
 			<Route path='user'>
-				<IndexRoute component={ListUser} />
-				<Route path='add' component={AddUser} />
-				<Route path=':id'>
-					<IndexRoute component={ProfileUser} />
-					<Route path='edit' component={EditUser} />
-					<Route path='history' component={ListHistoryUser} />
+				<IndexRoute getComponent = {(location, cb) => { System.import('containers/users').then(loadRoute(cb)).catch(errorLoading) }} />
+				<Route path='add' getComponent = {(location, cb) => { System.import('containers/users/AddUser').then(loadRoute(cb)).catch(errorLoading) }} />
+				<Route path=':user_id'>
+					<IndexRoute getComponent = {(location, cb) => { System.import('containers/users/ProfileUser').then(loadRoute(cb)).catch(errorLoading) }} />
+					<Route path='edit' getComponent = {(location, cb) => { System.import('containers/users/EditUser').then(loadRoute(cb)).catch(errorLoading) }} />
+					<Route path='history' getComponent = {(location, cb) => { System.import('containers/histories/ListHistoryUser').then(loadRoute(cb)).catch(errorLoading) }} />
 				</Route>
 			</Route>
-			<Route path='history' component={History} />
-			<Route path='contact' component={Contact} />
-			<Route path='setting' component={Setting} />
-			<Redirect from='*' to='/' />
+			<Route path='contact' getComponent = {(location, cb) => { System.import('containers/Contact').then(loadRoute(cb)).catch(errorLoading) }} />
+			<Route path='setting' getComponent = {(location, cb) => { System.import('containers/Setting').then(loadRoute(cb)).catch(errorLoading) }} />
 		</Route>
+		<Redirect from='*' to='/' />
 	</Router>
 )
+
+export default routes

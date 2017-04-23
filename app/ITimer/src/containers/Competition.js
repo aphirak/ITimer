@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardItem, Text, Body, Button, ListItem, Col, Grid, List } from 'native-base'
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions'
+
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import * as actions from 'ITimer/src/actions'
@@ -11,7 +13,8 @@ const styles = {
 		marginRight: 15
 	},
 	titleText: {
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		fontSize: responsiveFontSize(2)
 	}
 }
 
