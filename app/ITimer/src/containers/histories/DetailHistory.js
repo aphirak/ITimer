@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Card, CardItem, Text, Body, Button, ListItem, Col, Grid, List } from 'native-base'
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions'
 
 const styles = {
 	titleText: {
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		fontSize: responsiveFontSize(2)		
 	},
 	totalTextStyle: {
 		color: '#40CC49',
