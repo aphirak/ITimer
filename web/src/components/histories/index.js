@@ -1,2 +1,2 @@
-export ModalChartHistory from './ModalChartHistory'
-export ModalDetailHistory from './ModalDetailHistory'
+export ModalChartHistory from 'components/histories/ModalChartHistory'
+export ModalDetailHistory from 'components/histories/ModalDetailHistory'
