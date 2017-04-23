@@ -18,7 +18,7 @@ const requestFailure = (err) => ({
 
 export default (value) => dispatch => {
 	dispatch(requestStart())
-	axios.post(`${config.host}/wifi`, value)
+	axios.post(`${config.API}/wifi`, value)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

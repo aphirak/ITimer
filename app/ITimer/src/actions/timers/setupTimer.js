@@ -17,7 +17,7 @@ const requestFailure = (err) => ({
 
 export default (value) => dispatch => {
 	dispatch(requestStart())
-	axios.post(`${config.host}/timers`, value)
+	axios.post(`${config.API}/timers`, value)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

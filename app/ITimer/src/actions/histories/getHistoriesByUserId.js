@@ -17,7 +17,7 @@ const requestFailure = (err) => ({
 
 export default (id) => dispatch => {
 	dispatch(requestStart())
-	axios.get(`${config.host}/users/${id}/histories`)
+	axios.get(`${config.API}/users/${id}/histories`)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

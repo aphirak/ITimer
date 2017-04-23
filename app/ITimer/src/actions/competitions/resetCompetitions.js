@@ -17,7 +17,7 @@ const requestFailure = (err) => ({
 
 export default () => dispatch => {
 	dispatch(requestStart())
-	axios.delete(`${config.host}/competitions`)
+	axios.delete(`${config.API}/competitions`)
 		.then((res) => {
 			dispatch(requestSuccess(res))
 		})

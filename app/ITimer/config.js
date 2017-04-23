@@ -1,5 +1,6 @@
 const config = {
-	host: 'http://localhost:9090'
+	API: 'http://localhost:9090/api',
+	SOCKET: 'http://localhost:9090'
 }
 
 export default config
