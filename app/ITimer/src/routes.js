@@ -20,7 +20,7 @@ export default () => (
 	<Router>
 		<Scene key='app' component={App} >
 			<Scene key='competition' component={Competition} title='Competition' hideNavBar />
-			<Scene key='timer' component={Timer} title='Timer' hideNavBar initial/>
+			<Scene key='timer' component={Timer} title='Timer' hideNavBar/>
 			<Scene key='listUser' component={ListUser} title='User' rightNav={() => Actions.addUser({ type: "reset" })} rightNavIcon='md-person-add' />
 			<Scene key='profileUser' component={ProfileUser} title='User Profile' leftNav={() => Actions.listUser({ type: "reset" })} leftNavIcon='arrow-back' />
 			<Scene key='addUser' component={AddUser} title='User' leftNav={() => Actions.listUser({ type: "reset" })} leftNavIcon='arrow-back' />
