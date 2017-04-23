@@ -31,7 +31,7 @@ class User extends Component {
 					<table className='table is-striped is-fullwidth'>
 						<thead>
 							<tr>
-								<th>#</th>
+								<th>ID</th>
 								<th>Username</th>
 								<th>Firstname</th>
 								<th>Lastname</th>
@@ -44,7 +44,7 @@ class User extends Component {
 								this.props.users.map((user, index) => {
 									return (
 										<tr key={index}>
-											<td>{index + 1}</td>
+											<td>{user.id}</td>
 											<td>{user.username}</td>
 											<td>{user.firstname}</td>
 											<td>{user.lastname}</td>

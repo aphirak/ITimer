@@ -33,7 +33,7 @@ class Competition extends Component {
 						(this.props.competitions.length !== 0) && <div className='notification is-primary'>
 							<h1 className='title'>
 								<br />
-								User ID : {this.props.competitions[0].uid}
+								ID : {this.props.competitions[0].uid}
 								<br />
 								Time : {this.props.competitions[0].total_time} s
 							</h1>
@@ -43,7 +43,7 @@ class Competition extends Component {
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>User ID</th>
+								<th>ID</th>
 								<th>Distance</th>
 								<th>Time</th>
 								<th>Speed</th>

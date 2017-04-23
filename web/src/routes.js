@@ -30,7 +30,6 @@ const routes = (store, history) => (
 					<Route path='history' getComponent = {(location, cb) => { System.import('containers/histories/ListHistoryUser').then(loadRoute(cb)).catch(errorLoading) }} />
 				</Route>
 			</Route>
-			<Route path='history' getComponent = {(location, cb) => { System.import('containers/History').then(loadRoute(cb)).catch(errorLoading) }} />
 			<Route path='contact' getComponent = {(location, cb) => { System.import('containers/Contact').then(loadRoute(cb)).catch(errorLoading) }} />
 			<Route path='setting' getComponent = {(location, cb) => { System.import('containers/Setting').then(loadRoute(cb)).catch(errorLoading) }} />
 		</Route>
