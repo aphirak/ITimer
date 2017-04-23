@@ -19,9 +19,10 @@ class Timer extends Component {
 	}
 
 	aaa(initTime){
+		BackgroundTimer.clearInterval(x);		
 		let timestamp = moment.duration(initTime*1000, 'milliseconds')
 		x = BackgroundTimer.setInterval(() => {
-	    	timestamp = moment.duration(timestamp + 77, 'milliseconds')
+	    	timestamp = moment.duration(timestamp + 37, 'milliseconds')
 	    	this.setState({ time: timestamp.asSeconds().toFixed(3) })
 		}, 37);
 	}
@@ -44,13 +45,12 @@ class Timer extends Component {
 		BackgroundTimer.clearInterval(x);
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		this.props.getTimer()
 	}
 
 	render(){
 		const { phase, results, time, isStarted, isSetup, nPhase, uid, mode } = this.props.timer
-		console.log('----', this.props.mode)
 		return(
 			<View>
 				{
@@ -73,10 +73,6 @@ class Timer extends Component {
 		)
 	}
 }
-
-Timer = reduxForm({
-	form: 'timerForm'
-})(Timer)
 
 const selector = formValueSelector('timerForm')
 
@@ -113,4 +109,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Timer)
+)(reduxForm({
+	form: 'timerForm'
+})(Timer))

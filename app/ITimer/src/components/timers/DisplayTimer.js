@@ -14,10 +14,10 @@ const styles = {
   }
 }
 
-const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGate, uid, distances }) => {
-  let total_distance = results.reduce((sum,value) => sum + (+value.distance), 0)
-  let total_time = results.reduce((sum,value) => sum + (+value.time), 0).toFixed(3)
-  let speedAverage = ((+total_distance)/(+total_time)).toFixed(3)
+const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPhase, uid, mode }) => {
+	let total_distance = +results.reduce((sum, value) => sum + (+value.distance), 0).toFixed(3)
+	let total_time = +results.reduce((sum, value) => sum + (+value.time), 0).toFixed(3)
+	let speed_average = +(total_distance / total_time).toFixed(3)
 
   return (
     <Card>
@@ -28,7 +28,10 @@ const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGat
         <H2>{`${time}`} s</H2>
       </CardItem>
       <CardItem style={{ justifyContent: 'center' }}>
-        <Text>Timing Gate: {gate} / {nGate}</Text>
+        <Text>Phase: {phase} / {nPhase || 'unlimited'}</Text>
+      </CardItem>
+      <CardItem style={{ justifyContent: 'center' }}>
+        <Text>Mode: {mode}</Text>
       </CardItem>
       <CardItem style={{ justifyContent: 'center' }} bordered>
         <Text>User ID : {uid}</Text>
@@ -58,7 +61,7 @@ const DisplayTimer = ({ time, gate, results, isStarted, stopTimer, goSetup, nGat
               <ListItem>
                   <Col><Text style={styles.totalTextStyle}>{total_distance} m</Text></Col>
                   <Col><Text style={styles.totalTextStyle}>{total_time} s</Text></Col>
-                  <Col><Text style={styles.totalTextStyle}>{speedAverage} m/s</Text></Col>
+                  <Col><Text style={styles.totalTextStyle}>{speed_average} m/s</Text></Col>
               </ListItem>
             </CardItem>
             </View>

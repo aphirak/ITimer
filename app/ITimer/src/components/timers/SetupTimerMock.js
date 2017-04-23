@@ -13,6 +13,7 @@ const styles = {
 }
 
 const renderField = ({ input, label ,...inputProps }) => {
+	console.log(input)
   return (
         <Item floatingLabel>
             <Label>{label}</Label>
@@ -179,38 +180,38 @@ const SetupTimer = ({ handleSubmit, mode, array, handleSelect, selectValue }) =>
 					</Card>
 				</Tab>
 				<Tab>
-				<Card>				
-					<CardItem bordered style={{ justifyContent: 'center' }}>
-						<Text>Distance</Text>
-					</CardItem>
-					<Form>		
-						<FieldArray name='routes' component={renderRouteFields} />
-					</Form>
-					<CardItem />		
-					<CardItem>
-						<Grid>
-							<Col />							
-							<Col>
-								<Button block primary onPress={() => array.push('routes', {})}>
-									<Text>+</Text>
+					<Card>				
+						<CardItem bordered style={{ justifyContent: 'center' }}>
+							<H2>Route</H2>
+						</CardItem>
+						<Form>		
+							<FieldArray name='routes' component={renderRouteFields} />
+						</Form>
+						<CardItem />		
+						<CardItem>
+							<Grid>
+								<Col />							
+								<Col>
+									<Button block primary onPress={() => array.push('routes', {})}>
+										<Text>+</Text>
+									</Button>
+								</Col>
+								<Col />				
+								<Col>
+									<Button block danger onPress={() => array.pop('routes')}>
+										<Text>-</Text>
+									</Button>
+								</Col>
+								<Col />				
+							</Grid>
+						</CardItem>
+						<CardItem>
+							<Body>
+								<Button block success bordered onPress={handleSubmit}>
+									<Text>Start</Text>
 								</Button>
-							</Col>
-							<Col />				
-							<Col>
-								<Button block danger onPress={() => array.pop('routes')}>
-									<Text>-</Text>
-								</Button>
-							</Col>
-							<Col />				
-						</Grid>
-					</CardItem>
-					<CardItem>
-						<Body>
-							<Button block success bordered onPress={handleSubmit}>
-								<Text>Start</Text>
-							</Button>
-						</Body>
-					</CardItem>
+							</Body>
+						</CardItem>
 					</Card>					
 				</Tab>
 			</Tabs>
