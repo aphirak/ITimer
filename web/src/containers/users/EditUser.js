@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { reduxForm } from 'redux-form'
+
 import { FormUser } from 'components/users'
-import * as actions  from 'actions'
+import * as actions from 'actions'
 
 const { getUserById, patchUserById } = actions
 
 class EditUser extends Component {
-
-	componentWillMount(){
-		if(this.props.user == undefined) this.props.dispatch(push(`/user`))
+	componentDidMount () {
+		if (this.props.user === undefined) this.props.dispatch(push(`/user`))
 	}
 
-	render(){
+	render () {
 		return (
 			<FormUser
 				title='Edit User'
@@ -24,38 +24,30 @@ class EditUser extends Component {
 	}
 }
 
-EditUser = reduxForm({
-	form: 'editUserForm'
-})(EditUser)
-
-const selector = formValueSelector('editUserForm')
-
 const initialValues = (state, ownProps) => {
-	if(!state.user.value.hasOwnProperty(ownProps.params.id)){
+	if (!state.user.value.hasOwnProperty(ownProps.params.user_id)) {
 		return {}
 	} else {
-		let { username, firstname, lastname, nickname } = state.user.value[ownProps.params.id]
+		let { username, firstname, lastname, nickname } = state.user.value[ownProps.params.user_id]
 		return {
 			username,
 			firstname,
 			lastname,
-			nickname	
+			nickname
 		}
 	}
-
 }
 
 const mapStateToProps = (state, ownProps) => ({
 	initialValues: initialValues(state, ownProps),
-	user: state.user.value[ownProps.params.id]
+	user: state.user.value[ownProps.params.user_id]
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-	onSubmit(value){
-		console.log(value, ownProps.params.id)
-		dispatch(patchUserById(value, ownProps.params.id))
+	onSubmit (value) {
+		dispatch(patchUserById(value, ownProps.params.user_id))
 	},
-	getUserById(id){
+	getUserById (id) {
 		dispatch(getUserById(id))
 	}
 })
@@ -63,4 +55,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(EditUser)
+)(reduxForm({
+	form: 'editUserForm'
+})(EditUser))

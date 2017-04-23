@@ -3,11 +3,11 @@ import { push } from 'react-router-redux'
 
 export default (value, id) => dispatch => dispatch({
 	[CALL_API]: {
-		endpoint: `${__API__}/users/${id}`,
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    },
+		endpoint: `${process.env.API}/users/${id}`,
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
 		method: 'PATCH',
 		body: JSON.stringify(value),
 		types: [
@@ -22,6 +22,6 @@ export default (value, id) => dispatch => dispatch({
 				}
 			},
 			'PATCH_USER_FAILURE'
-	    ]
+		]
 	}
 })

@@ -6,14 +6,8 @@ const autoprefixer = require('autoprefixer')
 const projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
-	entry: [
-		'bulma/bulma.sass',
-		'font-awesome/css/font-awesome.min.css'
-	],
 	output: {
-		path: path.resolve(projectRoot, 'build/static'),
-		publicPath: '/static/',
-		filename: 'bundle.js'
+		path: path.resolve(projectRoot, 'build/static')
 	},
 	resolve: {
 		modules: [
@@ -23,65 +17,41 @@ module.exports = {
 		extensions: ['.jsx', '.js']
 	},
 	resolveLoader: {
-		moduleExtensions: ["-loader"] 
+		moduleExtensions: [ '-loader' ]
 	},
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
-				use: ['babel'],
-				exclude: path.resolve(projectRoot, 'node_modules'),
-				include: path.resolve(projectRoot, 'src')
-			},{
-				test: /\.css/,
-				use: [
-					'style', 
-					'css',
-					'postcss'
-				],
-			},{
-				test: /\.(scss|sass)$/,
-				use: [
-					'style',
-					'css',
-					'postcss',
-					'sass'
-				],
-			},{
 				test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=25000&mimetype=application/font-woff"
-			},{
+				use: 'url?limit=10000&mimetype=application/font-woff'
+			}, {
 				test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=25000&mimetype=application/font-woff"
-			},{
+				use: 'url?limit=10000&mimetype=application/font-woff'
+			}, {
 				test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=25000&mimetype=application/octet-stream"
-			},{
+				use: 'url?limit=10000&mimetype=application/octet-stream'
+			}, {
 				test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-				use: "file"
-			},{
+				use: 'file'
+			}, {
 				test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-				use: "url?limit=25000&mimetype=image/svg+xml"
-			},{
+				use: 'url?limit=10000&mimetype=image/svg+xml'
+			}, {
 				test: /\.(png|jpg|gif)$/,
-				include: path.resolve(projectRoot, 'src/assets'),
-				use: 'url?limit=25000'
+				use: 'url?limit=25000',
+				include: path.resolve(projectRoot, 'src/assets')
 			}
 		]
 	},
 	plugins: [
-		new CleanWebpackPlugin(['build','index.html'], {
-			root: projectRoot,
+		new CleanWebpackPlugin([ 'build', 'index.html' ], {
+			root: projectRoot
 		}),
-	    new webpack.DefinePlugin({}),
-	    new webpack.LoaderOptionsPlugin({
-	      options: {
-			postcss: [autoprefixer()],
-	        context: __dirname,
-	      }
-	    }),
-	    new webpack.DefinePlugin({
-	    	__API__: '"http://localhost:9090"'
-	    }),
+		new webpack.LoaderOptionsPlugin({
+			options: {
+				postcss: [autoprefixer()],
+				context: __dirname
+			}
+		})
 	]
 }

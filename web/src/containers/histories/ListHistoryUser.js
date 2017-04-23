@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import moment from 'moment-timezone'
+import moment from 'moment'
+
 import { ModalChartHistory, ModalDetailHistory } from 'components/histories'
-import * as actions  from 'actions'
+import * as actions from 'actions'
 
 const { getHistoriesByUserId, getUserById } = actions
 
@@ -15,7 +15,6 @@ const initialUser = {
 }
 
 class ListHistoryUser extends Component {
-
 	state = {
 		isModalActiveChart: false,
 		isModalActiveDetail: false,
@@ -24,16 +23,15 @@ class ListHistoryUser extends Component {
 		totalDetail: {}
 	}
 
-	activeModalChart(){
+	activeModalChart () {
 		let dataChart = {
 			time: [],
 			speed: []
 		}
 		let histories = [...this.props.histories]
-		// histories.splice(40)
 		histories.reverse()
 		histories.map((history, index) => {
-			let data = moment(history.created_at).format("DD/MM/YY")
+			let data = moment(history.created_at).format('DD/MM/YY')
 			dataChart.time.push({ name: `${data}`, Time: history.total_time })
 			dataChart.speed.push({ name: `${data}`, Speed: history.speed_average })
 		})
@@ -41,8 +39,8 @@ class ListHistoryUser extends Component {
 		this.setState({ isModalActiveChart: true })
 	}
 
-	activeModalDetail(id, total_distance, total_time, speed_average){
-		let dataDetail = this.props.histories.find((history) => history.id == id).details
+	activeModalDetail (id, total_distance, total_time, speed_average) {
+		let dataDetail = this.props.histories.find((history) => history.id === id).details
 		let totalDetail = {
 			total_distance,
 			total_time,
@@ -52,79 +50,77 @@ class ListHistoryUser extends Component {
 		this.setState({ isModalActiveDetail: true })
 	}
 
-	inActiveModalDetail(){
+	inActiveModalDetail () {
 		this.setState({ isModalActiveDetail: false })
-	}	
+	}
 
-	inActiveModalChart(){
+	inActiveModalChart () {
 		this.setState({ isModalActiveChart: false })
 	}
 
-	componentWillMount(){
-		// moment.tz.setDefault("America/New_York");
-		this.props.getUserById(this.props.params.id)
-		this.props.getHistoriesByUserId(this.props.params.id)
+	componentDidMount () {
+		this.props.getUserById(this.props.params.user_id)
+		this.props.getHistoriesByUserId(this.props.params.user_id)
 	}
 
-	render(){
+	render () {
 		let { firstname, lastname, nickname } = this.props.user
-		console.log(this.props.histories)
-		// console.log(moment(this.props.user.created_at).format("DD/MM/YY"))
+
 		return (
-			<div className="has-text-centered">
-				<div className="heading">
-					<h1 className="title">
-					    <strong>History</strong>
+			<div className='has-text-centered'>
+				<div className='heading'>
+					<h1 className='title'>
+						<strong>History</strong>
 					</h1>
-			        <h2 className="subtitle">
-						<div className="columns is-gapless">
-						  <div className="column is-1" />
-						  <div className="column">
+					<h2 className='subtitle'>
+						<div className='columns is-gapless'>
+							<div className='column is-1' />
+							<div className='column'>
 								( {`${firstname} ${lastname} (${nickname})`} )
-						  </div>
-						  <div className="column is-1">
-						  	<button className='button is-warning' onClick={this.activeModalChart.bind(this)}>Chart</button>
-						  </div>
+							</div>
+							<div className='column is-1'>
+								<button className='button is-warning' onClick={this.activeModalChart.bind(this)}>Chart</button>
+							</div>
 						</div>
-			        </h2>
+					</h2>
 				</div>
 				<hr />
-				<div className="content">
-					<table className="table is-striped is-fullwidth">
+				<div className='content'>
+					<table className='table is-striped is-fullwidth'>
 						<thead>
-						  <tr>
-						    <th>#</th>
-						    <th>Number of gate</th>
-						    <th>Total Distance (m)</th>
-						    <th>Total Time (s)</th>
-						    <th>Speed Average (m/s)</th>
-						    <th>Date</th>
-						    <th>Option</th>
-						  </tr>
+							<tr>
+								<th style={{ 'textAlign': 'center' }}>#</th>
+								<th style={{ 'textAlign': 'center' }}>Number of phase</th>
+								<th style={{ 'textAlign': 'center' }}>Total Distance (m)</th>
+								<th style={{ 'textAlign': 'center' }}>Total Time (s)</th>
+								<th style={{ 'textAlign': 'center' }}>Speed Average (m/s)</th>
+								<th style={{ 'textAlign': 'center' }}>Date</th>
+								<th style={{ 'textAlign': 'center' }}>Option</th>
+							</tr>
 						</thead>
 						<tbody>
 							{
 								this.props.histories.map((history, index) => {
-									let { id, total_gate, total_distance, total_time, speed_average, created_at } = history
+									let { id, total_phase, total_distance, total_time, speed_average, created_at } = history
 									return (
-								      <tr key={index}>
-								        <td>{index+1}</td>
-								        <td>{total_gate}</td>
-								        <td>{total_distance}</td>
-								        <td>{total_time}</td>
-								        <td>{speed_average}</td>
-								        <td>{moment(created_at).fromNow()}</td>
-								        <td>
-										  <button onClick={this.activeModalDetail.bind(this, id, total_distance, total_time, speed_average)} className="button is-primary">Detail</button>
-								        </td>
-								      </tr>
+										<tr key={index}>
+											<td style={{ 'textAlign': 'center' }}>{index + 1}</td>
+											<td style={{ 'textAlign': 'center' }}>{total_phase}</td>
+											<td style={{ 'textAlign': 'center' }}>{total_distance}</td>
+											<td style={{ 'textAlign': 'center' }}>{total_time}</td>
+											<td style={{ 'textAlign': 'center' }}>{speed_average}</td>
+											<td style={{ 'textAlign': 'center' }}>{moment(created_at).fromNow()}</td>
+											<td style={{ 'textAlign': 'center' }}>
+												<button onClick={this.activeModalDetail.bind(this, id, total_distance, total_time, speed_average)} className='button is-primary'>Detail</button>
+											</td>
+										</tr>
 									)
 								})
 							}
 						</tbody>
 					</table>
 				</div>
-				<ModalChartHistory 
+				<ModalChartHistory
 					isActive={this.state.isModalActiveChart}
 					inActiveModal={this.inActiveModalChart.bind(this)}
 					data={this.state.dataChart}
@@ -141,15 +137,15 @@ class ListHistoryUser extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	user: state.user.value[ownProps.params.id] || { id: ownProps.params.id, ...initialUser },
+	user: state.user.value[ownProps.params.user_id] || { id: ownProps.params.user_id, ...initialUser },
 	histories: state.history.valuesByUserId
 })
 
 const mapDispatchToProps = (dispatch) => ({
-	getUserById(id){
+	getUserById (id) {
 		dispatch(getUserById(id))
 	},
-	getHistoriesByUserId(id){
+	getHistoriesByUserId (id) {
 		dispatch(getHistoriesByUserId(id))
 	}
 })
