@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Card, CardItem, Button, Text, Body, Grid, Col, H2, List, ListItem } from 'native-base'
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions'
 
 const styles = {
   cardItemStyle: {
@@ -9,8 +10,12 @@ const styles = {
   totalTextStyle: {
     color: '#40CC49'
   },
-  titleText: {
+  titleHeader: {
     fontWeight: 'bold'
+  },
+  titleText: {
+		fontWeight: 'bold',
+		fontSize: responsiveFontSize(2)
   }
 }
 
@@ -22,13 +27,13 @@ const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPh
   return (
     <Card>
       <CardItem header bordered style={{ justifyContent: 'center' }}>
-        <H2 style={styles.titleText}>Time</H2>
+        <H2 style={styles.titleHeader}>Time</H2>
       </CardItem>
       <CardItem style={{ justifyContent: 'center' }}>
         <H2>{`${time}`} s</H2>
       </CardItem>
       <CardItem style={{ justifyContent: 'center' }}>
-        <Text>Phase: {phase} / {nPhase || 'unlimited'}</Text>
+        <Text>Phase: {phase} / { (mode === 'nonstop') ? 'unlimited' : nPhase }</Text>
       </CardItem>
       <CardItem style={{ justifyContent: 'center' }}>
         <Text>Mode: {mode}</Text>
@@ -42,26 +47,26 @@ const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPh
             <CardItem cardBody style={styles.cardItemStyle}>
               <ListItem>
                 <Grid>
-                  <Col><Text>Distance</Text></Col>
-                  <Col><Text>Time</Text></Col>
-                  <Col><Text>Speed</Text></Col>
+                  <Col><Text style={styles.titleText}>Distance (m)</Text></Col>
+                  <Col><Text style={styles.titleText}>Time (s)</Text></Col>
+                  <Col><Text style={styles.titleText}>Speed (m/s)</Text></Col>
                 </Grid>
               </ListItem>
             </CardItem>
             <CardItem cardBody style={styles.cardItemStyle}>
               <List dataArray={results} renderRow={(result) =>
                   <ListItem>
-                  <Col><Text>{result.distance} m</Text></Col>
-                  <Col><Text>{result.time} s</Text></Col>
-                  <Col><Text>{result.speed} m/s</Text></Col>
+                  <Col><Text>{result.distance}</Text></Col>
+                  <Col><Text>{result.time}</Text></Col>
+                  <Col><Text>{result.speed}</Text></Col>
                   </ListItem>
               } />
             </CardItem>
             <CardItem cardBody style={styles.cardItemStyle}>
               <ListItem>
-                  <Col><Text style={styles.totalTextStyle}>{total_distance} m</Text></Col>
-                  <Col><Text style={styles.totalTextStyle}>{total_time} s</Text></Col>
-                  <Col><Text style={styles.totalTextStyle}>{speed_average} m/s</Text></Col>
+                  <Col><Text style={styles.totalTextStyle}>{total_distance}</Text></Col>
+                  <Col><Text style={styles.totalTextStyle}>{total_time}</Text></Col>
+                  <Col><Text style={styles.totalTextStyle}>{speed_average}</Text></Col>
               </ListItem>
             </CardItem>
             </View>

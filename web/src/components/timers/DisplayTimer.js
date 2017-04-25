@@ -9,7 +9,7 @@ const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPh
 	return (
 		<Layout title='Time' size='is-large'>
 			<h1>{time} s</h1>
-			<div><strong>Phase</strong> : {phase} / {nPhase || 'unlimited'}</div>
+			<div><strong>Phase</strong> : {phase} / { (mode === 'nonstop') ? 'unlimited' : nPhase }</div>
 			<div><strong>Mode</strong> : {mode}</div>
 			<div><strong>User ID</strong> : {uid}</div>
 			<br />

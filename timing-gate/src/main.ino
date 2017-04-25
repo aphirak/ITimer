@@ -5,12 +5,12 @@
 #define TRACKING 4
 #define LED_TRACKING 0
 #define LED_CONNECTION 5
-#define ID 2
+#define ID 1
 
-const char* ssid     = "bach1";
+const char* ssid     = "ITimer_AP";
 const char* password = "aaaaaaaaaa";
 
-#define mqtt_server "192.168.2.42"
+#define mqtt_server "192.168.42.1"
 #define mqtt_port 1883
 
 WiFiClient espClient;
@@ -93,7 +93,7 @@ void loop() {
         digitalWrite(LED_TRACKING, valueTracking);
       } else {
         digitalWrite(LED_TRACKING, 0);
-        delay(50);
+        delay(10);
       }
     }
     else if(!valueTracking && !isDisable){
