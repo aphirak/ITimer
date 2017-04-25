@@ -9,7 +9,7 @@ module.exports = {
       port: 33060,
       user: 'homestead',
       password: 'secret',
-      database: 'itimer_mock',
+      database: 'testdb',
       charset: 'utf8',
       timezone: "utc"
     },
