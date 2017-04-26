@@ -82,42 +82,6 @@ const renderRouteFields = ({ fields }) => {
 	)
 }
 
-// const renderFields = () => {
-// 	let fields = [{}, {}, {}, {}, {}]
-// 	return (
-// 		<div>
-// 			{
-// 				fields.map((field, index) => (
-// 					<div key={index}>
-// 						<Field
-// 							name={`routes[${index}].startGate`}
-// 							type='number'
-// 							component={renderField}
-// 							label={`${index} Start Gate`}
-// 							min={0}
-// 						/>
-// 						<Field
-// 							name={`routes[${index}].endGate`}
-// 							type='number'
-// 							component={renderField}
-// 							label={`${index} End Gate`}
-// 							min={0}
-// 						/>
-// 						<Field
-// 							name={`routes[${index}].distance`}
-// 							type='number'
-// 							component={renderField}
-// 							label={`${index} Distance`}
-// 							min={0}
-// 						/>
-// 						<hr />
-// 					</div>
-// 				))
-// 			}
-// 		</div>
-// 	)
-// }
-
 function SetupTimerMock ({ array, handleSubmit, mode }) {
 	return (
 		<Layout title='Setup'>
@@ -153,7 +117,8 @@ function SetupTimerMock ({ array, handleSubmit, mode }) {
 												type='number'
 												label='Number of phase' />
 				}
-				<div>Distance</div><br />
+				<strong>Route</strong>
+				<br /><br />
 				<FieldArray name='routes' component={renderRouteFields} />
 				<br />
 				<button type='button' className='button is-info' onClick={() => array.push('routes', {})}>+</button>
@@ -171,59 +136,3 @@ function SetupTimerMock ({ array, handleSubmit, mode }) {
 }
 
 export default SetupTimerMock
-
-// <FieldArray name='routes' component={(routes) => {
-// 					return (
-// 						<div>
-// 							{
-// 								routes.fields.map((field, index) => (
-// 									<div key={index} className='columns'>
-// 										<Field
-// 											name={`routes[${index}].startGate`}
-// 											type='number'
-// 											label={`${index} Start Gate`}
-// 											min={1}
-// 											component={(startGate) => {
-// 											}}
-// 										/>
-//               <div>
-//                 <label>Last Name</label>
-//                 <Field name={`${member}.lastName`} component={lastName =>
-//                   <div>
-//                     <input type="text" {...lastName} placeholder="Last Name"/>
-//                     {lastName.touched && lastName.error && <span>{lastName.error}</span>}
-//                   </div>
-//                 }/>
-//               </div>
-// 		<div className='columns'>
-// 			<div className='column is-4' />
-// 			<div className='column has-text-right'>
-// 				<label>{label}</label>{' : '}
-// 			</div>
-// 			<div className='column has-text-left'>
-// 				<input {...input} type={type} min={min} max={max} step={step} />
-// 			</div>
-// 			<div className='column is-4' />
-// 		</div>
-
-// 										<Field
-// 											name={`routes[${index}].endGate`}
-// 											type='number'
-// 											component={renderField}
-// 											label={`${index} End Gate`}
-// 											min={1}
-// 										/>
-// 										<Field
-// 											name={`routes[${index}].distance`}
-// 											type='number'
-// 											component={renderField}
-// 											label={`${index} Distance`}
-// 											min={1}
-// 										/>
-// 										<hr />
-// 									</div>
-// 								))
-// 							}
-// 						</div>
-// 					)
-// 				}} />

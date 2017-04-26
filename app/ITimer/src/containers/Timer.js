@@ -8,7 +8,7 @@ import * as actions from 'ITimer/src/actions'
 import { SetupTimer, DisplayTimer, SetupTimerMock } from 'ITimer/src/components/timers'
 
 const { setupTimer, stopTimer, getTimer } = actions
-let x;
+let x, prevLocalTime = 0;
 
 class Timer extends Component {
 
@@ -18,15 +18,16 @@ class Timer extends Component {
 		selectValue: undefined
 	}
 
-	aaa(initTime){
+	handleLocalTime(initTime){
 		BackgroundTimer.clearInterval(x);		
-		let timestamp = moment.duration(initTime*1000, 'milliseconds')
+		prevLocalTime = moment()
 		x = BackgroundTimer.setInterval(() => {
-	    	timestamp = moment.duration(timestamp + 37, 'milliseconds')
-	    	this.setState({ time: timestamp.asSeconds().toFixed(3) })
+			currentLocalTime = moment()
+			timestamp = moment.duration(initTime*1000 + moment.duration(currentLocalTime - prevLocalTime).asMilliseconds(), 'milliseconds')
+			this.setState({ time: timestamp.asSeconds().toFixed(3) })
 		}, 37);
 	}
-
+	
 	handleSelect(value){
 		this.setState({ selectValue: value })
 	}
@@ -34,7 +35,7 @@ class Timer extends Component {
 	componentWillReceiveProps(nextProps){
 		if(nextProps.timer.time != undefined){
 			if(nextProps.timer.isStarted){
-				this.aaa.bind(this)(nextProps.timer.time)
+				this.handleLocalTime.bind(this)(nextProps.timer.time)
 			} else if(!nextProps.timer.isStarted){
 				BackgroundTimer.clearInterval(x);
 			}

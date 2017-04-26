@@ -6,12 +6,19 @@ module.exports = {
     client: 'mysql',
     connection: {
       host: '127.0.0.1',
-      port: 33060,
-      user: 'homestead',
-      password: 'secret',
-      database: 'itimer2',
+      port: 3306,
+      user: 'root',
+      password: 'root',
+      database: 'itimer',
       charset: 'utf8',
-      timezone: "UTC"
+      timezone: "utc"
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: './src/migrations'
+    },
+    seeds: {
+      directory: './src/seeds'
     }
   },
 

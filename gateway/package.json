@@ -11,6 +11,7 @@
   "author": "Chutiphon.k <chutiphon.k@ku.th>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-cli": "^6.22.2",
     "babel-plugin-module-alias": "^1.6.0",
     "babel-preset-es2015": "^6.22.0",

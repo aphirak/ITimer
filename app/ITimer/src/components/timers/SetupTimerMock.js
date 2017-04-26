@@ -13,7 +13,6 @@ const styles = {
 }
 
 const renderField = ({ input, label ,...inputProps }) => {
-	console.log(input)
   return (
         <Item floatingLabel>
             <Label>{label}</Label>
@@ -146,7 +145,7 @@ const SetupTimer = ({ handleSubmit, mode, array, handleSelect, selectValue }) =>
 															input.onChange('sprint')
 															handleSelect('sprint')
 														}}>
-														<Text style={{ 'color': (selectValue === 'sprint') ? 'blue' : 'black' }}>Sprint</Text>
+														<Text style={{ 'color': (selectValue === 'sprint') ? '#019fde' : 'black' }}>Sprint</Text>
 														<Right>
 															<Radio selected={selectValue === 'sprint'} />
 														</Right>
@@ -157,7 +156,7 @@ const SetupTimer = ({ handleSubmit, mode, array, handleSelect, selectValue }) =>
 															input.onChange('nonstop')
 															handleSelect('nonstop')
 														}}>
-														<Text style={{ 'color': (selectValue === 'nonstop') ? 'blue' : 'black' }}>Nonstop</Text>
+														<Text style={{ 'color': (selectValue === 'nonstop') ? '#019fde' : 'black' }}>Nonstop</Text>
 														<Right>
 															<Radio selected={selectValue === 'nonstop'} />
 														</Right>
