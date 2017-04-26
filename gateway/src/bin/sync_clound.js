@@ -22,7 +22,7 @@ let init = () => {
 			}
 			return results
 		}).then((data) => {
-			axios.post(`http://localhost:7070/api/sync`, data)
+			axios.post(`http://128.199.136.67:9090/api/sync`, data)
 			.then((response) => {
 				console.log(response.data)
 			})
