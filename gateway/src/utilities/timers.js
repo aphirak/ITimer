@@ -48,8 +48,17 @@ const trackingTimer = (msgJson) => {
 		} else {
 			++state.phase
 			let distance = distances[prevTimingGate - 1][msgJson.id - 1]
-			let time = +(timeTracking - prevTimeTracking).toFixed(3)
-			let speed = +(distance / time).toFixed(3)
+			let time, speed
+			if (distance == undefined) {
+				distance = 0
+				time = +(timeTracking - prevTimeTracking).toFixed(3)
+				speed = 0
+			} else {
+				time = +(timeTracking - prevTimeTracking).toFixed(3)
+				speed = +(distance / time).toFixed(3)
+			}
+			// time = +(timeTracking - prevTimeTracking).toFixed(3)
+			// speed = +(distance / time).toFixed(3)
 			state.results.push({
 				phase: state.phase,
 				time,

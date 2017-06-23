@@ -25,7 +25,7 @@ module.exports = merge(baseWebpackConfig, {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				use: ['babel', 'eslint'],
+				use: ['babel'],
 				exclude: path.resolve(projectRoot, 'node_modules'),
 				include: path.resolve(projectRoot, 'src')
 			}, {

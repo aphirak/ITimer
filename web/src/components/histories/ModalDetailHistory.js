@@ -11,7 +11,7 @@ export default ({ data, isActive, inActiveModal, total }) => {
 				<table className='table is-striped'>
 					<thead>
 						<tr>
-							<th style={{ 'textAlign': 'center' }}>Phase</th>
+							<th style={{ 'textAlign': 'center' }}>Lap</th>
 							<th style={{ 'textAlign': 'center' }}>Distance (m)</th>
 							<th style={{ 'textAlign': 'center' }}>Time (s)</th>
 							<th style={{ 'textAlign': 'center' }}>Speed (m/s)</th>
@@ -23,9 +23,9 @@ export default ({ data, isActive, inActiveModal, total }) => {
 								return (
 									<tr key={index}>
 										<td style={{ 'textAlign': 'center' }}>{value.phase}</td>
-										<td style={{ 'textAlign': 'center' }}>{value.distance}</td>
+										<td style={{ 'textAlign': 'center' }}>{value.distance <= 0 ? 'Incorrect' : value.distance}</td>
 										<td style={{ 'textAlign': 'center' }}>{value.time}</td>
-										<td style={{ 'textAlign': 'center' }}>{value.speed}</td>
+										<td style={{ 'textAlign': 'center' }}>{value.speed <= 0 ? 'Incorrect' : value.speed}</td>
 									</tr>
 								)
 							})

@@ -9,8 +9,8 @@ const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPh
 	return (
 		<Layout title='Time' size='is-large'>
 			<h1>{time} s</h1>
-			<div><strong>Phase</strong> : {phase} / { (mode === 'nonstop') ? 'unlimited' : nPhase }</div>
-			<div><strong>Mode</strong> : {mode}</div>
+			<div><strong>Lap</strong> : {phase} / { (mode === 'nonstop') ? 'unlimited' : nPhase }</div>
+			<div><strong>Mode</strong> : {mode == 'sprint' ? 'Lap' : mode}</div>
 			<div><strong>User ID</strong> : {uid}</div>
 			<br />
 			{
@@ -18,7 +18,7 @@ const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPh
 					<table className='table is-striped'>
 						<thead>
 							<tr>
-								<th>Phase</th>
+								<th>Lap</th>
 								<th>Distance (m)</th>
 								<th>Time (s)</th>
 								<th>Speed (m/s)</th>
@@ -30,9 +30,9 @@ const DisplayTimer = ({ time, phase, results, isStarted, stopTimer, goSetup, nPh
 									return (
 										<tr key={index}>
 											<td>{result.phase}</td>
-											<td>{result.distance}</td>
+											<td>{result.distance <= 0 ? 'Incorrect' : result.distance}</td>
 											<td>{result.time}</td>
-											<td>{result.speed}</td>
+											<td>{result.speed <= 0 ? 'Incorrect' : result.speed}</td>
 										</tr>
 									)
 								})

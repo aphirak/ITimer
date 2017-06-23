@@ -102,7 +102,7 @@ function SetupTimerMock ({ array, handleSubmit, mode }) {
 							<span className='select is-small'>
 								<Field name='mode' component='select'>
 									<option value={undefined}></option>
-									<option value={'sprint'}>Sprint</option>
+									<option value={'sprint'}>Lap</option>
 									<option value={'nonstop'}>NonStop</option>
 								</Field>
 							</span>
@@ -115,7 +115,7 @@ function SetupTimerMock ({ array, handleSubmit, mode }) {
 												name='nPhase'
 												component={renderField}
 												type='number'
-												label='Number of phase' />
+												label='Number of lap' />
 				}
 				<strong>Route</strong>
 				<br /><br />

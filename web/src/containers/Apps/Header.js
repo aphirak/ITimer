@@ -40,13 +40,14 @@ class Header extends Component {
 						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Competition', '/competition')}>Competition</a>
 						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Timer', '/timer')}>Timer</a>
 						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'User', '/user')}>User</a>
-						<a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Setting', '/setting')}>Setting</a>
 					</div>
 				</div>
 			</nav>
 		)
 	}
 }
+
+// <a className='nav-item is-tab' onClick={this.handleTab.bind(this, 'Setting', '/setting')}>Setting</a>
 
 const mapStateToProps = (state) => ({})
 

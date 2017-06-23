@@ -90,7 +90,7 @@ class ListHistoryUser extends Component {
 						<thead>
 							<tr>
 								<th style={{ 'textAlign': 'center' }}>#</th>
-								<th style={{ 'textAlign': 'center' }}>Number of phase</th>
+								<th style={{ 'textAlign': 'center' }}>Number of lap</th>
 								<th style={{ 'textAlign': 'center' }}>Total Distance (m)</th>
 								<th style={{ 'textAlign': 'center' }}>Total Time (s)</th>
 								<th style={{ 'textAlign': 'center' }}>Speed Average (m/s)</th>

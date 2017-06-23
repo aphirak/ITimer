@@ -15,4 +15,4 @@ server.listen(port, () => {
 
 socket.init(server)
 mqtt.init()
-syncClound.init()
+// syncClound.init()
