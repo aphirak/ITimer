@@ -5,7 +5,7 @@
 #define TRACKING 4
 #define LED_TRACKING 0
 #define LED_CONNECTION 5
-#define ID 1
+#define ID 3
 
 const char* ssid     = "ITimer_AP";
 const char* password = "aaaaaaaaaa";
@@ -59,6 +59,7 @@ void setup() {
 }
 
 void loop() {
+  valueTracking = !digitalRead(TRACKING);
 
   if(!client.connected()){
     Serial.print("Attemping MQTT connecting...");
@@ -80,7 +81,7 @@ void loop() {
     }
   } else {
     // ------------- Check Tickle ------------------
-    valueTracking = !digitalRead(TRACKING);
+    // valueTracking = !digitalRead(TRACKING);
 
     if(!isSetup){
       if(valueTracking){
@@ -93,7 +94,7 @@ void loop() {
         digitalWrite(LED_TRACKING, valueTracking);
       } else {
         digitalWrite(LED_TRACKING, 0);
-        delay(10);
+        delay(5);
       }
     }
     else if(!valueTracking && !isDisable){

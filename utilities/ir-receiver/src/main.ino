@@ -1,5 +1,5 @@
-#define SENSOR_IR 5
-#define LED_TRACKING 4
+#define SENSOR_IR 4
+#define LED_TRACKING 5
 
 void setup() {
   Serial.begin(9600);

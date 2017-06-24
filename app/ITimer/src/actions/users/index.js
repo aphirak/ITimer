@@ -1,5 +1,0 @@
-export getUsers from './getUsers'
-export postUser from './postUser'
-export getUserById from './getUserById'
-export deleteUserById from './deleteUserById'
-export patchUserById from './patchUserById'

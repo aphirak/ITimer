@@ -1,6 +1,0 @@
-import testAction from './testAction'
-export * from 'ITimer/src/actions/competitions'
-export * from 'ITimer/src/actions/users'
-export * from 'ITimer/src/actions/timers'
-export * from 'ITimer/src/actions/histories'
-export * from 'ITimer/src/actions/setting'

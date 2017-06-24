@@ -1,1 +1,0 @@
-export getHistoriesByUserId from './getHistoriesByUserId'
